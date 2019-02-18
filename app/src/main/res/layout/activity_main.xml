@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <FrameLayout
+            android:id="@+id/main_switch"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <RelativeLayout
+            android:paddingTop="3dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <!--首页-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:id="@+id/ll_home"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/shouye_hui"
+                        android:id="@+id/iv_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="@color/colorAccent"
+                        android:id="@+id/tv_home"
+                        android:text="首页"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <!--论坛-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:id="@+id/ll_forum"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/shouye_hui"
+                        android:id="@+id/iv_forum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_forum"
+                        android:text="论坛"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <!--占位符-->
+                <LinearLayout
+                    android:visibility="invisible"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/shouye_hui"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:text="首页"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <!--贷款-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:id="@+id/ll_loan"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/shouye_hui"
+                        android:id="@+id/iv_loan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_loan"
+                        android:text="贷款"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <!--我的-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:id="@+id/ll_mine"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@mipmap/shouye_hui"
+                        android:id="@+id/iv_mine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_mine"
+                        android:text="首页"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="@color/white"
+        android:paddingLeft="13dp"
+        android:paddingRight="18dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="#2E2E2E"
+            android:layout_marginTop="17dp"
+            android:textSize="14sp"
+            android:text="作为一名有理想有抱负的程序员,如何提升自己专业水平?来慕课网学前端框架知识!详解三大主流框架,助力你提升职场的竞争力,提高专业技能水平,升职加薪"
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="11dp"
+            android:textColor="#919191"
+            android:text="2018年12月30日 16:54:20"
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:scaleType="center"
+            android:src="@mipmap/holder"
+            android:layout_width="347dp"
+            android:layout_height="133dp" />
+    </LinearLayout>
+    <View
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+</LinearLayout>
