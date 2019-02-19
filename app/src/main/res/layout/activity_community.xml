@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="33dp">
+        <LinearLayout
+            android:background="@drawable/shape_search"
+            android:orientation="horizontal"
+            android:layout_width="306dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_margin="7dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/sousuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:singleLine="true"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="输入你感兴趣的内容"
+                android:textColor="#ff84827b"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginRight="11dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="31dp"
+            android:layout_height="16dp"
+            android:text="取消"
+            android:textColor="#ff2e2e2e"
+            android:textSize="16sp"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

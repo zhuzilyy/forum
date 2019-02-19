@@ -5,4 +5,5 @@
     <color name="colorAccent">#77a0fe</color>
     <color name="white">#ffffff</color>
     <color name="commonLine">#ececec</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>

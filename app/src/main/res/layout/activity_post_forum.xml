@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_forum"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/commonLine"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:textColor="#2E2E2E"
+            android:text="加个标题吧~"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:singleLine="true"
+            android:background="@null"
+            android:maxLength="40"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="（5 - 40字）"
+            android:textColor="#ffababab"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:background="@null"
+            android:textColor="#ffababab"
+            android:textSize="15sp"
+            android:hint="来吧，尽情发挥吧..."
+            android:maxLines="5"
+            android:gravity="top|left"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginBottom="33dp"
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:overScrollMode="never" />
+    </LinearLayout>
+
+</LinearLayout>

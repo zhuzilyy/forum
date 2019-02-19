@@ -13,6 +13,7 @@ import com.chuangsheng.forum.fragment.ForumFragment;
 import com.chuangsheng.forum.fragment.HomeFragment;
 import com.chuangsheng.forum.fragment.LoanFragment;
 import com.chuangsheng.forum.fragment.MineFragment;
+import com.chuangsheng.forum.ui.froum.ui.PostForumActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity{
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.ll_home,R.id.ll_forum,R.id.ll_loan,R.id.ll_mine})
+    @OnClick({R.id.ll_home,R.id.ll_forum,R.id.ll_loan,R.id.ll_mine,R.id.ll_bottom})
     public void click(View view){
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         switch (view.getId()){
@@ -116,6 +117,9 @@ public class MainActivity extends BaseActivity{
                     mineFragment =new MineFragment();
                 }
                 AddOrShowFra(fragmentTransaction,mineFragment);
+                break;
+            case R.id.ll_bottom:
+                jumpActivity(this, PostForumActivity.class);
                 break;
         }
     }

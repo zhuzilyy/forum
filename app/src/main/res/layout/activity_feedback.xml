@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title"/>
+    <View
+        android:background="@color/commonLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:background="#F1F4FA"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="352dp"
+        android:layout_height="158dp">
+        <EditText
+            android:gravity="top|left"
+            android:textSize="14sp"
+            android:background="@null"
+            android:padding="15dp"
+            android:textColor="#918F8F"
+            android:hint="请填写您对我们平台的宝贵意见"
+            android:maxLength="6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="19dp"
+        android:background="#F1F4FA"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="352dp"
+        android:layout_height="53dp">
+        <EditText
+            android:gravity="top|left"
+            android:textSize="14sp"
+            android:background="@null"
+            android:padding="15dp"
+            android:textColor="#918F8F"
+            android:hint="请填写您的联系电话或邮箱"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginBottom="33dp"
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+    <Button
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/shape_phone"
+        android:textSize="16sp"
+        android:text="提交"
+        android:layout_width="303dp"
+        android:layout_height="45dp" />
+</LinearLayout>

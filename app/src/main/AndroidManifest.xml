@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.chuangsheng.forum">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:icon,android:theme"
         android:theme="@style/MyAppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -18,6 +20,54 @@
         </activity>
         <!--消息中心-->
         <activity android:name=".ui.mine.ui.NewsActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--安全中心-->
+        <activity android:name=".ui.mine.ui.SafeCenterActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--修改手机号码-->
+        <activity android:name=".ui.mine.ui.ChangePhoneActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--新手机号码-->
+        <activity android:name=".ui.mine.ui.NewPhoneActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--绑定邮箱-->
+        <activity android:name=".ui.mine.ui.BindEmailActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--个人中心-->
+        <activity android:name=".ui.mine.ui.PersonInfoActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--意见反馈-->
+        <activity android:name=".ui.mine.ui.FeedBackActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--webview-->
+        <activity android:name=".ui.mine.ui.WebviewActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--登录-->
+        <activity android:name=".ui.account.ui.LoginActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--邮箱找回-->
+        <activity android:name=".ui.account.ui.FindByEmailActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--设置名称-->
+        <activity android:name=".ui.account.ui.SetNameActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--发帖-->
+        <activity android:name=".ui.froum.ui.PostForumActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--回帖-->
+        <activity android:name=".ui.froum.ui.ReplyForumActivity"
             android:screenOrientation="portrait"
             />
     </application>

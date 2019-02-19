@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
     <include layout="@layout/layout_title"/>
     <RelativeLayout
+        android:id="@+id/rl_personInfo"
         android:layout_marginTop="5dp"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -64,7 +65,7 @@
             android:layout_height="wrap_content">
             <!--消息中心-->
             <RelativeLayout
-                android:id="@+id/ll_newsCenter"
+                android:id="@+id/rl_newsCenter"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -227,6 +228,7 @@
 
             <!--安全中心-->
             <RelativeLayout
+                android:id="@+id/rl_safeCenter"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -260,6 +262,7 @@
 
             <!--关于我们-->
             <RelativeLayout
+                android:id="@+id/rl_aboutUs"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -292,6 +295,7 @@
 
             <!--联系我们-->
             <RelativeLayout
+                android:id="@+id/rl_contactUs"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -324,6 +328,7 @@
 
             <!--意见反馈-->
             <RelativeLayout
+                android:id="@+id/rl_feedback"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
