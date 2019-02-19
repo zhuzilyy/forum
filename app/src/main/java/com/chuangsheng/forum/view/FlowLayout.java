@@ -132,7 +132,6 @@ public class FlowLayout extends ViewGroup {
      */
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
         int left = getPaddingLeft();
         int top = getPaddingTop();
         //一共有几行

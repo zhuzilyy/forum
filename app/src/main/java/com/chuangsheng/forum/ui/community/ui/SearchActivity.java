@@ -8,17 +8,14 @@ public class SearchActivity extends BaseActivity {
     protected void initViews() {
 
     }
-
     @Override
     protected void initData() {
 
     }
-
     @Override
     protected void getResLayout() {
         setContentView(R.layout.activity_community);
     }
-
     @Override
     protected void initListener() {
 

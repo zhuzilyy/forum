@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.ui.account.ui.LoginActivity;
+import com.chuangsheng.forum.ui.account.ui.SetNameActivity;
+import com.chuangsheng.forum.ui.community.ui.SearchActivity;
 import com.chuangsheng.forum.ui.froum.ui.PostForumActivity;
 import com.chuangsheng.forum.ui.froum.ui.ReplyForumActivity;
 import com.chuangsheng.forum.ui.mine.ui.FeedBackActivity;
@@ -55,7 +57,7 @@ public class MineFragment extends BaseFragment {
         switch (view.getId()){
             case R.id.rl_newsCenter:
                 //jumpActivity(getActivity(), NewsActivity.class,null);
-                jumpActivity(getActivity(), ReplyForumActivity.class,null);
+                jumpActivity(getActivity(), SearchActivity.class,null);
                 break;
             case R.id.rl_safeCenter:
                 jumpActivity(getActivity(), SafeCenterActivity.class,null);

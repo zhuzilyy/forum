@@ -7,11 +7,12 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="33dp">
+        android:layout_height="40dp">
         <LinearLayout
+            android:layout_marginLeft="17dp"
             android:background="@drawable/shape_search"
             android:orientation="horizontal"
-            android:layout_width="306dp"
+            android:layout_width="316dp"
             android:layout_height="match_parent">
             <ImageView
                 android:layout_margin="7dp"
@@ -20,6 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:background="@null"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:singleLine="true"
@@ -35,12 +37,189 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="11dp"
             android:layout_alignParentRight="true"
-            android:layout_width="31dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="取消"
             android:textColor="#ff2e2e2e"
             android:textSize="16sp"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="热门搜索"
+        android:textColor="#ff2e2e2e"
+        android:textSize="18sp"
+        />
+    <com.chuangsheng.forum.view.FlowLayout
+        android:layout_marginTop="21dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="33dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="欧美影视"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="婚姻育儿"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="散文"
+            android:textColor="#84827B" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="程序员"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="大学生"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="运营互助帮"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="设计"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="读书"
+            android:textColor="#84827B" />
+    </com.chuangsheng.forum.view.FlowLayout>
+    <!--历史搜索-->
+    <TextView
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="热门搜索"
+        android:textColor="#ff2e2e2e"
+        android:textSize="18sp"
+        />
+    <com.chuangsheng.forum.view.FlowLayout
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="33dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="欧美影视"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="婚姻育儿"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="散文"
+            android:textColor="#84827B" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="程序员"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="大学生"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="运营互助帮"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="设计"
+            android:textColor="#84827B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_hot_word"
+            android:padding="5dp"
+            android:text="读书"
+            android:textColor="#84827B" />
+    </com.chuangsheng.forum.view.FlowLayout>
 
 </LinearLayout>
