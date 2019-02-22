@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.chuangsheng.forum">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,12 +14,18 @@
         android:supportsRtl="true"
         tools:replace="android:icon,android:theme"
         android:theme="@style/MyAppTheme">
+        <!--7.0拍照权限-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.chuangsheng.forum.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!--消息中心-->
         <activity android:name=".ui.mine.ui.NewsActivity"
@@ -53,7 +62,13 @@
         <!--登录-->
         <activity android:name=".ui.account.ui.LoginActivity"
             android:screenOrientation="portrait"
-            />
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!--邮箱找回-->
         <activity android:name=".ui.account.ui.FindByEmailActivity"
             android:screenOrientation="portrait"
@@ -72,6 +87,34 @@
             />
         <!--搜索-->
         <activity android:name=".ui.community.ui.SearchActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--签名-->
+        <activity android:name=".ui.mine.ui.SignActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--我的帖子-->
+        <activity android:name=".ui.mine.ui.MyFroumsActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--我的回帖-->
+        <activity android:name=".ui.mine.ui.MyReplyForumActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--我的收藏-->
+        <activity android:name=".ui.mine.ui.CollectionActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--浏览历史-->
+        <activity android:name=".ui.mine.ui.BrowseHistoryActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--帖子详情-->
+        <activity android:name=".ui.froum.ui.ForumDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--申卡-->
+        <activity android:name=".ui.home.ui.ApplyCardActivity"
             android:screenOrientation="portrait"
             />
     </application>

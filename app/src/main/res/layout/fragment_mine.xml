@@ -99,6 +99,7 @@
 
             <!--我的帖子-->
             <RelativeLayout
+                android:id="@+id/rl_myFroums"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -131,6 +132,7 @@
 
             <!--我的回帖-->
             <RelativeLayout
+                android:id="@+id/rl_myReplyForms"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -163,6 +165,7 @@
 
             <!--我的收藏-->
             <RelativeLayout
+                android:id="@+id/rl_collection"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -195,6 +198,7 @@
 
             <!--浏览历史-->
             <RelativeLayout
+                android:id="@+id/rl_history"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">

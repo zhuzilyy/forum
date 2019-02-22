@@ -3,6 +3,7 @@ package com.chuangsheng.forum.fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ public class ForumFragment extends BaseFragment {
     ListView lv_froum;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
     private View view_froum;
     private FroumAdapter adapter;
     @Override
@@ -27,13 +30,13 @@ public class ForumFragment extends BaseFragment {
     @Override
     protected void initViews() {
         tv_title.setText("社区");
+        iv_back.setVisibility(View.GONE);
     }
     @Override
     protected void initData() {
         adapter = new FroumAdapter(getActivity());
         lv_froum.setAdapter(adapter);
     }
-
     @Override
     protected void initListener() {
 

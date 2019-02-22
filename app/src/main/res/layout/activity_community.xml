@@ -54,6 +54,7 @@
         android:textSize="18sp"
         />
     <com.chuangsheng.forum.view.FlowLayout
+        android:id="@+id/flowLayout_hot"
         android:layout_marginTop="21dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="33dp"

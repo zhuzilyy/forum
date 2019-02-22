@@ -35,4 +35,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation project(':picture_library')
     implementation project(':ucrop')
+    //轮播图
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:paddingLeft="17dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="为什么网申任何信用卡都是秒拒呢？"
+        android:textColor="#ff2e2e2e"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="为什么没有任何与其行为；只是现有信用卡都被窝刷空了，谁能告诉我为啥。"
+        android:textColor="#ff6e6e6e"
+        android:textSize="15sp" />
+        <GridView
+            android:horizontalSpacing="8dp"
+            android:layout_marginTop="13dp"
+            android:id="@+id/gv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/commonLine" />
+
+    <RelativeLayout
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp">
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019年1月14日"
+            android:textColor="#ff919191"
+            android:textSize="13sp" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="27dp"
+            android:layout_toRightOf="@+id/tv_time"
+            android:id="@+id/iv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_comments" />
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_message"
+            android:layout_marginRight="13dp"
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:text="103"
+            android:textColor="#ff919191"
+            android:textSize="13sp" />
+        <CheckBox
+            android:layout_alignParentRight="true"
+            android:checked="false"
+            android:button="@drawable/select_forum"
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:background="@color/commonLine"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+</LinearLayout>

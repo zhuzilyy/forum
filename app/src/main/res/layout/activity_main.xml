@@ -32,13 +32,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@mipmap/shouye_hui"
+                        android:src="@mipmap/shouye_xuanzhong"
                         android:id="@+id/iv_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:textSize="11sp"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/text_color_selected"
                         android:id="@+id/tv_home"
                         android:text="首页"
                         android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@mipmap/shouye_hui"
+                        android:src="@mipmap/shequ_hui"
                         android:id="@+id/iv_forum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -73,7 +73,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@mipmap/shouye_hui"
+                        android:src="@mipmap/daikuan_hui"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -91,7 +91,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@mipmap/shouye_hui"
+                        android:src="@mipmap/daikuan_hui"
                         android:id="@+id/iv_loan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -111,7 +111,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@mipmap/shouye_hui"
+                        android:src="@mipmap/wode_hui"
                         android:id="@+id/iv_mine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -133,10 +133,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
-            android:src="@mipmap/holder"
-            android:scaleType="fitXY"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:src="@mipmap/fatie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:layout_marginTop="8dp"
             android:layout_gravity="center_horizontal"

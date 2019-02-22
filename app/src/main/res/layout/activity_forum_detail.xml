@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include layout="@layout/layout_title"/>
+    <View
+        android:background="@color/commonLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+    <com.chuangsheng.forum.view.PullToRefreshView
+        android:paddingBottom="52dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:id="@+id/pulltorefreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:dividerHeight="0dp"
+            android:scrollbars="none"
+            android:divider="@null"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.chuangsheng.forum.view.PullToRefreshView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#f3f5fe">
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="269dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shape_comment" />
+        <LinearLayout
+            android:id="@+id/ll_dianzan"
+            android:layout_marginLeft="21dp"
+            android:layout_toRightOf="@+id/tv_comment"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/dianzan_hui"
+                android:scaleType="fitXY"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="268"
+                android:textColor="#ff919191"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="19dp"
+            android:layout_toRightOf="@+id/ll_dianzan"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/soucang"
+                android:scaleType="fitXY"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:textColor="#ff919191"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -7,6 +7,7 @@
     <include layout="@layout/layout_title"/>
     <!--头像-->
     <RelativeLayout
+        android:id="@+id/rl_avatar"
         android:background="@color/white"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
@@ -43,6 +44,7 @@
 
     <!--等级-->
     <RelativeLayout
+        android:id="@+id/rl_level"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="54dp">
@@ -149,6 +151,7 @@
 
     <!--出生日期-->
     <RelativeLayout
+        android:id="@+id/rl_birthday"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="54dp">
@@ -161,6 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_bithday"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/iv_birthdayRight"
             android:textColor="#919191"
@@ -183,6 +187,7 @@
 
     <!--个人简介-->
     <RelativeLayout
+        android:id="@+id/rl_sign"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="54dp">

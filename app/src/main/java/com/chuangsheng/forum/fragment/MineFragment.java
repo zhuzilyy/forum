@@ -14,7 +14,11 @@ import com.chuangsheng.forum.ui.account.ui.SetNameActivity;
 import com.chuangsheng.forum.ui.community.ui.SearchActivity;
 import com.chuangsheng.forum.ui.froum.ui.PostForumActivity;
 import com.chuangsheng.forum.ui.froum.ui.ReplyForumActivity;
+import com.chuangsheng.forum.ui.mine.ui.BrowseHistoryActivity;
+import com.chuangsheng.forum.ui.mine.ui.CollectionActivity;
 import com.chuangsheng.forum.ui.mine.ui.FeedBackActivity;
+import com.chuangsheng.forum.ui.mine.ui.MyFroumsActivity;
+import com.chuangsheng.forum.ui.mine.ui.MyReplyForumActivity;
 import com.chuangsheng.forum.ui.mine.ui.NewsActivity;
 import com.chuangsheng.forum.ui.mine.ui.PersonInfoActivity;
 import com.chuangsheng.forum.ui.mine.ui.SafeCenterActivity;
@@ -28,6 +32,8 @@ public class MineFragment extends BaseFragment {
     ImageView iv_right;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
     private View view_mine;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
@@ -39,6 +45,7 @@ public class MineFragment extends BaseFragment {
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setImageResource(R.mipmap.shezhi);
         tv_title.setText("我的");
+        iv_back.setVisibility(View.GONE);
     }
 
     @Override
@@ -51,13 +58,14 @@ public class MineFragment extends BaseFragment {
 
     }
     @OnClick({R.id.rl_newsCenter,R.id.rl_safeCenter,R.id.rl_personInfo,R.id.rl_feedback,
-            R.id.rl_aboutUs,R.id.rl_contactUs})
+            R.id.rl_aboutUs,R.id.rl_contactUs,R.id.rl_myFroums,R.id.rl_myReplyForms,
+            R.id.rl_collection,R.id.rl_history})
     public void click(View view){
         Bundle bundle = new Bundle();
         switch (view.getId()){
             case R.id.rl_newsCenter:
-                //jumpActivity(getActivity(), NewsActivity.class,null);
-                jumpActivity(getActivity(), SearchActivity.class,null);
+                jumpActivity(getActivity(), NewsActivity.class,null);
+                //jumpActivity(getActivity(), MyFroumsActivity.class,null);
                 break;
             case R.id.rl_safeCenter:
                 jumpActivity(getActivity(), SafeCenterActivity.class,null);
@@ -77,6 +85,18 @@ public class MineFragment extends BaseFragment {
                 bundle.putString("title","联系我们");
                 bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
                 jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                break;
+            case R.id.rl_myFroums:
+                jumpActivity(getActivity(), MyFroumsActivity.class,null);
+                break;
+            case R.id.rl_myReplyForms:
+                jumpActivity(getActivity(), MyReplyForumActivity.class,null);
+                break;
+            case R.id.rl_collection:
+                jumpActivity(getActivity(), CollectionActivity.class,null);
+                break;
+            case R.id.rl_history:
+                jumpActivity(getActivity(), BrowseHistoryActivity.class,null);
                 break;
         }
     }

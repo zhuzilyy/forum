@@ -47,6 +47,10 @@ public class MainActivity extends BaseActivity{
     private List<ImageView> imageViews;
     private List<TextView> textViews;
     private int index = 0;
+    private int[] selectedImageRes = {R.mipmap.shouye_xuanzhong,R.mipmap.shequ_xuanzhong,
+            R.mipmap.daikuan_xuanzhong,R.mipmap.wode_xuanzhong};
+    private int[] unSelectedImageRes = {R.mipmap.shouye_hui,R.mipmap.shequ_hui,
+            R.mipmap.daikuan_hui,R.mipmap.wode_hui};
     @Override
     protected void initViews() {
         fragmentManager = getSupportFragmentManager();
@@ -127,9 +131,11 @@ public class MainActivity extends BaseActivity{
     private void setSelectImageAndTextColor() {
         for (int i = 0; i <textViews.size() ; i++) {
             if (i == index){
-                textViews.get(i).setTextColor(Color.parseColor("#77a0fe"));
+                textViews.get(i).setTextColor(Color.parseColor("#ff2e2e2e"));
+                imageViews.get(i).setImageResource(selectedImageRes[i]);
             }else{
                 textViews.get(i).setTextColor(Color.parseColor("#a4a4a4"));
+                imageViews.get(i).setImageResource(unSelectedImageRes[i]);
             }
         }
     }

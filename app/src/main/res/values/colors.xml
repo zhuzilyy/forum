@@ -6,4 +6,18 @@
     <color name="white">#ffffff</color>
     <color name="commonLine">#ececec</color>
     <color name="transparent">@android:color/transparent</color>
+    <!--datePicker-->
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#77a0fe</color>
+    <color name="date_picker_text_dark">#333333</color>
+
+    <color name="main_bg">#F0F0F0</color>
+    <color name="select_title_text">#B0B0B0</color>
+    <color name="current_time_bg">#FFFFFF</color>
+    <color name="current_time_text">#666666</color>
+    <color name="selected_time_text">#77a0fe</color>
+    <color name="text_color_selected">#ff2e2e2e</color>
+    <color name="text_color_unselected">#ff919191</color>
+    <color name="dark_gray">#3d3d3d</color>
 </resources>

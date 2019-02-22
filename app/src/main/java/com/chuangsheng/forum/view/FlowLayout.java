@@ -36,7 +36,7 @@ public class FlowLayout extends ViewGroup {
 
     private List<List<View>> mLineViews = new ArrayList<List<View>>();
     private List<Integer> mLineHeight = new ArrayList<Integer>();
-
+    private ChlidClickListener chlidClickListener;
     /**
      * 测量所有子View大小,确定ViewGroup的宽高
      *
@@ -142,9 +142,8 @@ public class FlowLayout extends ViewGroup {
             //行内有几个子View
             List<View> viewList = mLineViews.get(i);
             int views = viewList.size();
-
             for (int j = 0; j < views; j++) {
-                View view = viewList.get(j);
+                final View view = viewList.get(j);
                 MarginLayoutParams marginLayoutParams = (MarginLayoutParams) view.getLayoutParams();
                 int vl = left + marginLayoutParams.leftMargin;
                 int vt = top + marginLayoutParams.topMargin;
@@ -152,13 +151,17 @@ public class FlowLayout extends ViewGroup {
                 int vb = vt + view.getMeasuredHeight();
                 view.layout(vl, vt, vr, vb);
                 left += view.getMeasuredWidth() + marginLayoutParams.leftMargin + marginLayoutParams.rightMargin;
+                 view.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView textView = (TextView) view;
+                        chlidClickListener.click(textView.getText().toString());
+                    }
+                });
             }
             left = getPaddingLeft();
             top += lineHeight;
-
         }
-
-
     }
 
     /**
@@ -170,6 +173,12 @@ public class FlowLayout extends ViewGroup {
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new MarginLayoutParams(getContext(), attrs);
+    }
+    public void setChildClickListener(ChlidClickListener  chlidClickListener){
+        this.chlidClickListener = chlidClickListener;
+    }
+    public  interface ChlidClickListener{
+        void click(String content);
     }
 
 }

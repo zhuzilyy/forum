@@ -41,21 +41,14 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-    public static List<Activity> activities=new ArrayList<>();
-    public static List<Activity> activities2=new ArrayList<>();
     Unbinder unbinder;
     private boolean isExit=false;
     private RequestPermissionCallBack mRequestPermissionCallBack;
     private final int mRequestCode = 1024;
-
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         //super.onSaveInstanceState(outState, outPersistentState);
     }
-
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +81,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     //跳转的方法
     public void jumpActivity(Context context, Class<?> targetActivity){
         Intent intent=new Intent(context,targetActivity);
+        startActivity(intent);
+    }
+    //跳转的方法带参数
+    public void jumpActivity(Context context, Class<?> targetActivity,Bundle bundle){
+        Intent intent=new Intent(context,targetActivity);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
@@ -130,49 +129,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             finish();
         }
     }
-    /**
-     * 将activity添加进集合中
-     * @param activity
-     */
-    public static void addActivity(Activity activity){
-        activities.add(activity);
-    }
-    /**
-     * 将Loginactivity添加进集合中
-     * @param activity
-     */
-    public static void addActivity2(Activity activity){
-        activities2.add(activity);
-    }
 
-    /***
-     * 从集合中移除activity
-     */
-    public static void removeActivity() {
-        for (int i = 0; i < activities.size(); i++) {
-
-            if (!activities.get(i).isFinishing()) {
-                activities.get(i).finish();
-            }
-
-        }
-    }
-
-    /***
-     * 从集合中移除activity
-     */
-    public static void removeActivity2() {
-        if(activities2.size()>0){
-            for (int i = 0; i < activities.size(); i++) {
-
-                if (!activities2.get(i).isFinishing()) {
-                    activities2.get(i).finish();
-                }
-
-            }
-        }
-
-    }
     /*隐藏软键盘*/
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     void hintKeyboard(Activity context) {

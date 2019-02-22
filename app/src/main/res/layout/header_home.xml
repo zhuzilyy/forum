@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.youth.banner.Banner
+        android:background="@drawable/pic"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"/>
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_applyCard"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/yinhangqiaguanli"
+                android:scaleType="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="申卡"
+                android:textColor="#ff2e2e2e"
+                android:textSize="13sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/daefenqi"
+                android:scaleType="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进度查询"
+                android:textColor="#ff2e2e2e"
+                android:textSize="13sp"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/heimingdanchaxun"
+                android:scaleType="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="网黑查询"
+                android:textColor="#ff2e2e2e"
+                android:textSize="13sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/tixian"
+                android:scaleType="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="花呗提现"
+                android:textColor="#ff2e2e2e"
+                android:textSize="13sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/pos"
+                android:scaleType="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+            <TextView
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="花呗提现 "
+                android:textColor="#ff2e2e2e"
+                android:textSize="13sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:background="@color/commonLine"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"/>
+</LinearLayout>
