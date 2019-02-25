@@ -34,10 +34,10 @@ public class LoanFragment extends BaseFragment {
     }
     @Override
     protected void initData() {
+        //getData();
         loanAdapter = new LoanAdapter(getActivity());
         gv_loan.setAdapter(loanAdapter);
     }
-
     @Override
     protected void initListener() {
 

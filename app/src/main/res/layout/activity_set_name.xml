@@ -20,6 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText
+        android:id="@+id/et_name"
+        android:maxLength="16"
         android:textSize="14sp"
         android:layout_marginTop="77dp"
         android:background="@null"
@@ -45,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <Button
+        android:id="@+id/btn_save"
         android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"

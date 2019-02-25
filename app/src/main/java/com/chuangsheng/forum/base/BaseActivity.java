@@ -45,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean isExit=false;
     private RequestPermissionCallBack mRequestPermissionCallBack;
     private final int mRequestCode = 1024;
+    public static List<Activity> activityList;
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         //super.onSaveInstanceState(outState, outPersistentState);
@@ -55,6 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initConfigure();
     }
     private void initConfigure() {
+        activityList = new ArrayList<>();
         //加载布局
         getResLayout();
         unbinder= ButterKnife.bind(this);
@@ -94,6 +96,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        if (activityList.contains(this)){
+            activityList.remove(this);
+        }
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -102,6 +107,12 @@ public abstract class BaseActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    //关闭所有界面
+    public static void finishAll(){
+        for (int i = 0; i <activityList.size() ; i++) {
+            activityList.get(i).finish();
+        }
     }
 
     /**

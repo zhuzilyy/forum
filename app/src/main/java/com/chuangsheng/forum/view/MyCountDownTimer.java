@@ -19,7 +19,7 @@ public class MyCountDownTimer extends CountDownTimer {
 		button.setText(time/1000+"");
 		button.setTextSize(14);
 		Spannable spannable=new SpannableString(button.getText().toString());
-		ForegroundColorSpan textColor=new ForegroundColorSpan(Color.parseColor("#ff0000"));
+		ForegroundColorSpan textColor=new ForegroundColorSpan(Color.parseColor("#ffffff"));
 		if (time/1000>=10) {
 			spannable.setSpan(textColor, 0, 2,Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 		}else{

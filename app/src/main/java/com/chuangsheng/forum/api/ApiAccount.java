@@ -1,0 +1,51 @@
+package com.chuangsheng.forum.api;
+
+import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.util.OkHttpManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ApiAccount {
+    /**
+     * 获取验证码
+     * @param callback
+     */
+    public static void getConfirmCode(String url,String confirmType, RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("phone_number",confirmType);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 登录
+     * @param callback
+     */
+    public static void login(String url,String phoneNum,String confirmCode, RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("phone_number",phoneNum);
+        params.put("code",confirmCode);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 绑定email
+     * @param callback
+     */
+    public static void bindEmail(String url,String user_id,String email,String confirmCode, RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("email",email);
+        params.put("code",confirmCode);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 设置昵称
+     * @param callback
+     */
+    public static void setNickName(String url,String user_id,String nickName,RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("value",nickName);
+        params.put("attribute","username");
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+}

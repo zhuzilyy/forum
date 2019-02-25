@@ -16,7 +16,6 @@ import okhttp3.Response;
 
 public abstract class BaseCallBack<T> {
     public Type mType;
-
     static Type getSuperclassTypeParameter(Class<?> subclass) {
         Type superclass = subclass.getGenericSuperclass();
         if (superclass instanceof Class) {

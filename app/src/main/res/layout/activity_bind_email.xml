@@ -26,13 +26,13 @@
         android:background="#F6F7F8"
         android:gravity="center_vertical">
         <EditText
+            android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:background="@null"
             android:hint="请输入邮箱地址"
-            android:maxLength="11"
             android:textColor="#ABABAB"
             android:textSize="15sp" />
     </LinearLayout>
@@ -41,6 +41,7 @@
         android:layout_height="46dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="28dp"
+        android:layout_marginRight="32dp"
         android:layout_marginTop="17dp"
         android:orientation="horizontal">
         <LinearLayout
@@ -49,6 +50,7 @@
             android:layout_height="match_parent"
             android:background="#F6F7F8">
             <EditText
+                android:id="@+id/et_confirmCode"
                 android:layout_width="225dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -58,6 +60,7 @@
                 android:textSize="15sp" />
         </LinearLayout>
         <Button
+            android:id="@+id/btn_getConfirmCode"
             android:background="@drawable/shape_phone"
             android:layout_width="86dp"
             android:layout_height="46dp"

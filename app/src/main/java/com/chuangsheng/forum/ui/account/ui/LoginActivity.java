@@ -1,25 +1,44 @@
 package com.chuangsheng.forum.ui.account.ui;
 
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.api.ApiAccount;
+import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.base.BaseActivity;
+import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.mine.ui.BindEmailActivity;
+import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
+import com.chuangsheng.forum.view.MyCountDownTimer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.et_confirmCode)
     EditText et_confirmCode;
+    @BindView(R.id.et_phoneNum)
+    EditText et_phoneNum;
+    private MyCountDownTimer timer;
+    private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
+        customLoadingDialog = new CustomLoadingDialog(this);
+        BaseActivity.activityList.add(this);
 
     }
-
     @Override
     protected void initData() {
 
@@ -29,7 +48,6 @@ public class LoginActivity extends BaseActivity {
     protected void getResLayout() {
         setContentView(R.layout.activity_login);
     }
-
     @Override
     protected void initListener() {
 
@@ -46,16 +64,19 @@ public class LoginActivity extends BaseActivity {
                 jumpActivity(this,FindByEmailActivity.class);
                 break;
             case R.id.btn_login:
-                jumpActivity(this,BindEmailActivity.class);
+                String phoneNum = et_phoneNum.getText().toString();
+                String confirmCode = et_confirmCode.getText().toString();
+                login(phoneNum,confirmCode);
+                //jumpActivity(this,BindEmailActivity.class);
                 break;
             case R.id.btn_getConfirmCode:
-                String phoneNumber = et_confirmCode.getText().toString().trim();
+                String phoneNumber = et_phoneNum.getText().toString().trim();
                 if (!TextUtils.isEmpty(phoneNumber)) {
                     if (phoneNumber.matches("^[1][3467589][0-9]{9}$")) {
-//                        timer = new MyCountDownTimer(60000, 1000, (Button) view);
-//                        timer.start();
+                        timer = new MyCountDownTimer(60000, 1000, (Button) view);
+                        timer.start();
                         // 向服务器请求验证码
-                        //getConfirmCode(phoneNumber);
+                        getConfirmCode(phoneNumber);
                     } else {
                         ToastUtils.show(this, "手机号码格式不正确");
                     }
@@ -64,5 +85,64 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+    //登录
+    private void login(String phoneNum, String confirmCode) {
+        customLoadingDialog.show();
+        ApiAccount.login(ApiConstant.LOGIN, phoneNum, confirmCode, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String reason = jsonObject.getString("reason");
+                    int code = jsonObject.getInt("error_code");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        JSONObject result = jsonObject.getJSONObject("result");
+                        String user_id = result.getString("user_id");
+                        String email = result.getString("email");
+                        String username = result.getString("username");
+                        SPUtils.put(LoginActivity.this,"user_id",user_id);
+                        if (TextUtils.isEmpty(email)){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userId",user_id);
+                            jumpActivity(LoginActivity.this, BindEmailActivity.class,bundle);
+                        }
+                    }else{
+                        ToastUtils.show(LoginActivity.this,reason);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                Log.i("tag",e.getMessage());
+                customLoadingDialog.dismiss();
+            }
+        });
+    }
+    //获取验证码
+    private void getConfirmCode(String phoneNumber) {
+        customLoadingDialog.show();
+        ApiAccount.getConfirmCode(ApiConstant.SEND_CODE, phoneNumber, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String reason = jsonObject.getString("reason");
+                    ToastUtils.show(LoginActivity.this,reason);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                customLoadingDialog.dismiss();
+                ToastUtils.show(LoginActivity.this,"发送失败");
+            }
+        });
     }
 }

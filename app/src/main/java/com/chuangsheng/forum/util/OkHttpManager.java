@@ -1,12 +1,10 @@
-package com.chuangsheng.forum.util.net;
+package com.chuangsheng.forum.util;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.chuangsheng.forum.application.MyApplication;
 import com.chuangsheng.forum.base.BaseCallBack;
-import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
@@ -44,7 +42,7 @@ public class OkHttpManager {
     private Gson mGson;
 
     private Handler handler;
-    private CustomLoadingDialog customLoadingDialog;
+
     private OkHttpManager() {
         mOkHttpClient = new OkHttpClient();
         mOkHttpClient.newBuilder().connectTimeout(10, TimeUnit.SECONDS).readTimeout(10, TimeUnit.SECONDS)
@@ -237,23 +235,22 @@ public class OkHttpManager {
         }
         return res;
     }
+
     //去进行网络 异步 请求
     private void doRequest(Request request, final BaseCallBack callBack) {
-        customLoadingDialog = new CustomLoadingDialog(MyApplication.getInstance());
-        customLoadingDialog.show();
         callBack.OnRequestBefore(request);
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                customLoadingDialog.dismiss();
                 callBack.onFailure(call, e);
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                customLoadingDialog.dismiss();
                 callBack.onResponse(response);
                 String result = response.body().string();
                 if (response.isSuccessful()) {
+
                     if (callBack.mType == String.class) {
 //                        callBack.onSuccess(call, response, result);
                         callBackSuccess(callBack, call, response, result);
