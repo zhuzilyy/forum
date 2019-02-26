@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class FeedBackActivity extends BaseActivity {
     @BindView(R.id.recycler)
@@ -57,6 +59,14 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     protected void setStatusBarColor() {
 
+    }
+    @OnClick({R.id.iv_back})
+    public void click(View view){
+        switch (view.getId()){
+            case R.id.iv_back:
+                finish();
+                break;
+        }
     }
     private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
         @Override

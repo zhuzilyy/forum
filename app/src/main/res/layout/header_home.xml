@@ -37,6 +37,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_process"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_weight="1"
@@ -59,6 +60,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_blackSearch"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_weight="1"
@@ -80,6 +82,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_huabei"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_weight="1"
@@ -101,6 +104,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_pos"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_weight="1"
@@ -115,7 +119,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="花呗提现 "
+                android:text="官方pos"
                 android:textColor="#ff2e2e2e"
                 android:textSize="13sp"
                 />

@@ -35,7 +35,7 @@ public class SafeCenterActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.rl_changePhone,R.id.rl_bindEmail})
+    @OnClick({R.id.rl_changePhone,R.id.rl_bindEmail,R.id.iv_back})
     public void click(View view){
         switch (view.getId()){
             case R.id.rl_changePhone:
@@ -43,6 +43,9 @@ public class SafeCenterActivity extends BaseActivity {
                 break;
             case R.id.rl_bindEmail:
                 jumpActivity(this,BindEmailActivity.class);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

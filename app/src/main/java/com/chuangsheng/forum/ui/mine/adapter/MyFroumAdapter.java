@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 
 public class MyFroumAdapter extends BaseAdapter {
     private Context context;
@@ -31,7 +33,10 @@ public class MyFroumAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.item_my_froums,null);
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_my_froums_muti_pic,null);
+        GridView gv_image = convertView.findViewById(R.id.gv_image);
+        GvImageAdapter adapter = new GvImageAdapter(context,null);
+        gv_image.setAdapter(adapter);
         return convertView;
     }
 }

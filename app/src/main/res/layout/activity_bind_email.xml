@@ -26,6 +26,7 @@
         android:background="#F6F7F8"
         android:gravity="center_vertical">
         <EditText
+            android:text="985085485@qq.com"
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,8 +46,9 @@
         android:layout_marginTop="17dp"
         android:orientation="horizontal">
         <LinearLayout
+            android:layout_weight="3"
             android:gravity="center_vertical"
-            android:layout_width="235dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="#F6F7F8">
             <EditText
@@ -62,7 +64,8 @@
         <Button
             android:id="@+id/btn_getConfirmCode"
             android:background="@drawable/shape_phone"
-            android:layout_width="86dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="46dp"
             android:layout_marginLeft="10dp"
             android:text="获取验证码"

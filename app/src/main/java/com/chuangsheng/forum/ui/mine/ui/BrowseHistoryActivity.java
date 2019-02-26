@@ -9,6 +9,7 @@ import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class BrowseHistoryActivity extends BaseActivity {
     @BindView(R.id.tv_title)
@@ -44,5 +45,13 @@ public class BrowseHistoryActivity extends BaseActivity {
     @Override
     protected void setStatusBarColor() {
 
+    }
+    @OnClick({R.id.iv_back})
+    public void click(View view){
+        switch (view.getId()){
+            case R.id.iv_back:
+                finish();
+                break;
+        }
     }
 }

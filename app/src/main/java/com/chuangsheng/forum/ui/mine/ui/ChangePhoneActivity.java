@@ -36,11 +36,14 @@ public class ChangePhoneActivity extends BaseActivity{
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.btn_nextStep})
+    @OnClick({R.id.btn_nextStep,R.id.iv_back})
     public void click(View view){
         switch (view.getId()){
             case R.id.btn_nextStep:
                 jumpActivity(this,NewPhoneActivity.class);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
 
         }

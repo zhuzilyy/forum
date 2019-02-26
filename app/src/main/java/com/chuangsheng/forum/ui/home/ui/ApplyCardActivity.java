@@ -8,6 +8,10 @@ import android.widget.TextView;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.ui.loan.adapter.LoanAdapter;
+import com.chuangsheng.forum.ui.loan.bean.LoanInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -23,7 +27,7 @@ public class ApplyCardActivity extends BaseActivity {
     }
     @Override
     protected void initData() {
-        loanAdapter = new LoanAdapter(this);
+        loanAdapter = new LoanAdapter(this,null);
         gv_loan.setAdapter(loanAdapter);
     }
 

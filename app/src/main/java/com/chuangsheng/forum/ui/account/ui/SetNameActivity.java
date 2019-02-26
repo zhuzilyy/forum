@@ -3,6 +3,7 @@ package com.chuangsheng.forum.ui.account.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,7 @@ public class SetNameActivity extends BaseActivity {
     protected void initViews() {
         tv_title.setText("设置");
         customLoadingDialog = new CustomLoadingDialog(this);
-        BaseActivity.activityList.add(this);
+        BaseActivity.addActivity(this);
     }
     @Override
     protected void initData() {
@@ -48,7 +49,6 @@ public class SetNameActivity extends BaseActivity {
             Bundle extras = intent.getExtras();
             userId = extras.getString("userId");
         }
-
     }
     @Override
     protected void getResLayout() {
@@ -77,6 +77,10 @@ public class SetNameActivity extends BaseActivity {
                     return;
                 }
                 setName(name);
+              /* jumpActivity(SetNameActivity.this,MainActivity.class);
+                Log.i("tag",BaseActivity.activityList.size()+"====activityList=====");
+               BaseActivity.finishAll();*/
+               // finish();
                 break;
         }
     }

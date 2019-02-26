@@ -3,6 +3,7 @@ package com.chuangsheng.forum.ui.mine.ui;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
@@ -14,6 +15,7 @@ import com.chuangsheng.forum.ui.mine.adapter.MyPageAdapter;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class NewsActivity extends BaseActivity {
     @BindView(R.id.tab)
@@ -56,5 +58,13 @@ public class NewsActivity extends BaseActivity {
     @Override
     protected void setStatusBarColor() {
 
+    }
+    @OnClick({R.id.iv_back})
+    public void click(View view){
+        switch (view.getId()){
+            case R.id.iv_back:
+                finish();
+                break;
+        }
     }
 }

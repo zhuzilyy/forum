@@ -261,12 +261,14 @@ public class OkHttpManager {
                             callBackSuccess(callBack, call, response, object);
                         } catch (JsonParseException e) {
                             //json解析错误时调用
-                            callBack.onEror(call, response.code(), e);
+                            //callBack.onEror(call, response.code(), e);
+                            callBackError(callBack, call, response.code());
                         }
 
                     }
                 } else {
-                    callBack.onEror(call, response.code(), null);
+                    //callBack.onEror(call, response.code(), null);
+                    callBackError(callBack, call, response.code());
                 }
 
             }
@@ -303,7 +305,6 @@ public class OkHttpManager {
         }
         return builder.build();
     }
-
     private void callBackSuccess(final BaseCallBack callBack, final Call call, final Response response, final Object object) {
         handler.post(new Runnable() {
             @Override

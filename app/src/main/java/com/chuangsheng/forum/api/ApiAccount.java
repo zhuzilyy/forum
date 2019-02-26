@@ -8,12 +8,21 @@ import java.util.Map;
 
 public class ApiAccount {
     /**
-     * 获取验证码
+     * 获取验手机证码
      * @param callback
      */
     public static void getConfirmCode(String url,String confirmType, RequestCallBack<String> callback){
         Map<String,String> params=new HashMap<>();
         params.put("phone_number",confirmType);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 获取验邮箱证码
+     * @param callback
+     */
+    public static void getEmailConfirmCode(String url,String confirmType, RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("email",confirmType);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
     /**

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiAccount;
@@ -46,7 +47,7 @@ public class BindEmailActivity extends BaseActivity {
     protected void initViews() {
         tv_title.setText("绑定邮箱");
         customLoadingDialog = new CustomLoadingDialog(this);
-        BaseActivity.activityList.add(this);
+        BaseActivity.addActivity(BindEmailActivity.this);
     }
 
     @Override
@@ -78,6 +79,8 @@ public class BindEmailActivity extends BaseActivity {
                 String emailNum = et_email.getText().toString();
                 String confirmCode = et_confirmCode.getText().toString();
                 bindEmail(emailNum,confirmCode);
+               //jumpActivity(BindEmailActivity.this,SetNameActivity.class);
+               // finish();
                 break;
             case R.id.iv_back:
                 finish();
@@ -129,7 +132,7 @@ public class BindEmailActivity extends BaseActivity {
     //获取验证码
     private void getConfirmCode(String email) {
         customLoadingDialog.show();
-        ApiAccount.getConfirmCode(ApiConstant.SEND_CODE, email, new RequestCallBack<String>() {
+        ApiAccount.getEmailConfirmCode(ApiConstant.SEND_CODE, email, new RequestCallBack<String>() {
             @Override
             public void onSuccess(Call call, Response response, String s) {
                 customLoadingDialog.dismiss();
@@ -145,6 +148,7 @@ public class BindEmailActivity extends BaseActivity {
             public void onEror(Call call, int statusCode, Exception e) {
                 customLoadingDialog.dismiss();
                 ToastUtils.show(BindEmailActivity.this,"验证码发送失败");
+                //Toast.makeText(BindEmailActivity.this, "验证码发送失败", Toast.LENGTH_SHORT).show();
             }
         });
     }

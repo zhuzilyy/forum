@@ -42,8 +42,8 @@ public class MineFragment extends BaseFragment {
     }
     @Override
     protected void initViews() {
-        iv_right.setVisibility(View.VISIBLE);
-        iv_right.setImageResource(R.mipmap.shezhi);
+       /* iv_right.setVisibility(View.VISIBLE);
+        iv_right.setImageResource(R.mipmap.shezhi);*/
         tv_title.setText("我的");
         iv_back.setVisibility(View.GONE);
     }

@@ -5,18 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chuangsheng.forum.R;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GvImageAdapter extends BaseAdapter {
     private Context context;
-    public GvImageAdapter(Context context) {
+    private List<String> imageList;
+    public GvImageAdapter(Context context, List<String> imageList) {
         this.context = context;
+        this.imageList = imageList;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return imageList.size();
     }
 
     @Override
@@ -31,7 +40,22 @@ public class GvImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_muti_picture,null);
+        ViewHolder viewHolder = null;
+        if (convertView == null){
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_muti_picture,null);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        Glide.with(context).load(imageList.get(position)).into(viewHolder.imageview);
         return convertView;
+    }
+    static class ViewHolder{
+        @BindView(R.id.imageview)
+        ImageView imageview;
+        public ViewHolder(View view){
+            ButterKnife.bind(this,view);
+        }
     }
 }

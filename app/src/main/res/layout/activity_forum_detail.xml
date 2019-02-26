@@ -30,13 +30,15 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#f3f5fe">
         <TextView
             android:id="@+id/tv_comment"
-            android:layout_width="269dp"
+            android:layout_width="260dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
@@ -67,6 +69,7 @@
             android:layout_marginLeft="19dp"
             android:layout_toRightOf="@+id/ll_dianzan"
             android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">

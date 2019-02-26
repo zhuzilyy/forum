@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 
 
 import com.chuangsheng.forum.MainActivity;
+import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.util.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean isExit=false;
     private RequestPermissionCallBack mRequestPermissionCallBack;
     private final int mRequestCode = 1024;
-    public static List<Activity> activityList;
+    public static List<Activity> activityList = new ArrayList<>();
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         //super.onSaveInstanceState(outState, outPersistentState);
@@ -56,7 +59,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         initConfigure();
     }
     private void initConfigure() {
-        activityList = new ArrayList<>();
         //加载布局
         getResLayout();
         unbinder= ButterKnife.bind(this);
@@ -67,6 +69,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         initListener();
         //设置状态栏的颜色
         setStatusBarColor();
+        //设置白底黑字
+        setTitleBarColor();
+    }
+    private void setTitleBarColor() {
+        //实现状态栏 黑字白底 6.0以上
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_IMMERSIVE |View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            StatusBarUtil.setStatusBarColor(this, R.color.white);
+        }else {
+            StatusBarUtil.transparencyBar(this); //设置状态栏全透明
+            //StatusBarUtil.StatusBarLightMode(this); //设置白底黑字
+        }
     }
     public void setStatusColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -96,9 +110,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        if (activityList.contains(this)){
-            activityList.remove(this);
-        }
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -107,6 +118,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    public static void addActivity(Activity activity){
+        if (!activityList.contains(activity)) {
+            activityList.add(activity);
+        }
     }
     //关闭所有界面
     public static void finishAll(){

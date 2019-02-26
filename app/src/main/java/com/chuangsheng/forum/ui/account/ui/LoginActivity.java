@@ -1,12 +1,16 @@
 package com.chuangsheng.forum.ui.account.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.chuangsheng.forum.MainActivity;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiAccount;
 import com.chuangsheng.forum.api.ApiConstant;
@@ -36,8 +40,11 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViews() {
         customLoadingDialog = new CustomLoadingDialog(this);
-        BaseActivity.activityList.add(this);
-
+        BaseActivity.addActivity(LoginActivity.this);
+        String userId = (String) SPUtils.get(this,"user_id","");
+        if (!TextUtils.isEmpty(userId)){
+            jumpActivity(this, MainActivity.class);
+        }
     }
     @Override
     protected void initData() {
@@ -55,9 +62,19 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void setStatusBarColor() {
-
+       if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+           setTranslucentStatus();
+       }
     }
-    @OnClick({R.id.ll_findPwd,R.id.btn_login,R.id.btn_getConfirmCode})
+    //沉浸式管理
+    public void setTranslucentStatus(){
+        Window window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        final int status = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        params.flags |= status;
+        window.setAttributes(params);
+    }
+    @OnClick({R.id.ll_findPwd,R.id.btn_login,R.id.btn_getConfirmCode,R.id.iv_back})
     public void click(View view){
         switch (view.getId()){
             case R.id.ll_findPwd:
@@ -67,7 +84,6 @@ public class LoginActivity extends BaseActivity {
                 String phoneNum = et_phoneNum.getText().toString();
                 String confirmCode = et_confirmCode.getText().toString();
                 login(phoneNum,confirmCode);
-                //jumpActivity(this,BindEmailActivity.class);
                 break;
             case R.id.btn_getConfirmCode:
                 String phoneNumber = et_phoneNum.getText().toString().trim();
@@ -83,6 +99,9 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     ToastUtils.show(this, "手机号码不能为空");
                 }
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

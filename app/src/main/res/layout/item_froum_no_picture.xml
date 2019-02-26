@@ -17,11 +17,13 @@
         android:layout_marginTop="13dp"
         android:orientation="horizontal">
         <com.chuangsheng.forum.view.CircleImageView
+            android:id="@+id/iv_head"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@mipmap/holder" />
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -44,6 +46,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="为什么网申任何信用卡都是秒拒呢？"
@@ -51,6 +54,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
@@ -71,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp">
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3小时前"

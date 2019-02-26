@@ -76,7 +76,7 @@ public class PersonInfoActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.rl_avatar,R.id.rl_birthday,R.id.rl_sign,R.id.rl_level})
+    @OnClick({R.id.rl_avatar,R.id.rl_birthday,R.id.rl_sign,R.id.rl_level,R.id.iv_back})
     public void click(View view){
         switch (view.getId()){
             case R.id.rl_avatar:
@@ -93,6 +93,9 @@ public class PersonInfoActivity extends BaseActivity {
                 bundle.putString("title","等级介绍");
                 bundle.putString("url","https://www.baidu.com");
                 jumpActivity(PersonInfoActivity.this, WebviewActivity.class,bundle);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }
