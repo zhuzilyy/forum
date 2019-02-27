@@ -3,90 +3,141 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/rl_personInfo"
-        android:layout_marginTop="13dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:background="@color/white">
+
         <com.chuangsheng.forum.view.CircleImageView
             android:id="@+id/iv_head"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/holder"
             android:layout_width="39dp"
-            android:layout_height="39dp" />
-        <LinearLayout
-            android:layout_marginLeft="9dp"
+            android:layout_height="39dp"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/iv_head"
-            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/holder" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_toRightOf="@+id/iv_head"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:textStyle="bold"
-                    android:textSize="16sp"
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="创盛科技"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
                 <ImageView
-                    android:src="@mipmap/kanong"
+                    android:id="@+id/iv_level"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/kanong" />
             </LinearLayout>
+
             <TextView
-                android:layout_marginTop="7dp"
-                android:textColor="#9d9d9d"
-                android:text="3小时前"
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="3小时前"
+                android:textColor="#9d9d9d" />
         </LinearLayout>
     </RelativeLayout>
-    <LinearLayout
-        android:paddingLeft="17dp"
-        android:paddingRight="20dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:layout_marginTop="17dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="为什么网申任何信用卡都是秒拒呢？"
-        android:textColor="#ff2e2e2e"
-        android:textSize="16sp" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:text="为什么没有任何与其行为；只是现有信用卡都被窝刷空了，谁能告诉我为啥。"
-        android:textColor="#ff6e6e6e"
-        android:textSize="15sp" />
+        android:orientation="vertical"
+        android:paddingLeft="17dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="为什么网申任何信用卡都是秒拒呢？"
+            android:textColor="#ff2e2e2e"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="为什么没有任何与其行为；只是现有信用卡都被窝刷空了，谁能告诉我为啥。"
+            android:textColor="#ff6e6e6e"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_commentImgFroum"
+            android:layout_width="344dp"
+            android:layout_height="235dp"
+            android:layout_marginTop="13dp"
+            android:scaleType="center"
+            android:src="@drawable/pic" />
+        <GridView
+            android:visibility="gone"
+            android:id="@+id/gv_imageFroum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:horizontalSpacing="8dp"
+            android:numColumns="3" />
     </LinearLayout>
+
     <LinearLayout
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="14dp"
         android:layout_marginTop="14dp"
         android:background="#F7F6F6"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="347dp"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
+
         <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
             android:text="这里是帖子的标题这里是帖子的标题这里是帖子的标题这里是帖子的标题"
             android:textColor="#ff2e2e2e"
-            android:textSize="14sp"
-            android:padding="13dp"
+            android:textSize="14sp" />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_commentImg"
+            android:layout_width="344dp"
+            android:layout_height="235dp"
+            android:layout_marginTop="13dp"
+            android:scaleType="center"
+            android:src="@drawable/pic" />
+        <GridView
+            android:visibility="gone"
+            android:id="@+id/gv_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:horizontalSpacing="8dp"
+            android:numColumns="3" />
     </LinearLayout>
+
     <View
-        android:background="@color/commonLine"
         android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        android:layout_height="5dp"
+        android:background="@color/commonLine" />
 </LinearLayout>

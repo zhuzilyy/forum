@@ -45,12 +45,12 @@ public class LoginActivity extends BaseActivity {
         if (!TextUtils.isEmpty(userId)){
             jumpActivity(this, MainActivity.class);
         }
+        finish();
     }
     @Override
     protected void initData() {
 
     }
-
     @Override
     protected void getResLayout() {
         setContentView(R.layout.activity_login);
@@ -126,6 +126,7 @@ public class LoginActivity extends BaseActivity {
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);
                             jumpActivity(LoginActivity.this, BindEmailActivity.class,bundle);
+                            timer.cancel();
                         }
                     }else{
                         ToastUtils.show(LoginActivity.this,reason);

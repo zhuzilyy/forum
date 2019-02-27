@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.api;
 
 import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.ui.mine.bean.UserBean;
 import com.chuangsheng.forum.util.OkHttpManager;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class ApiAccount {
      * 设置昵称
      * @param callback
      */
-    public static void setNickName(String url,String user_id,String nickName,RequestCallBack<String> callback){
+    public static void setNickName(String url,String user_id,String nickName,RequestCallBack<UserBean> callback){
         Map<String,String> params=new HashMap<>();
         params.put("user_id",user_id);
         params.put("value",nickName);

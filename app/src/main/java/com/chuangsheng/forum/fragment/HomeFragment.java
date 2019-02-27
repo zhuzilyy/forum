@@ -18,6 +18,7 @@ import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.api.ApiHome;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.froum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.BannerBean;
@@ -49,6 +50,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private Banner banner;
     private int page =1;
     private List<HomeFroumInfo> infoList;
+    private CustomLoadingDialog customLoadingDialog;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_home = inflater.inflate(R.layout.fragment_home,null);
@@ -72,6 +74,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             setTranslucentStatus();
         }*/
         infoList = new ArrayList<>();
+        customLoadingDialog = new CustomLoadingDialog(getActivity());
+        customLoadingDialog.show();
     }
     //沉浸式管理
     public void setTranslucentStatus(){
@@ -95,6 +99,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "精华", page + "", new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
+                customLoadingDialog.dismiss();
                 List<HomeFroumInfo> list = homeFroumBean.getResult().getDiscussions();
                 if (list!=null && list.size()>0){
                     pulltorefreshView.onHeaderRefreshComplete();
@@ -111,6 +116,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onEror(Call call, int statusCode, Exception e) {
                 Log.i("tag",e.getMessage());
+                customLoadingDialog.dismiss();
             }
         });
     }
@@ -178,6 +184,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 List<HomeFroumInfo> list = homeFroumBean.getResult().getDiscussions();
                 if (list!=null && list.size()>0){
+                    infoList.addAll(list);
                     pulltorefreshView.onHeaderRefreshComplete();
                     homeAdapter.notifyDataSetChanged();
                     //判断是不是没有更多数据了

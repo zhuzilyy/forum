@@ -27,8 +27,12 @@ public class PostForumActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_checkedArea)
+    TextView tv_checkedArea;
     private GridImageAdapter adapter;
     private List<LocalMedia> selectList;
+    private final int REQUEST_CODE =100;
+    private String areaId,areaName;
     @Override
     protected void initViews() {
         selectList = new ArrayList<>();
@@ -127,17 +131,25 @@ public class PostForumActivity extends BaseActivity {
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
                     break;
+                case REQUEST_CODE:
+                    areaId = data.getStringExtra("areaId");
+                    areaName = data.getStringExtra("areaName");
+                    tv_checkedArea.setText(areaName);
+                    break;
             }
         }
     }
-    @OnClick({R.id.iv_back})
+    @OnClick({R.id.iv_back,R.id.rl_chooseArea})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
                 finish();
                 break;
-
-
+            case R.id.rl_chooseArea:
+                Intent intent = new Intent(PostForumActivity.this,ChooseAreaActivity.class);
+                startActivityForResult(intent,REQUEST_CODE);
+                break;
         }
     }
+
 }

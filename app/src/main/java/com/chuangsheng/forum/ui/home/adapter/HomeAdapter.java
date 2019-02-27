@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.view.CircleImageView;
@@ -66,6 +67,8 @@ public class HomeAdapter extends BaseAdapter {
         MutiPictureViewHolder mutiPictureViewHolder = null;
         OnePictureViewHolder onePictureViewHolder = null;
         NoPictureViewHolder noPictureViewHolder = null;
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.drawable.pic);
         int itemViewType = getItemViewType(position);
         //没有图片
         if (itemViewType == NO_PICTURE){
@@ -77,7 +80,7 @@ public class HomeAdapter extends BaseAdapter {
                 noPictureViewHolder = (NoPictureViewHolder) convertView.getTag();
             }
             HomeFroumInfo homeFroumInfo = infoList.get(position);
-            Glide.with(context).load(homeFroumInfo.getUser_img()).into(noPictureViewHolder.iv_head);
+            Glide.with(context).load(homeFroumInfo.getUser_img()).apply(options).into(noPictureViewHolder.iv_head);
             noPictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             noPictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             noPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
@@ -93,8 +96,8 @@ public class HomeAdapter extends BaseAdapter {
                 onePictureViewHolder = (OnePictureViewHolder) convertView.getTag();
             }
             HomeFroumInfo homeFroumInfo = infoList.get(position);
-            Glide.with(context).load(homeFroumInfo.getUser_img()).into(onePictureViewHolder.iv_head);
-            Glide.with(context).load(homeFroumInfo.getAttachment().get(0)).into(onePictureViewHolder.iv_commentImg);
+            Glide.with(context).load(homeFroumInfo.getUser_img()).apply(options).into(onePictureViewHolder.iv_head);
+            Glide.with(context).load(homeFroumInfo.getAttachment().get(0)).apply(options).into(onePictureViewHolder.iv_commentImg);
             onePictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             onePictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             onePictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
@@ -110,7 +113,7 @@ public class HomeAdapter extends BaseAdapter {
                 mutiPictureViewHolder = (MutiPictureViewHolder) convertView.getTag();
             }
             HomeFroumInfo homeFroumInfo = infoList.get(position);
-            Glide.with(context).load(homeFroumInfo.getUser_img()).into(mutiPictureViewHolder.iv_head);
+            Glide.with(context).load(homeFroumInfo.getUser_img()).apply(options).into(mutiPictureViewHolder.iv_head);
             mutiPictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             mutiPictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             mutiPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());

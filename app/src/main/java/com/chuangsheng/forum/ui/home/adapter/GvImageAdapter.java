@@ -22,7 +22,6 @@ public class GvImageAdapter extends BaseAdapter {
         this.context = context;
         this.imageList = imageList;
     }
-
     @Override
     public int getCount() {
         return imageList.size();

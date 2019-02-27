@@ -2,6 +2,7 @@ package com.chuangsheng.forum.util;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.chuangsheng.forum.base.BaseCallBack;
@@ -300,7 +301,9 @@ public class OkHttpManager {
         builder.add("key", "123456");
         if (params != null) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
-                builder.add(entry.getKey(), entry.getValue());
+                if (!TextUtils.isEmpty(entry.getValue())){
+                    builder.add(entry.getKey(), entry.getValue());
+                }
             }
         }
         return builder.build();

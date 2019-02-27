@@ -16,6 +16,8 @@ import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.mine.bean.UserBean;
+import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.MyCountDownTimer;
 import com.google.gson.JsonObject;
@@ -87,21 +89,19 @@ public class SetNameActivity extends BaseActivity {
     //设置名称
     private void setName(String name) {
         customLoadingDialog.show();
-        ApiAccount.setNickName(ApiConstant.SET_NICKNAME, userId, name, new RequestCallBack<String>() {
+        ApiAccount.setNickName(ApiConstant.SET_NICKNAME, userId, name, new RequestCallBack<UserBean>() {
             @Override
-            public void onSuccess(Call call, Response response, String s) {
+            public void onSuccess(Call call, Response response, UserBean userBean) {
                 customLoadingDialog.dismiss();
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int code = jsonObject.getInt("error_code");
-                    if (code == ApiConstant.SUCCESS_CODE){
-                        jumpActivity(SetNameActivity.this, MainActivity.class);
-                        BaseActivity.finishAll();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                int code = userBean.getCode();
+                if (code == ApiConstant.SUCCESS_CODE){
+                    jumpActivity(SetNameActivity.this, MainActivity.class);
+                    String username = userBean.getResult().getUsername();
+                    String headAvatar = userBean.getResult().getImg();
+                    SPUtils.put(SetNameActivity.this,"username",username);
+                    SPUtils.put(SetNameActivity.this,"headAvatar",headAvatar);
+                    BaseActivity.finishAll();
                 }
-
             }
             @Override
             public void onEror(Call call, int statusCode, Exception e) {

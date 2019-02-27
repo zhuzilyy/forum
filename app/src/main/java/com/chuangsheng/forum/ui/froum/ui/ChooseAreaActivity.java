@@ -1,9 +1,8 @@
-package com.chuangsheng.forum.fragment;
+package com.chuangsheng.forum.ui.froum.ui;
 
+import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -12,23 +11,23 @@ import android.widget.TextView;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.api.ApiFroum;
-import com.chuangsheng.forum.base.BaseFragment;
+import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.froum.adapter.FroumAdapter;
 import com.chuangsheng.forum.ui.froum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.froum.bean.CommunityInfo;
-import com.chuangsheng.forum.ui.froum.ui.CommunityDetailActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class ForumFragment extends BaseFragment {
+public class ChooseAreaActivity extends BaseActivity{
     @BindView(R.id.listview)
     ListView lv_froum;
     @BindView(R.id.pulltorefreshView)
@@ -37,29 +36,64 @@ public class ForumFragment extends BaseFragment {
     TextView tv_title;
     @BindView(R.id.iv_back)
     ImageView iv_back;
-    private View view_froum;
     private FroumAdapter adapter;
     private int page=1;
     private List<CommunityInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
     @Override
-    protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
-        view_froum = inflater.inflate(R.layout.fragment_forum,null);
-        return view_froum;
-    }
-    @Override
     protected void initViews() {
-        tv_title.setText("社区");
+        tv_title.setText("选择版区");
         iv_back.setVisibility(View.GONE);
-        customLoadingDialog = new CustomLoadingDialog(getActivity());
+        customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
     }
     @Override
     protected void initData() {
         infoList = new ArrayList<>();
         getData();
-        adapter = new FroumAdapter(getActivity(),infoList);
+        adapter = new FroumAdapter(this,infoList);
         lv_froum.setAdapter(adapter);
+    }
+
+    @Override
+    protected void getResLayout() {
+        setContentView(R.layout.fragment_forum);
+    }
+
+    @Override
+    protected void initListener() {
+        lv_froum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //jumpActivity(this, CommunityDetailActivity.class,null);
+                Intent intent = new Intent();
+                intent.putExtra("areaId",infoList.get(position).getId());
+                intent.putExtra("areaName",infoList.get(position).getName());
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
+        //刷新记载事件
+        pulltorefreshView.setmOnHeaderRefreshListener(new PullToRefreshView.OnHeaderRefreshListener() {
+            @Override
+            public void onHeaderRefresh(PullToRefreshView view) {
+                page =1;
+                infoList.clear();
+                getData();
+            }
+        });
+        pulltorefreshView.setmOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
+            @Override
+            public void onFooterRefresh(PullToRefreshView view) {
+                page++;
+                loadMore();
+            }
+        });
+    }
+
+    @Override
+    protected void setStatusBarColor() {
+
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
@@ -90,31 +124,6 @@ public class ForumFragment extends BaseFragment {
             }
         });
     }
-    @Override
-    protected void initListener() {
-        lv_froum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                jumpActivity(getActivity(), CommunityDetailActivity.class,null);
-            }
-        });
-        //刷新记载事件
-        pulltorefreshView.setmOnHeaderRefreshListener(new PullToRefreshView.OnHeaderRefreshListener() {
-            @Override
-            public void onHeaderRefresh(PullToRefreshView view) {
-                page =1;
-                infoList.clear();
-                getData();
-            }
-        });
-        pulltorefreshView.setmOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
-            @Override
-            public void onFooterRefresh(PullToRefreshView view) {
-                page++;
-                loadMore();
-            }
-        });
-    }
     //加载更多数据
     private void loadMore() {
         page++;
@@ -142,5 +151,13 @@ public class ForumFragment extends BaseFragment {
                 Log.i("tag",e.getMessage());
             }
         });
+    }
+    @OnClick({R.id.iv_back})
+    public void click(View view){
+        switch (view.getId()){
+            case R.id.iv_back:
+                finish();
+                break;
+        }
     }
 }

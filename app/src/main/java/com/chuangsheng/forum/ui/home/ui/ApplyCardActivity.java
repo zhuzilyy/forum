@@ -30,12 +30,10 @@ public class ApplyCardActivity extends BaseActivity {
         loanAdapter = new LoanAdapter(this,null);
         gv_loan.setAdapter(loanAdapter);
     }
-
     @Override
     protected void getResLayout() {
         setContentView(R.layout.activity_apply_card);
     }
-
     @Override
     protected void initListener() {
 

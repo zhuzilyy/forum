@@ -123,6 +123,10 @@
         <activity android:name=".ui.froum.ui.CommunityDetailActivity"
             android:screenOrientation="portrait"
             />
+        <!--选择版区-->
+        <activity android:name=".ui.froum.ui.ChooseAreaActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

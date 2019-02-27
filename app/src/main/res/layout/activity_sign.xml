@@ -11,6 +11,7 @@
        android:layout_width="match_parent"
        android:layout_height="100dp">
        <EditText
+           android:id="@+id/et_sign"
            android:textSize="14sp"
            android:hint="请输入签名"
            android:background="@null"

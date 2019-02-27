@@ -117,6 +117,7 @@ public class BindEmailActivity extends BaseActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString("userId",userId);
                         jumpActivity(BindEmailActivity.this,SetNameActivity.class,bundle);
+                        timer.cancel();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

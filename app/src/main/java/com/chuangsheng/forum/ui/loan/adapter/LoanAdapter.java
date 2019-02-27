@@ -48,6 +48,7 @@ public class LoanAdapter extends BaseAdapter {
         if(convertView == null){
            convertView = LayoutInflater.from(context).inflate(R.layout.item_loan,null);
            viewHolder = new ViewHolder(convertView);
+           convertView.setTag(viewHolder);
         }else{
             viewHolder= (ViewHolder) convertView.getTag();
         }
