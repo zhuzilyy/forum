@@ -13,7 +13,7 @@ import com.chuangsheng.forum.fragment.ForumFragment;
 import com.chuangsheng.forum.fragment.HomeFragment;
 import com.chuangsheng.forum.fragment.LoanFragment;
 import com.chuangsheng.forum.fragment.MineFragment;
-import com.chuangsheng.forum.ui.froum.ui.PostForumActivity;
+import com.chuangsheng.forum.ui.forum.ui.PostForumActivity;
 
 import java.util.ArrayList;
 import java.util.List;

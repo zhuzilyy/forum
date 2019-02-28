@@ -91,7 +91,7 @@
             android:layout_marginTop="13dp"
             android:scaleType="center"
             android:src="@drawable/pic" />
-        <GridView
+        <com.chuangsheng.forum.view.MyGridView
             android:visibility="gone"
             android:id="@+id/gv_imageFroum"
             android:layout_width="match_parent"
@@ -126,7 +126,7 @@
             android:layout_marginTop="13dp"
             android:scaleType="center"
             android:src="@drawable/pic" />
-        <GridView
+        <com.chuangsheng.forum.view.MyGridView
             android:visibility="gone"
             android:id="@+id/gv_image"
             android:layout_width="match_parent"

@@ -1,34 +1,55 @@
-package com.chuangsheng.forum.ui.froum.ui;
+package com.chuangsheng.forum.ui.forum.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.api.ApiConstant;
+import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.base.BaseActivity;
+import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.dialog.ForumDialog;
 import com.chuangsheng.forum.ui.mine.adapter.FullyGridLayoutManager;
 import com.chuangsheng.forum.ui.mine.adapter.GridImageAdapter;
+import com.chuangsheng.forum.util.BitmapToBase64;
+import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class ReplyForumActivity extends BaseActivity {
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_content)
+    TextView tv_content;
     private GridImageAdapter adapter;
     private List<LocalMedia> selectList;
+    private String userId,discussionId;
+    private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
         selectList = new ArrayList<>();
@@ -39,10 +60,15 @@ public class ReplyForumActivity extends BaseActivity {
         adapter.setSelectMax(6);
         recyclerView.setAdapter(adapter);
         tv_title.setText("回帖");
+        customLoadingDialog = new CustomLoadingDialog(this);
     }
     @Override
     protected void initData() {
-
+        userId = (String) SPUtils.get(this,"user_id","");
+        Intent intent = getIntent();
+        if (intent!=null){
+            discussionId = intent.getStringExtra("discussionId");
+        }
     }
     @Override
     protected void getResLayout() {
@@ -130,12 +156,73 @@ public class ReplyForumActivity extends BaseActivity {
             }
         }
     }
-    @OnClick({R.id.iv_back})
+    @OnClick({R.id.iv_back,R.id.tv_right})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.tv_right:
+                String content = tv_content.getText().toString();
+                if (TextUtils.isEmpty(content)){
+                    ToastUtils.show(ReplyForumActivity.this,"回帖内容不能为空");
+                }
+                replyForum(content);
+                break;
         }
+    }
+    /***
+     * 获取上传的图片
+     * @return
+     */
+    private String getpicData_base64() {
+        List<Bitmap> bitmaps=new ArrayList<>();
+        String basePic="";
+        for (int i = 0; i <selectList.size() ; i++) {
+            Bitmap bitmap= BitmapFactory.decodeFile(selectList.get(i).getCompressPath());
+            bitmaps.add(bitmap);
+        }
+        if(bitmaps.size()>0){
+            for (int i = 0; i <bitmaps.size() ; i++) {
+                String baseStr= BitmapToBase64.bitmapToBase64(bitmaps.get(i));
+                basePic+=baseStr+";";
+
+            }
+            return basePic;
+        }
+        return basePic;
+    }
+
+    //回帖
+    private void replyForum(String content) {
+        String imgs = getpicData_base64();
+        customLoadingDialog.show();
+        ApiForum.publishComment(ApiConstant.PUBLISH_COMMENT, userId, discussionId, imgs, content, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.getInt("error_code");
+                    ForumDialog dialog = new ForumDialog(ReplyForumActivity.this);
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        dialog.setImageRes(R.mipmap.huitiechengg);
+                        dialog.setTitle("回帖成功，经验值+1");
+                        dialog.show();
+                        //发送广播 回帖成功
+                        Intent intent = new Intent();
+                        intent.setAction("com.action.replySuccess");
+                        LocalBroadcastManager.getInstance(ReplyForumActivity.this).sendBroadcast(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                Log.i("tag",e.getMessage());
+                customLoadingDialog.dismiss();
+            }
+        });
     }
 }

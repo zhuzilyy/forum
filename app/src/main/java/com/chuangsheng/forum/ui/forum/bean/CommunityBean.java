@@ -1,4 +1,4 @@
-package com.chuangsheng.forum.ui.froum.bean;
+package com.chuangsheng.forum.ui.forum.bean;
 
 import java.util.List;
 

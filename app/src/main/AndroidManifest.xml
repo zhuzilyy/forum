@@ -80,11 +80,11 @@
             android:screenOrientation="portrait"
             />
         <!--发帖-->
-        <activity android:name=".ui.froum.ui.PostForumActivity"
+        <activity android:name=".ui.forum.ui.PostForumActivity"
             android:screenOrientation="portrait"
             />
         <!--回帖-->
-        <activity android:name=".ui.froum.ui.ReplyForumActivity"
+        <activity android:name=".ui.forum.ui.ReplyForumActivity"
             android:screenOrientation="portrait"
             />
         <!--搜索-->
@@ -112,7 +112,7 @@
             android:screenOrientation="portrait"
             />
         <!--帖子详情-->
-        <activity android:name=".ui.froum.ui.ForumDetailActivity"
+        <activity android:name=".ui.forum.ui.ForumDetailActivity"
             android:screenOrientation="portrait"
             />
         <!--申卡-->
@@ -120,11 +120,11 @@
             android:screenOrientation="portrait"
             />
         <!--社区详情-->
-        <activity android:name=".ui.froum.ui.CommunityDetailActivity"
+        <activity android:name=".ui.forum.ui.CommunityDetailActivity"
             android:screenOrientation="portrait"
             />
         <!--选择版区-->
-        <activity android:name=".ui.froum.ui.ChooseAreaActivity"
+        <activity android:name=".ui.forum.ui.ChooseAreaActivity"
             android:screenOrientation="portrait"
             />
     </application>

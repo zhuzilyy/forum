@@ -3,6 +3,7 @@ package com.chuangsheng.forum.api;
 public class ApiConstant {
     public static final String BASE_URL="http://192.168.0.102:8000/";
     public static final int SUCCESS_CODE = 0;
+    public static final int LIMIT_CODE = 1;
     public static final int PAGE_SIZE = 10;
     public static String SEND_CODE = BASE_URL + "send_code";
     //登录
@@ -27,4 +28,12 @@ public class ApiConstant {
     public static String GET_USER_INFO = BASE_URL + "get_user_info";
     //修改个人信息
     public static String CHANGE_USER_INFO = BASE_URL + "change_user_info";
+    //发布帖子
+    public static String POST_FORUM = BASE_URL + "publish_discussion";
+    //帖子详情
+    public static String FORUM_DETAIL = BASE_URL + "get_discussion_detail_and_comment";
+    //发布评论
+    public static String PUBLISH_COMMENT = BASE_URL + "publish_comment";
+    //评论点赞
+    public static String LIKE_COMMENT = BASE_URL + "user_likes";
 }

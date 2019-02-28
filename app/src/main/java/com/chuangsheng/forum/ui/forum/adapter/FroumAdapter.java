@@ -1,4 +1,4 @@
-package com.chuangsheng.forum.ui.froum.adapter;
+package com.chuangsheng.forum.ui.forum.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chuangsheng.forum.R;
-import com.chuangsheng.forum.ui.froum.bean.CommunityInfo;
+import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
 
 import java.util.List;
 

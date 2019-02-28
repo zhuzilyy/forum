@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
-import com.chuangsheng.forum.api.ApiFroum;
+import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
-import com.chuangsheng.forum.ui.froum.adapter.FroumAdapter;
-import com.chuangsheng.forum.ui.froum.bean.CommunityBean;
-import com.chuangsheng.forum.ui.froum.bean.CommunityInfo;
-import com.chuangsheng.forum.ui.froum.ui.CommunityDetailActivity;
+import com.chuangsheng.forum.ui.forum.adapter.FroumAdapter;
+import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
+import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
+import com.chuangsheng.forum.ui.forum.ui.CommunityDetailActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class ForumFragment extends BaseFragment {
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiFroum.getCommunityList(ApiConstant.COMMUNITY_LIST,page+"" ,new RequestCallBack<CommunityBean>() {
+        ApiForum.getCommunityList(ApiConstant.COMMUNITY_LIST,page+"" ,new RequestCallBack<CommunityBean>() {
             @Override
             public void onSuccess(Call call, Response response, CommunityBean communityBean) {
                 customLoadingDialog.dismiss();
@@ -119,7 +119,7 @@ public class ForumFragment extends BaseFragment {
     private void loadMore() {
         page++;
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiFroum.getCommunityList(ApiConstant.COMMUNITY_LIST,page+"" ,new RequestCallBack<CommunityBean>() {
+        ApiForum.getCommunityList(ApiConstant.COMMUNITY_LIST,page+"" ,new RequestCallBack<CommunityBean>() {
             @Override
             public void onSuccess(Call call, Response response, CommunityBean communityBean) {
                 List<CommunityInfo> list = communityBean.getResult().getCommunitys();

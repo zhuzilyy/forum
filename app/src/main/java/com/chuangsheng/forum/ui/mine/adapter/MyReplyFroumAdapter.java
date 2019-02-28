@@ -16,6 +16,7 @@ import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
 import com.chuangsheng.forum.view.CircleImageView;
+import com.chuangsheng.forum.view.MyGridView;
 
 import java.util.List;
 
@@ -122,11 +123,12 @@ public class MyReplyFroumAdapter extends BaseAdapter {
         @BindView(R.id.tv_comment)
         TextView tv_comment;
         @BindView(R.id.gv_imageFroum)
-        GridView gv_imageFroum;
+        MyGridView gv_imageFroum;
         @BindView(R.id.gv_image)
-        GridView gv_image;
+        MyGridView gv_image;
         public ViewHolder(View view){
             ButterKnife.bind(this,view);
         }
     }
+
 }

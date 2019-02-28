@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.base.BaseFragment;
-import com.chuangsheng.forum.ui.froum.adapter.CommunityAdapter;
+import com.chuangsheng.forum.ui.forum.adapter.CommunityAdapter;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
 
 import butterknife.BindView;

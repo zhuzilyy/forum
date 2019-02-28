@@ -13,20 +13,13 @@ import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
-import com.chuangsheng.forum.api.ApiFroum;
-import com.chuangsheng.forum.api.ApiHome;
 import com.chuangsheng.forum.api.ApiLoan;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
-import com.chuangsheng.forum.ui.froum.bean.CommunityBean;
-import com.chuangsheng.forum.ui.froum.bean.CommunityInfo;
-import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
-import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.loan.adapter.LoanAdapter;
 import com.chuangsheng.forum.ui.loan.bean.LoanBean;
 import com.chuangsheng.forum.ui.loan.bean.LoanInfo;
-import com.chuangsheng.forum.ui.loan.bean.LoanResult;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 

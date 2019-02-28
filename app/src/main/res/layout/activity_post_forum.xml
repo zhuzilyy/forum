@@ -2,6 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/layout_title_forum"/>
@@ -58,13 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:id="@+id/et_title"
             android:singleLine="true"
             android:background="@null"
             android:maxLength="40"
             android:layout_marginRight="10dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="12dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="（5 - 40字）"
             android:textColor="#ffababab"
@@ -77,6 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:id="@+id/et_content"
             android:background="@null"
             android:textColor="#ffababab"
             android:textSize="15sp"

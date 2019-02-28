@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.application.MyApplication;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.view.CircleImageView;
+import com.chuangsheng.forum.view.MyGridView;
 
 import java.util.List;
 
@@ -167,7 +169,7 @@ public class HomeAdapter extends BaseAdapter {
     }
     static class MutiPictureViewHolder{
         @BindView(R.id.gv_image)
-        GridView gv_image;
+        MyGridView gv_image;
         @BindView(R.id.iv_head)
         CircleImageView iv_head;
         @BindView(R.id.tv_name)

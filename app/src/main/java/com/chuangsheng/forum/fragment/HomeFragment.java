@@ -19,7 +19,7 @@ import com.chuangsheng.forum.api.ApiHome;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
-import com.chuangsheng.forum.ui.froum.ui.ForumDetailActivity;
+import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.BannerBean;
 import com.chuangsheng.forum.ui.home.bean.BannerInfo;
@@ -27,6 +27,7 @@ import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.home.ui.ApplyCardActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.util.loader.GlideImageLoader;
 import com.chuangsheng.forum.view.PullToRefreshView;
 import com.youth.banner.Banner;
@@ -156,7 +157,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         lv_home.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                jumpActivity(getActivity(), ForumDetailActivity.class,null);
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position-1).getId());
+                jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
             }
         });
         //刷新记载事件

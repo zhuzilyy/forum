@@ -1,4 +1,4 @@
-package com.chuangsheng.forum.ui.froum.adapter;
+package com.chuangsheng.forum.ui.forum.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

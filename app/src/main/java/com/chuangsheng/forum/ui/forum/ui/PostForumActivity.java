@@ -1,26 +1,43 @@
-package com.chuangsheng.forum.ui.froum.ui;
+package com.chuangsheng.forum.ui.forum.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.api.ApiConstant;
+import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.base.BaseActivity;
+import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.dialog.ForumDialog;
 import com.chuangsheng.forum.ui.mine.adapter.FullyGridLayoutManager;
 import com.chuangsheng.forum.ui.mine.adapter.GridImageAdapter;
+import com.chuangsheng.forum.util.BitmapToBase64;
+import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class PostForumActivity extends BaseActivity {
     @BindView(R.id.recycler)
@@ -29,10 +46,15 @@ public class PostForumActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.tv_checkedArea)
     TextView tv_checkedArea;
+    @BindView(R.id.et_title)
+    EditText et_title;
+    @BindView(R.id.et_content)
+    EditText et_content;
     private GridImageAdapter adapter;
     private List<LocalMedia> selectList;
     private final int REQUEST_CODE =100;
-    private String areaId,areaName;
+    private String areaId,areaName,userId;
+    private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
         selectList = new ArrayList<>();
@@ -43,10 +65,11 @@ public class PostForumActivity extends BaseActivity {
         adapter.setSelectMax(6);
         recyclerView.setAdapter(adapter);
         tv_title.setText("发帖");
+        customLoadingDialog = new CustomLoadingDialog(this);
     }
     @Override
     protected void initData() {
-
+        userId = (String) SPUtils.get(PostForumActivity.this,"user_id","");
     }
     @Override
     protected void getResLayout() {
@@ -139,7 +162,7 @@ public class PostForumActivity extends BaseActivity {
             }
         }
     }
-    @OnClick({R.id.iv_back,R.id.rl_chooseArea})
+    @OnClick({R.id.iv_back,R.id.rl_chooseArea,R.id.tv_right})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
@@ -149,7 +172,81 @@ public class PostForumActivity extends BaseActivity {
                 Intent intent = new Intent(PostForumActivity.this,ChooseAreaActivity.class);
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
+            case R.id.tv_right:
+                String title = et_title.getText().toString();
+                String content = et_content.getText().toString();
+                if (TextUtils.isEmpty(areaId)){
+                    ToastUtils.show(PostForumActivity.this,"请选择版区");
+                    return;
+                }
+                if (TextUtils.isEmpty(title)){
+                    ToastUtils.show(PostForumActivity.this,"请输入标题");
+                    return;
+                }
+                if (TextUtils.isEmpty(content)){
+                    ToastUtils.show(PostForumActivity.this,"请输入帖子内容");
+                    return;
+                }
+                postFroum(title,content);
+                break;
         }
+    }
+    /***
+     * 获取上传的图片
+     * @return
+     */
+    private String getpicData_base64() {
+        List<Bitmap> bitmaps=new ArrayList<>();
+        String basePic="";
+        for (int i = 0; i <selectList.size() ; i++) {
+            Bitmap bitmap= BitmapFactory.decodeFile(selectList.get(i).getCompressPath());
+            bitmaps.add(bitmap);
+        }
+        if(bitmaps.size()>0){
+            for (int i = 0; i <bitmaps.size() ; i++) {
+                String baseStr= BitmapToBase64.bitmapToBase64(bitmaps.get(i));
+                basePic+=baseStr+";";
+
+            }
+            return basePic;
+        }
+        return basePic;
+    }
+
+    //发帖
+    private void postFroum(String title, String content) {
+        String picBase64 = getpicData_base64();
+        customLoadingDialog.show();
+        ApiForum.postFroum(ApiConstant.POST_FORUM, userId, areaId, title, content, picBase64, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String result) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    int code = jsonObject.getInt("error_code");
+                    String reason = jsonObject.getString("reason");
+                    //ToastUtils.show(PostForumActivity.this,reason);
+                    ForumDialog dialog = new ForumDialog(PostForumActivity.this);
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        //finish();
+                        dialog.setImageRes(R.mipmap.fatiechengg);
+                        dialog.setTitle("发帖成功，经验值+5");
+                        dialog.show();
+                    }else if(code == ApiConstant.LIMIT_CODE){
+                        dialog.setImageRes(R.mipmap.jingyanzhi);
+                        dialog.setTitle("今日获取经验值已达上限");
+                        dialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                customLoadingDialog.dismiss();
+                ToastUtils.show(PostForumActivity.this,"发表失败");
+            }
+        });
     }
 
 }

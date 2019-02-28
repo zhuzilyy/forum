@@ -1,4 +1,4 @@
-package com.chuangsheng.forum.ui.froum.ui;
+package com.chuangsheng.forum.ui.forum.ui;
 
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
