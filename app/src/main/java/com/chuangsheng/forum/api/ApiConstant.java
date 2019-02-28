@@ -36,4 +36,6 @@ public class ApiConstant {
     public static String PUBLISH_COMMENT = BASE_URL + "publish_comment";
     //评论点赞
     public static String LIKE_COMMENT = BASE_URL + "user_likes";
+    //帖子收藏
+    public static String COLLECTION_COMMENT = BASE_URL + "user_collection";
 }

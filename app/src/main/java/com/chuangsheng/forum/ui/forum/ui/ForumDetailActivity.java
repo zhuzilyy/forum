@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.aware.DiscoverySession;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -51,9 +52,15 @@ public class ForumDetailActivity extends BaseActivity {
     RelativeLayout no_data_rl;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_dianzan)
+    TextView tv_dianzan;
+    @BindView(R.id.iv_dianzan)
+    ImageView iv_dianzan;
+    @BindView(R.id.iv_collection)
+    ImageView iv_collection;
     private ForumDetailAdapter detailAdapter;
     private View view_header;
-    private String userId,discussionId;
+    private String userId,discussionId,discussionLikes;
     private int page=1;
     private LocalBroadcastManager localBroadcastManager;
     private BroadcastReceiver broadcastReceiver;
@@ -122,6 +129,18 @@ public class ForumDetailActivity extends BaseActivity {
                     tv_browse.setText(discussion.getClick());
                     tv_content.setText(discussion.getContent());
                     tv_commentCount.setText("("+discussion.getComments()+")");
+                    tv_dianzan.setText(discussion.getLikes());
+                    discussionLikes = discussion.getLikes();
+                    if (discussion.getLike_status().equals("True")){
+                        iv_dianzan.setImageResource(R.mipmap.dianzan_xuanzhong);
+                    }else{
+                        iv_dianzan.setImageResource(R.mipmap.dianzan_hui);
+                    }
+                    if (discussion.getCollection_status().equals("True")){
+                        iv_collection.setImageResource(R.mipmap.collection);
+                    }else{
+                        iv_collection.setImageResource(R.mipmap.soucang);
+                    }
                     Glide.with(ForumDetailActivity.this).load(discussion.getUser_img()).into(iv_head);
                     List<String> attachment = detailForumBean.getResult().getDiscussion().getAttachment();
                     //显示和隐藏图片
@@ -184,8 +203,7 @@ public class ForumDetailActivity extends BaseActivity {
         detailAdapter.setDianZanClickListener(new ForumDetailAdapter.DianZanListener() {
             @Override
             public void click(int position) {
-                ToastUtils.show(ForumDetailActivity.this,position+"");
-               //likeComment(position);
+                likeComment(position);
             }
         });
     }
@@ -199,9 +217,15 @@ public class ForumDetailActivity extends BaseActivity {
                     int code = jsonObject.getInt("error_code");
                     String reason = jsonObject.getString("reason");
                     String like_status = jsonObject.getJSONObject("result").getString("like_status");
-                    ToastUtils.show(ForumDetailActivity.this,reason);
                     infoList.get(position).setLike_status(like_status);
-                    detailAdapter.notifyDataSetChanged();
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        if (like_status.equals("True")){
+                            infoList.get(position).setLikes(Integer.parseInt(infoList.get(position).getLikes())+1+"");
+                        }else{
+                            infoList.get(position).setLikes(Integer.parseInt(infoList.get(position).getLikes())-1+"");
+                        }
+                        detailAdapter.notifyDataSetChanged();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -246,7 +270,7 @@ public class ForumDetailActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.iv_back,R.id.tv_comment})
+    @OnClick({R.id.iv_back,R.id.tv_comment,R.id.ll_dianzan,R.id.ll_collection})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
@@ -257,9 +281,72 @@ public class ForumDetailActivity extends BaseActivity {
                 intent.putExtra("discussionId",discussionId);
                 startActivity(intent);
                 break;
+            case R.id.ll_dianzan:
+                discussionDianzan();
+                break;
+            case R.id.ll_collection:
+                collection();
+                break;
         }
     }
+    //收藏
+    private void collection() {
+        ApiForum.collectionDiscussion(ApiConstant.COLLECTION_COMMENT, userId, discussionId, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.getInt("error_code");
+                    String reason = jsonObject.getString("reason");
+                    String like_status = jsonObject.getJSONObject("result").getString("collection_status");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        if (like_status.equals("True")){
+                            iv_collection.setImageResource(R.mipmap.collection);
+                        }else{
+                            iv_collection.setImageResource(R.mipmap.soucang);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+
+            }
+        });
+    }
+    //帖子点赞
+    private void discussionDianzan() {
+        ApiForum.likeDiscussion(ApiConstant.LIKE_COMMENT, userId, discussionId, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.getInt("error_code");
+                    String reason = jsonObject.getString("reason");
+                    String like_status = jsonObject.getJSONObject("result").getString("like_status");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        if (like_status.equals("True")){
+                            tv_dianzan.setText(Integer.parseInt(tv_dianzan.getText().toString())+1+"");
+                            iv_dianzan.setImageResource(R.mipmap.dianzan_xuanzhong);
+                        }else{
+                            tv_dianzan.setText(Integer.parseInt(tv_dianzan.getText().toString())-1+"");
+                            iv_dianzan.setImageResource(R.mipmap.dianzan_hui);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+
+            }
+        });
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

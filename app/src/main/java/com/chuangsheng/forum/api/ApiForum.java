@@ -61,7 +61,27 @@ public class ApiForum {
     public static void likeComment(String url,String user_id,String comment_id, RequestCallBack<String> callback){
         Map<String,String> params = new HashMap<>();
         params.put("user_id",user_id);
-        params.put("discussion_id",comment_id);
+        params.put("comment_id",comment_id);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 帖子点赞
+     * @param callback
+     */
+    public static void likeDiscussion(String url,String user_id,String discussion_id, RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("discussion_id",discussion_id);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 帖子收藏
+     * @param callback
+     */
+    public static void collectionDiscussion(String url,String user_id,String discussion_id, RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("discussion_id",discussion_id);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
 }

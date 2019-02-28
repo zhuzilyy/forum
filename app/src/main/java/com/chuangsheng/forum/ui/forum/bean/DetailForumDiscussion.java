@@ -18,7 +18,25 @@ public class DetailForumDiscussion {
     private String user_points;
     private String id;
     private String subject;
+    private String like_status;
+    private String collection_status;
     private List<String> attachment;
+    public String getLike_status() {
+        return like_status;
+    }
+
+    public void setLike_status(String like_status) {
+        this.like_status = like_status;
+    }
+
+    public String getCollection_status() {
+        return collection_status;
+    }
+
+    public void setCollection_status(String collection_status) {
+        this.collection_status = collection_status;
+    }
+
     public String getCategory() {
         return category;
     }

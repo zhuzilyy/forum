@@ -48,6 +48,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_comment" />
         <LinearLayout
+            android:gravity="center"
             android:id="@+id/ll_dianzan"
             android:layout_marginLeft="21dp"
             android:layout_toRightOf="@+id/tv_comment"
@@ -56,11 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/iv_dianzan"
                 android:src="@mipmap/dianzan_hui"
                 android:scaleType="fitXY"
                 android:layout_width="20dp"
                 android:layout_height="20dp" />
             <TextView
+                android:gravity="center"
+                android:id="@+id/tv_dianzan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="268"
@@ -70,6 +74,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_collection"
             android:layout_marginLeft="19dp"
             android:layout_toRightOf="@+id/ll_dianzan"
             android:layout_centerVertical="true"
@@ -78,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/iv_collection"
                 android:src="@mipmap/soucang"
                 android:scaleType="fitXY"
                 android:layout_width="20dp"

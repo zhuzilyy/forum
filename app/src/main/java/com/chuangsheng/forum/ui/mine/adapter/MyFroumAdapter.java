@@ -81,7 +81,6 @@ public class MyFroumAdapter extends BaseAdapter {
                 noPictureViewHolder = (NoPictureViewHolder) convertView.getTag();
             }
             HomeFroumInfo homeFroumInfo = infoList.get(position);
-            noPictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             noPictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             noPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
             noPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
@@ -97,7 +96,6 @@ public class MyFroumAdapter extends BaseAdapter {
             }
             HomeFroumInfo homeFroumInfo = infoList.get(position);
             Glide.with(context).load(homeFroumInfo.getAttachment().get(0)).apply(options).into(onePictureViewHolder.iv_commentImg);
-            onePictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             onePictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             onePictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
             onePictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
@@ -112,7 +110,6 @@ public class MyFroumAdapter extends BaseAdapter {
                 mutiPictureViewHolder = (MutiPictureViewHolder) convertView.getTag();
             }
             HomeFroumInfo homeFroumInfo = infoList.get(position);
-            mutiPictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             mutiPictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             mutiPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
             mutiPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
@@ -124,8 +121,6 @@ public class MyFroumAdapter extends BaseAdapter {
     }
 
     static class NoPictureViewHolder{
-        @BindView(R.id.tv_name)
-        TextView tv_name;
         @BindView(R.id.tv_title)
         TextView tv_title;
         @BindView(R.id.tv_content)
@@ -141,8 +136,6 @@ public class MyFroumAdapter extends BaseAdapter {
     static class OnePictureViewHolder{
         @BindView(R.id.iv_commentImg)
         ImageView iv_commentImg;
-        @BindView(R.id.tv_name)
-        TextView tv_name;
         @BindView(R.id.tv_title)
         TextView tv_title;
         @BindView(R.id.tv_content)
@@ -158,8 +151,6 @@ public class MyFroumAdapter extends BaseAdapter {
     static class MutiPictureViewHolder{
         @BindView(R.id.gv_image)
         GridView gv_image;
-        @BindView(R.id.tv_name)
-        TextView tv_name;
         @BindView(R.id.tv_title)
         TextView tv_title;
         @BindView(R.id.tv_content)
