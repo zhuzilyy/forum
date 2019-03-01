@@ -1,5 +1,6 @@
 package com.chuangsheng.forum.fragment;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
@@ -37,6 +39,8 @@ public class ForumFragment extends BaseFragment {
     TextView tv_title;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.no_data_rl)
+    RelativeLayout no_data_rl;
     private View view_froum;
     private FroumAdapter adapter;
     private int page=1;
@@ -71,6 +75,8 @@ public class ForumFragment extends BaseFragment {
                 List<CommunityInfo> list = communityBean.getResult().getCommunitys();
                 if (code == ApiConstant.SUCCESS_CODE){
                     if (list!=null && list.size()>0){
+                        no_data_rl.setVisibility(View.GONE);
+                        pulltorefreshView.setVisibility(View.VISIBLE);
                         pulltorefreshView.onHeaderRefreshComplete();
                         infoList.addAll(list);
                         adapter.notifyDataSetChanged();
@@ -80,6 +86,9 @@ public class ForumFragment extends BaseFragment {
                         }else{
                             pulltorefreshView.onFooterRefreshComplete(false);
                         }
+                    }else{
+                        no_data_rl.setVisibility(View.VISIBLE);
+                        pulltorefreshView.setVisibility(View.GONE);
                     }
                 }
             }
@@ -95,7 +104,31 @@ public class ForumFragment extends BaseFragment {
         lv_froum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                jumpActivity(getActivity(), CommunityDetailActivity.class,null);
+                CommunityInfo communityInfo = infoList.get(position);
+                String img = communityInfo.getImg();
+                String subject = communityInfo.getSubject();
+                String comment = communityInfo.getComment();
+                String discussion = communityInfo.getDiscussion();
+                String desc = communityInfo.getDesc();
+                String fire_discussion_id = communityInfo.getFire().getDiscussion_id();
+                String fire_subject = communityInfo.getFire().getSubject();
+                String top_discussion_id = communityInfo.getTop().getDiscussion_id();
+                String top_subject = communityInfo.getTop().getSubject();
+                String name = communityInfo.getName();
+                String link = communityInfo.getLink();
+                Bundle bundle = new Bundle();
+                bundle.putString("img",img);
+                bundle.putString("link",link);
+                bundle.putString("subject",subject);
+                bundle.putString("comment",comment);
+                bundle.putString("discussion",discussion);
+                bundle.putString("desc",desc);
+                bundle.putString("name",name);
+                bundle.putString("fire_discussion_id",fire_discussion_id);
+                bundle.putString("fire_subject",fire_subject);
+                bundle.putString("top_discussion_id",top_discussion_id);
+                bundle.putString("top_subject",top_subject);
+                jumpActivity(getActivity(), CommunityDetailActivity.class,bundle);
             }
         });
         //刷新记载事件
@@ -124,6 +157,7 @@ public class ForumFragment extends BaseFragment {
             public void onSuccess(Call call, Response response, CommunityBean communityBean) {
                 List<CommunityInfo> list = communityBean.getResult().getCommunitys();
                 if (list!=null && list.size()>0){
+                    infoList.addAll(list);
                     pulltorefreshView.onHeaderRefreshComplete();
                     adapter.notifyDataSetChanged();
                     //判断是不是没有更多数据了

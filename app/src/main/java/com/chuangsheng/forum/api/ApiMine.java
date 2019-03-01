@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
+import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
+import com.chuangsheng.forum.ui.mine.bean.HistoryBean;
 import com.chuangsheng.forum.ui.mine.bean.MyFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.UserBean;
@@ -53,6 +55,38 @@ public class ApiMine {
         params.put("sex",sex);
         params.put("brith",brith);
         params.put("description",description);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 获取我的收藏的列表
+     * @param callback
+     */
+    public static void myCollection(String url,String user_id,String page,RequestCallBack<CollectionBean> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("page",page);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 获取我的浏览历史
+     * @param callback
+     */
+    public static void myHistory(String url,String user_id,String page,RequestCallBack<CollectionBean> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("page",page);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 意见反馈
+     * @param callback
+     */
+    public static void feedback(String url,String user_id,String imgs,String content,String contact,RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("imgs",imgs);
+        params.put("content",content);
+        params.put("contact",contact);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
 }

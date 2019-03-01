@@ -1,34 +1,58 @@
 package com.chuangsheng.forum.ui.mine.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.api.ApiConstant;
+import com.chuangsheng.forum.api.ApiMine;
 import com.chuangsheng.forum.base.BaseActivity;
+import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.forum.ui.PostForumActivity;
 import com.chuangsheng.forum.ui.mine.adapter.FullyGridLayoutManager;
 import com.chuangsheng.forum.ui.mine.adapter.GridImageAdapter;
+import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
+import com.chuangsheng.forum.util.BitmapToBase64;
+import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class FeedBackActivity extends BaseActivity {
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.et_content)
+    EditText et_content;
+    @BindView(R.id.et_contact)
+    EditText et_contact;
     private GridImageAdapter adapter;
     private List<LocalMedia> selectList;
+    private String userId;
+    private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
         selectList = new ArrayList<>();
@@ -39,13 +63,12 @@ public class FeedBackActivity extends BaseActivity {
         adapter.setSelectMax(6);
         recyclerView.setAdapter(adapter);
         tv_title.setText("意见反馈");
+        customLoadingDialog = new CustomLoadingDialog(this);
     }
-
     @Override
     protected void initData() {
-
+        userId = (String) SPUtils.get(FeedBackActivity.this,"user_id","");
     }
-
     @Override
     protected void getResLayout() {
         setContentView(R.layout.activity_feedback);
@@ -60,14 +83,73 @@ public class FeedBackActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.iv_back})
+    @OnClick({R.id.iv_back,R.id.btn_commit})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.btn_commit:
+                String content = et_content.getText().toString();
+                String contact = et_contact.getText().toString();
+                if (TextUtils.isEmpty(content)){
+                    ToastUtils.show(FeedBackActivity.this,"反馈内容不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(contact)){
+                    ToastUtils.show(FeedBackActivity.this,"联系方式不能为空");
+                    return;
+                }
+                feedback(content,contact);
+                break;
         }
     }
+    //意见反馈
+    private void feedback(String content, String contact) {
+        customLoadingDialog.show();
+        String imgs = getpicData_base64();
+        ApiMine.feedback(ApiConstant.FEEDBACK, userId, imgs, content, contact, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String result) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    int code = jsonObject.getInt("error_code");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                customLoadingDialog.dismiss();
+            }
+        });
+    }
+    /***
+     * 获取上传的图片
+     * @return
+     */
+    private String getpicData_base64() {
+        List<Bitmap> bitmaps=new ArrayList<>();
+        String basePic="";
+        for (int i = 0; i <selectList.size() ; i++) {
+            Bitmap bitmap= BitmapFactory.decodeFile(selectList.get(i).getCompressPath());
+            bitmaps.add(bitmap);
+        }
+        if(bitmaps.size()>0){
+            for (int i = 0; i <bitmaps.size() ; i++) {
+                String baseStr= BitmapToBase64.bitmapToBase64(bitmaps.get(i));
+                basePic+=baseStr+";";
+
+            }
+            return basePic;
+        }
+        return basePic;
+    }
+
     private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
         @Override
         public void onAddPicClick() {

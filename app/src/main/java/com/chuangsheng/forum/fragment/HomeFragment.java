@@ -90,7 +90,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     protected void initData() {
         initBanner();
         getData();
-        homeAdapter = new HomeAdapter(getActivity(),infoList);
+        homeAdapter = new HomeAdapter(getActivity(),infoList,"精华");
         lv_home.setAdapter(homeAdapter);
         lv_home.addHeaderView(view_header);
     }
@@ -159,6 +159,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("discussionId",infoList.get(position-1).getId());
+                infoList.get(position-1).setClick(Integer.parseInt(infoList.get(position-1).getClick())+1+"");
+                homeAdapter.notifyDataSetChanged();
                 jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
             }
         });

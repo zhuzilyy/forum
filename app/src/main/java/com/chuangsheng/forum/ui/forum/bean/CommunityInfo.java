@@ -12,6 +12,24 @@ public class CommunityInfo {
     private String desc;
     private String id;
     private String name;
+    private FireInfo fire;
+    private TopInfo top;
+    public FireInfo getFire() {
+        return fire;
+    }
+
+    public void setFire(FireInfo fire) {
+        this.fire = fire;
+    }
+
+    public TopInfo getTop() {
+        return top;
+    }
+
+    public void setTop(TopInfo top) {
+        this.top = top;
+    }
+
     public String getSort() {
         return sort;
     }

@@ -27,10 +27,12 @@ public class HomeAdapter extends BaseAdapter {
     private final int SINGLE_PICTURE = 1;
     private final int MUTI_PICTURE = 2;
     private Context context;
+    private String tag;
     private List<HomeFroumInfo> infoList;
-    public HomeAdapter(Context context, List<HomeFroumInfo> infoList) {
+    public HomeAdapter(Context context, List<HomeFroumInfo> infoList,String tag) {
         this.context = context;
         this.infoList = infoList;
+        this.tag = tag;
     }
 
     @Override
@@ -89,6 +91,11 @@ public class HomeAdapter extends BaseAdapter {
             noPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             noPictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             noPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            if (tag.equals("精华")){
+                noPictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
+            }else{
+                noPictureViewHolder.iv_jinghua.setVisibility(View.GONE);
+            }
         }else if(itemViewType == SINGLE_PICTURE){
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_froum_one_picture,null);
@@ -106,6 +113,11 @@ public class HomeAdapter extends BaseAdapter {
             onePictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             onePictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             onePictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            if (tag.equals("精华")){
+                onePictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
+            }else{
+                onePictureViewHolder.iv_jinghua.setVisibility(View.GONE);
+            }
         }else if(itemViewType == MUTI_PICTURE){
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_froum_muti_picture,null);
@@ -122,6 +134,11 @@ public class HomeAdapter extends BaseAdapter {
             mutiPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             mutiPictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             mutiPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            if (tag.equals("精华")){
+                mutiPictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
+            }else{
+                mutiPictureViewHolder.iv_jinghua.setVisibility(View.GONE);
+            }
             GvImageAdapter adapter = new GvImageAdapter(context,infoList.get(position).getAttachment());
             mutiPictureViewHolder.gv_image.setAdapter(adapter);
         }
@@ -130,6 +147,8 @@ public class HomeAdapter extends BaseAdapter {
     static class NoPictureViewHolder{
         @BindView(R.id.iv_head)
         CircleImageView iv_head;
+        @BindView(R.id.iv_jinghua)
+        ImageView iv_jinghua;
         @BindView(R.id.tv_name)
         TextView tv_name;
         @BindView(R.id.tv_title)
@@ -163,6 +182,8 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_message;
         @BindView(R.id.tv_browse)
         TextView tv_browse;
+        @BindView(R.id.iv_jinghua)
+        ImageView iv_jinghua;
         public OnePictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -184,6 +205,8 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_message;
         @BindView(R.id.tv_browse)
         TextView tv_browse;
+        @BindView(R.id.iv_jinghua)
+        ImageView iv_jinghua;
         public MutiPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }

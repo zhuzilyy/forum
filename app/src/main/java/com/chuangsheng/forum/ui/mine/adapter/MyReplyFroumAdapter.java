@@ -68,9 +68,14 @@ public class MyReplyFroumAdapter extends BaseAdapter {
         }else if(attachmentForum.size() == 1){
             viewHolder.iv_commentImgFroum.setVisibility(View.VISIBLE);
             viewHolder.gv_imageFroum.setVisibility(View.GONE);
+            //帖子一张图片显示的情况下
+            Glide.with(context).load(discussion.getAttachment().get(0)).apply(options).into(viewHolder.iv_commentImgFroum);
         }else{
             viewHolder.iv_commentImgFroum.setVisibility(View.GONE);
             viewHolder.gv_imageFroum.setVisibility(View.VISIBLE);
+            //帖子多图显示的情况下
+            GvImageAdapter froumAdapter = new GvImageAdapter(context,discussion.getAttachment());
+            viewHolder.gv_imageFroum.setAdapter(froumAdapter);
         }
         //评论的图片的数量
         List<String> attachmentComment = myReplyFroumInfo.getAttachment();
@@ -80,26 +85,20 @@ public class MyReplyFroumAdapter extends BaseAdapter {
         }else if(attachmentComment.size() == 1){
             viewHolder.iv_commentImg.setVisibility(View.VISIBLE);
             viewHolder.gv_image.setVisibility(View.GONE);
+            //评论一张图片显示的情况下
+            Glide.with(context).load(myReplyFroumInfo.getAttachment().get(0)).apply(options).into(viewHolder.iv_commentImg);
         }else{
             viewHolder.iv_commentImg.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.VISIBLE);
+            //评论多图显示的情况下
+            GvImageAdapter commentAdapter = new GvImageAdapter(context,myReplyFroumInfo.getAttachment());
+            viewHolder.gv_image.setAdapter(commentAdapter);
         }
         Glide.with(context).load(myReplyFroumInfo.getUser_img()).apply(options).into(viewHolder.iv_head);
         viewHolder.tv_name.setText(discussion.getUser_username());
         viewHolder.tv_time.setText(discussion.getCreated());
         viewHolder.tv_title.setText(discussion.getSubject());
         viewHolder.tv_content.setText(discussion.getContent());
-        //帖子一张图片显示的情况下
-        Glide.with(context).load(discussion.getAttachment().get(0)).apply(options).into(viewHolder.iv_commentImgFroum);
-        //帖子多图显示的情况下
-        GvImageAdapter froumAdapter = new GvImageAdapter(context,discussion.getAttachment());
-        viewHolder.gv_imageFroum.setAdapter(froumAdapter);
-
-        //评论一张图片显示的情况下
-        Glide.with(context).load(myReplyFroumInfo.getAttachment().get(0)).apply(options).into(viewHolder.iv_commentImg);
-        //评论多图显示的情况下
-        GvImageAdapter commentAdapter = new GvImageAdapter(context,myReplyFroumInfo.getAttachment());
-        viewHolder.gv_image.setAdapter(commentAdapter);
         viewHolder.tv_comment.setText(myReplyFroumInfo.getContent());
         return convertView;
     }

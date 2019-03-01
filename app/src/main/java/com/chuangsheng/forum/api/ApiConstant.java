@@ -38,4 +38,10 @@ public class ApiConstant {
     public static String LIKE_COMMENT = BASE_URL + "user_likes";
     //帖子收藏
     public static String COLLECTION_COMMENT = BASE_URL + "user_collection";
+    //获取我的收藏
+    public static String MY_COLLECTION= BASE_URL + "get_user_discussion_collection";
+    //获取浏览历史
+    public static String MY_HISTORY= BASE_URL + "get_user_discussion_history";
+    //意见反馈
+    public static String FEEDBACK= BASE_URL + "publish_feedback";
 }

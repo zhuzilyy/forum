@@ -1,13 +1,18 @@
 package com.chuangsheng.forum.ui.forum.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.fragment.GoodForumFragment;
@@ -38,15 +43,37 @@ public class CommunityDetailActivity extends BaseActivity {
     View iv_hot;
     @BindView(R.id.iv_good)
     View iv_good;
+    @BindView(R.id.iv_community)
+    ImageView iv_community;
+    @BindView(R.id.tv_titleName)
+    TextView tv_title;
+    @BindView(R.id.tv_comment)
+    TextView tv_comment;
+    @BindView(R.id.tv_desc)
+    TextView tv_desc;
+    @BindView(R.id.tv_top)
+    TextView tv_top;
+    @BindView(R.id.tv_fire)
+    TextView tv_fire;
+    @BindView(R.id.tv_subject)
+    TextView tv_subject;
+    @BindView(R.id.tv_title)
+    TextView tv_titleDetail;
+    @BindView(R.id.ll_fire)
+    LinearLayout ll_fire;
+    @BindView(R.id.ll_top)
+    LinearLayout ll_top;
     private List<View> viewLines;
     private List<TextView> textViews;
     private int index = 0;
+    private String fire_discussion_id,top_discussion_id,link;
     @Override
     protected void initViews() {
         fragmentManager = getSupportFragmentManager();
         newestForumFragment = new NewestForumFragment();
         FragmentTransaction ft=fragmentManager.beginTransaction();
         AddOrShowFra(ft,newestForumFragment);
+        tv_titleDetail.setText("详情");
     }
     @Override
     protected void initData() {
@@ -58,6 +85,39 @@ public class CommunityDetailActivity extends BaseActivity {
         textViews.add(tv_newest);
         textViews.add(tv_hot);
         textViews.add(tv_good);
+        //初始化头部数据
+        initHeadData();
+
+    }
+    private void initHeadData() {
+        Intent intent = getIntent();
+        if (intent!=null){
+            Bundle extras = intent.getExtras();
+            String img = extras.getString("img");
+            String subject = extras.getString("subject");
+            String comment = extras.getString("comment");
+            String discussion = extras.getString("discussion");
+            String desc = extras.getString("desc");
+            String name = extras.getString("name");
+            link = extras.getString("link");
+            fire_discussion_id = extras.getString("fire_discussion_id");
+            String fire_subject = extras.getString("fire_subject");
+            top_discussion_id = extras.getString("top_discussion_id");
+            String top_subject = extras.getString("top_subject");
+            Glide.with(CommunityDetailActivity.this).load(img).into(iv_community);
+            tv_title.setText(name);
+            tv_subject.setText(subject);
+            tv_comment.setText("主题:"+comment+"  帖子:"+discussion);
+            tv_desc.setText(desc);
+            tv_top.setText(top_subject);
+            tv_fire.setText(fire_subject);
+            if (TextUtils.isEmpty(fire_subject)){
+                ll_fire.setVisibility(View.GONE);
+            }
+            if (TextUtils.isEmpty(top_subject)){
+                ll_top.setVisibility(View.GONE);
+            }
+        }
     }
     @Override
     protected void getResLayout() {

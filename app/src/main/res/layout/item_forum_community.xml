@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/tv_name"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:text="创盛科技"
@@ -49,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tv_title"
             android:layout_marginTop="17dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,12 +59,28 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:text="为什么没有任何与其行为；只是现有信用卡都被窝刷空了，谁能告诉我为啥。"
             android:textColor="#ff6e6e6e"
             android:textSize="15sp" />
+        <ImageView
+            android:id="@+id/iv_singlePic"
+            android:layout_marginTop="13dp"
+            android:scaleType="centerCrop"
+            android:layout_width="344dp"
+            android:layout_height="235dp"
+            android:src="@drawable/pic" />
+        <com.chuangsheng.forum.view.MyGridView
+            android:horizontalSpacing="8dp"
+            android:layout_marginTop="13dp"
+            android:id="@+id/gv_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3" />
+
     </LinearLayout>
     <View
         android:layout_marginTop="16dp"
