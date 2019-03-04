@@ -40,7 +40,6 @@
         android:background="#F6F7F8"
         android:gravity="center_vertical">
         <EditText
-            android:text="15524108397"
             android:inputType="number"
             android:id="@+id/et_phoneNum"
             android:layout_width="match_parent"
@@ -68,7 +67,6 @@
             android:layout_height="match_parent"
             android:background="#F6F7F8">
             <EditText
-                android:text="5350"
                 android:id="@+id/et_confirmCode"
                 android:layout_marginRight="10dp"
                 android:layout_width="225dp"
@@ -121,5 +119,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
 </LinearLayout>

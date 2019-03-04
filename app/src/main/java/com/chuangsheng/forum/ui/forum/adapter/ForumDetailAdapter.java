@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.ui.forum.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,11 @@ public class ForumDetailAdapter extends BaseAdapter{
     private Context context;
     private List<DetailForumInfo> infoList;
     private DianZanListener dianZanListener;
-    public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList) {
+    private String ad;
+    public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList,String ad) {
         this.context = context;
         this.infoList = infoList;
+        this.ad = ad;
     }
     @Override
     public int getCount() {
@@ -89,6 +92,13 @@ public class ForumDetailAdapter extends BaseAdapter{
         }else{
             viewHolder.iv_likeStatus.setImageResource(R.mipmap.dianzan_hui);
         }
+        if (position == 0){
+            viewHolder.iv_advertisement.setVisibility(View.VISIBLE);
+            Glide.with(context).load(ad).into(viewHolder.iv_advertisement);
+            Log.i("tag",ad+"=====qq======");
+        }else{
+            viewHolder.iv_advertisement.setVisibility(View.GONE);
+        }
         viewHolder.ll_dianzan.setTag(position);
         viewHolder.ll_dianzan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +127,8 @@ public class ForumDetailAdapter extends BaseAdapter{
         ImageView iv_singlePic;
         @BindView(R.id.iv_likeStatus)
         ImageView iv_likeStatus;
+        @BindView(R.id.iv_advertisement)
+        ImageView iv_advertisement;
         @BindView(R.id.ll_dianzan)
         LinearLayout ll_dianzan;
         public ViewHolder(View view){

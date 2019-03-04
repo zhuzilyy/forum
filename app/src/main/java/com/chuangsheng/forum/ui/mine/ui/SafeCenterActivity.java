@@ -15,6 +15,7 @@ public class SafeCenterActivity extends BaseActivity {
     @Override
     protected void initViews() {
         tv_title.setText("安全中心");
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

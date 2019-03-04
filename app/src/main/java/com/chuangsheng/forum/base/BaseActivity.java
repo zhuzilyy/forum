@@ -110,6 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -130,7 +131,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             activityList.get(i).finish();
         }
     }
-
     /**
      * 双击退出函数
      */

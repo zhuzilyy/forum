@@ -89,4 +89,14 @@ public class ApiMine {
         params.put("contact",contact);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
+    /**
+     * 删除浏览历史
+     * @param callback
+     */
+    public static void deleteHistory(String url,String user_id,String discussion_history_ids,RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("discussion_history_ids",discussion_history_ids);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
 }

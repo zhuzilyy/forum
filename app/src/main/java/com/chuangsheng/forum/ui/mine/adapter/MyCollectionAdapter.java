@@ -1,10 +1,14 @@
 package com.chuangsheng.forum.ui.mine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,12 +17,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
+import com.chuangsheng.forum.ui.forum.ui.ReplyForumActivity;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,9 +34,24 @@ import butterknife.ButterKnife;
 public class MyCollectionAdapter extends BaseAdapter {
     private Context context;
     private List<CollectionInfo> infoList;
-    public MyCollectionAdapter(Context context, List<CollectionInfo> infoList) {
+    private String showStatus;
+    private deleteCheckedListener deleteCheckedListener;
+    // 存储勾选框状态的map集合
+    private Map<Integer, Boolean> isCheck = new HashMap<Integer, Boolean>();
+    public MyCollectionAdapter(Context context, List<CollectionInfo> infoList,String showStatus) {
         this.context = context;
         this.infoList = infoList;
+        this.showStatus = showStatus;
+        // 默觉得不选中
+        initCheck(false);
+    }
+    // 初始化map集合
+    public void initCheck(boolean flag) {
+        // map集合的数量和list的数量是一致的
+        for (int i = 0; i < infoList.size(); i++) {
+            // 设置默认的显示
+            isCheck.put(i, flag);
+        }
     }
     @Override
     public int getCount() {
@@ -46,7 +69,7 @@ public class MyCollectionAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.pic);
         ViewHolder viewHolder = null;
@@ -78,7 +101,61 @@ public class MyCollectionAdapter extends BaseAdapter {
         viewHolder.tv_time.setText(collectionInfo.getCreated());
         viewHolder.tv_content.setText(collectionInfo.getContent());
         viewHolder.tv_message.setText(collectionInfo.getComments());
+        viewHolder.tv_title.setText(collectionInfo.getSubject());
+        if (showStatus.equals("show")){
+            viewHolder.cb_delete.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.cb_delete.setVisibility(View.INVISIBLE);
+        }
+        if (infoList.get(position).isSelected()){
+            viewHolder.cb_delete.setChecked(true);
+        }else{
+            viewHolder.cb_delete.setChecked(false);
+        }
+        // 设置状态
+        if (isCheck.get(position) == null) {
+            isCheck.put(position, false);
+        }
+        viewHolder.cb_delete.setChecked(isCheck.get(position));
+       /* viewHolder.cb_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCheck.put(position,isChecked);
+                if (isChecked){
+                    Intent intent = new Intent();
+                    intent.setAction("com.action.notSelectAll");
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                }
+                //deleteCheckedListener.click(getSelectesCount());
+                getSelectesCount();
+            }
+        });*/
         return convertView;
+    }
+    public void setCheckListShow(String showStatus){
+        this.showStatus = showStatus;
+        notifyDataSetChanged();
+    }
+    public interface deleteCheckedListener{
+        void click(int count);
+    }
+    public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener){
+        this.deleteCheckedListener = deleteCheckedListener;
+    }
+    public int getSelectesCount(){
+        int count=0;
+        for (int i = 0; i <isCheck.size(); i++) {
+            if (isCheck.get(i)){
+                count++;
+            }
+        }
+        if (count == infoList.size()){
+            //发送广播 回帖成功
+            Intent intent = new Intent();
+            intent.setAction("com.action.selectAll");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        }
+        return count;
     }
     static class ViewHolder {
         @BindView(R.id.iv_head)
@@ -99,6 +176,8 @@ public class MyCollectionAdapter extends BaseAdapter {
         MyGridView gv_image;
         @BindView(R.id.iv_singlePic)
         ImageView iv_singlePic;
+        @BindView(R.id.cb_delete)
+        CheckBox cb_delete;
         public ViewHolder(View view){
             ButterKnife.bind(this,view);
         }

@@ -1,6 +1,8 @@
 package com.chuangsheng.forum.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,8 @@ public class LoanFragment extends BaseFragment {
     GridView gv_loan;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_marquee)
+    TextView tv_marquee;
     @BindView(R.id.iv_back)
     ImageView iv_back;
     @BindView(R.id.no_data_rl)
@@ -58,6 +62,18 @@ public class LoanFragment extends BaseFragment {
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tv_marquee.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
+        tv_marquee.setMarqueeRepeatLimit(-1); // "marquee_forever"
+        tv_marquee.setFocusable(true);
+        tv_marquee.setFocusableInTouchMode(true);
+        tv_marquee.setSelected(true);
+        tv_marquee.setText("金融,团贷网,6年专业金融平台,通过信息安全三级认证,参考回报率12%,超800万用户选择;金融,团贷网,配置严格的审核程序和完善的风险");
+    }
+
     @Override
     protected void initData() {
         infoList = new ArrayList<>();

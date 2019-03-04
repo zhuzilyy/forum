@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
     android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
@@ -127,6 +128,8 @@
             android:textColor="#ff919191"
             android:textSize="13sp" />
         <CheckBox
+            android:id="@+id/cb_delete"
+            android:visibility="invisible"
             android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
             android:checked="false"

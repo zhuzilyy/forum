@@ -13,6 +13,7 @@ public class NewPhoneActivity extends BaseActivity{
     @Override
     protected void initViews() {
         tv_title.setText("修改手机号");
+        BaseActivity.activityList.add(this);
     }
 
     @Override

@@ -61,6 +61,7 @@ public class ReplyForumActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
         tv_title.setText("回帖");
         customLoadingDialog = new CustomLoadingDialog(this);
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

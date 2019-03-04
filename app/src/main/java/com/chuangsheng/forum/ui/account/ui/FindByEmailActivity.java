@@ -13,8 +13,8 @@ public class FindByEmailActivity extends BaseActivity {
     @Override
     protected void initViews() {
         tv_title.setText("邮箱找回");
+        BaseActivity.activityList.add(this);
     }
-
     @Override
     protected void initData() {
 

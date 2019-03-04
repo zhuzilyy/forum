@@ -29,6 +29,7 @@ public class SignActivity extends BaseActivity {
             String sign = intent.getStringExtra("sign");
             et_sign.setText(sign);
         }
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

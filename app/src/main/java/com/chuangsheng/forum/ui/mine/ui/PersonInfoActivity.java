@@ -29,6 +29,7 @@ import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.dialog.PhotoChioceDialog;
 import com.chuangsheng.forum.dialog.datepicker.CustomDatePicker;
 import com.chuangsheng.forum.dialog.datepicker.DateFormatUtils;
+import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.account.ui.SetNameActivity;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.UserBean;
@@ -87,6 +88,7 @@ public class PersonInfoActivity extends BaseActivity {
         tv_right.setTextColor(Color.parseColor("#77a0fe"));
         userId = (String) SPUtils.get(this, "user_id", "");
         customLoadingDialog = new CustomLoadingDialog(this);
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {
@@ -94,7 +96,6 @@ public class PersonInfoActivity extends BaseActivity {
         initDatePicker();
         getData();
     }
-
     //获取个人信息
     private void getData() {
         ApiMine.getUserInfo(ApiConstant.GET_USER_INFO, userId, new RequestCallBack<UserBean>() {
@@ -140,7 +141,7 @@ public class PersonInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_avatar, R.id.rl_birthday, R.id.rl_sign, R.id.rl_level, R.id.iv_back, R.id.rl_sex,R.id.tv_right})
+    @OnClick({R.id.rl_avatar, R.id.rl_birthday, R.id.rl_sign, R.id.rl_level, R.id.iv_back, R.id.rl_sex,R.id.tv_right,R.id.btn_quit})
     public void click(View view) {
         Bundle bundle =null;
         switch (view.getId()) {
@@ -173,7 +174,30 @@ public class PersonInfoActivity extends BaseActivity {
                 gender = gender.equals("男")?"1":"0";
                 saveInfo(desc,birth,gender);
                 break;
+            case R.id.btn_quit:
+                showQuitDialog();
+                break;
         }
+    }
+    //弹出是否退出的对话框
+    private void showQuitDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(PersonInfoActivity.this);
+        builder.setTitle("是否退出登录");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SPUtils.clear(PersonInfoActivity.this);
+                jumpActivity(PersonInfoActivity.this, LoginActivity.class);
+                BaseActivity.finishAll();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
     //保存个人信息
     private void saveInfo(String desc, String birth, String gender) {

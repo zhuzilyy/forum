@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity{
         homeFragment = new HomeFragment();
         FragmentTransaction ft=fragmentManager.beginTransaction();
         AddOrShowFra(ft,homeFragment);
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

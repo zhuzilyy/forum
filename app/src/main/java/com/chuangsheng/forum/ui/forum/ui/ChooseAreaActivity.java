@@ -46,6 +46,7 @@ public class ChooseAreaActivity extends BaseActivity{
         iv_back.setVisibility(View.GONE);
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

@@ -19,6 +19,15 @@ public class CollectionInfo {
     private String id;
     private String subject;
     private List<String> attachment;
+    private boolean isSelected;
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public String getCategory() {
         return category;
     }

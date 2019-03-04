@@ -1,27 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/layout_title"/>
-    <View
-        android:background="@color/commonLine"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
-    <com.chuangsheng.forum.view.PullToRefreshView
-        android:layout_marginTop="5dp"
-        android:orientation="vertical"
-        android:id="@+id/pulltorefreshView"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_title" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/commonLine" />
+            <com.chuangsheng.forum.view.PullToRefreshView
+                android:visibility="gone"
+                android:id="@+id/pulltorefreshView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                android:paddingBottom="44dp">
+                <ListView
+                    android:id="@+id/listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:scrollbars="none" />
+            </com.chuangsheng.forum.view.PullToRefreshView>
+            <include layout="@layout/common_no_data" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_deleteAll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ListView
-            android:dividerHeight="0dp"
-            android:scrollbars="none"
-            android:divider="@null"
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </com.chuangsheng.forum.view.PullToRefreshView>
-    <include layout="@layout/common_no_data"/>
-</LinearLayout>
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/cb_selectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:button="@drawable/select_forum"
+            android:checked="false"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="11dp"
+            android:layout_toRightOf="@+id/cb_selectAll"
+            android:text="全选"
+            android:textColor="#ff8f8c9c"
+            android:textSize="16sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape_delete"
+            android:text="删除"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

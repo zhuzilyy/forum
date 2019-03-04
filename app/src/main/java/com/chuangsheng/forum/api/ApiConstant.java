@@ -1,7 +1,8 @@
 package com.chuangsheng.forum.api;
 
 public class ApiConstant {
-    public static final String BASE_URL="http://192.168.0.102:8000/";
+    //public static final String BASE_URL="http://192.168.0.102:8000/";
+    public static final String BASE_URL="http://47.92.200.176:8000/";
     public static final int SUCCESS_CODE = 0;
     public static final int LIMIT_CODE = 1;
     public static final int PAGE_SIZE = 10;
@@ -44,4 +45,8 @@ public class ApiConstant {
     public static String MY_HISTORY= BASE_URL + "get_user_discussion_history";
     //意见反馈
     public static String FEEDBACK= BASE_URL + "publish_feedback";
+    //获取热门搜索
+    public static String HOT_SEARCH= BASE_URL + "get_search_list";
+    //删除浏览历史
+    public static String DELETE_HISTORY= BASE_URL + "del_discussion_history";
 }

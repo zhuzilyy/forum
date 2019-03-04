@@ -47,12 +47,13 @@ public class MyFroumsActivity extends BaseActivity {
     @Override
     protected void initViews() {
         tv_title.setText("我的帖子");
-        tv_right.setVisibility(View.VISIBLE);
+        //tv_right.setVisibility(View.VISIBLE);
         tv_right.setText("管理");
         infoList = new ArrayList<>();
         userId = (String) SPUtils.get(this,"user_id","");
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

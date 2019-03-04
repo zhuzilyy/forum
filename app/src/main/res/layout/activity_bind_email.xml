@@ -26,7 +26,6 @@
         android:background="#F6F7F8"
         android:gravity="center_vertical">
         <EditText
-            android:text="985085485@qq.com"
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

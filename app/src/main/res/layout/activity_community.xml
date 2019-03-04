@@ -21,6 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:id="@+id/et_search"
                 android:background="@null"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -31,9 +32,11 @@
                 android:hint="输入你感兴趣的内容"
                 android:textColor="#ff84827b"
                 android:textSize="14sp"
+                android:imeOptions="actionSearch"
                 />
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_cancel"
             android:layout_centerVertical="true"
             android:layout_marginRight="11dp"
             android:layout_alignParentRight="true"
@@ -53,97 +56,25 @@
         android:textColor="#ff2e2e2e"
         android:textSize="18sp"
         />
-    <com.chuangsheng.forum.view.FlowLayout
-        android:id="@+id/flowLayout_hot"
-        android:layout_marginTop="21dp"
+    <com.chuangsheng.forum.view.FlowGroupView
+        android:layout_marginTop="26dp"
         android:layout_marginLeft="17dp"
-        android:layout_marginRight="33dp"
+        android:id="@+id/flowLayout_hot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="欧美影视"
-            android:textColor="#84827B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="婚姻育儿"
-            android:textColor="#84827B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="散文"
-            android:textColor="#84827B" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="程序员"
-            android:textColor="#84827B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="大学生"
-            android:textColor="#84827B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="运营互助帮"
-            android:textColor="#84827B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="设计"
-            android:textColor="#84827B" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_hot_word"
-            android:padding="5dp"
-            android:text="读书"
-            android:textColor="#84827B" />
-    </com.chuangsheng.forum.view.FlowLayout>
+    </com.chuangsheng.forum.view.FlowGroupView>
     <!--历史搜索-->
     <TextView
         android:layout_marginLeft="17dp"
         android:layout_marginTop="29dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="热门搜索"
+        android:text="历史搜索"
         android:textColor="#ff2e2e2e"
         android:textSize="18sp"
         />
     <com.chuangsheng.forum.view.FlowLayout
+        android:id="@+id/flowLayout_history"
         android:layout_marginTop="26dp"
         android:layout_marginLeft="17dp"
         android:layout_marginRight="33dp"

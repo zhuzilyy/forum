@@ -18,6 +18,7 @@ import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.fragment.GoodForumFragment;
 import com.chuangsheng.forum.fragment.HotForumFragment;
 import com.chuangsheng.forum.fragment.NewestForumFragment;
+import com.chuangsheng.forum.ui.community.ui.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +64,12 @@ public class CommunityDetailActivity extends BaseActivity {
     LinearLayout ll_fire;
     @BindView(R.id.ll_top)
     LinearLayout ll_top;
+    @BindView(R.id.iv_right)
+    ImageView iv_right;
     private List<View> viewLines;
     private List<TextView> textViews;
     private int index = 0;
-    private String fire_discussion_id,top_discussion_id,link;
+    private String fire_discussion_id,top_discussion_id,link,ad;
     @Override
     protected void initViews() {
         fragmentManager = getSupportFragmentManager();
@@ -74,6 +77,9 @@ public class CommunityDetailActivity extends BaseActivity {
         FragmentTransaction ft=fragmentManager.beginTransaction();
         AddOrShowFra(ft,newestForumFragment);
         tv_titleDetail.setText("详情");
+        BaseActivity.activityList.add(this);
+        iv_right.setVisibility(View.VISIBLE);
+        iv_right.setImageResource(R.mipmap.sousuo);
     }
     @Override
     protected void initData() {
@@ -104,10 +110,11 @@ public class CommunityDetailActivity extends BaseActivity {
             String fire_subject = extras.getString("fire_subject");
             top_discussion_id = extras.getString("top_discussion_id");
             String top_subject = extras.getString("top_subject");
+            ad = extras.getString("ad");
             Glide.with(CommunityDetailActivity.this).load(img).into(iv_community);
             tv_title.setText(name);
             tv_subject.setText(subject);
-            tv_comment.setText("主题:"+comment+"  帖子:"+discussion);
+            tv_comment.setText("主题:"+discussion+"  帖子:"+comment);
             tv_desc.setText(desc);
             tv_top.setText(top_subject);
             tv_fire.setText(fire_subject);
@@ -133,7 +140,7 @@ public class CommunityDetailActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.ll_newest,R.id.ll_hot,R.id.ll_good})
+    @OnClick({R.id.ll_newest,R.id.ll_hot,R.id.ll_good,R.id.iv_right,R.id.iv_fatie})
     public void click(View view){
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         switch (view.getId()){
@@ -160,6 +167,12 @@ public class CommunityDetailActivity extends BaseActivity {
                     goodForumFragment =new GoodForumFragment();
                 }
                 AddOrShowFra(fragmentTransaction,goodForumFragment);
+                break;
+            case R.id.iv_right:
+                jumpActivity(CommunityDetailActivity.this, SearchActivity.class);
+                break;
+            case R.id.iv_fatie:
+                jumpActivity(CommunityDetailActivity.this,PostForumActivity.class);
                 break;
         }
     }

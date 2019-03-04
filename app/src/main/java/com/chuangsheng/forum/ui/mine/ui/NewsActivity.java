@@ -40,6 +40,7 @@ public class NewsActivity extends BaseActivity {
         // 将ViewPager与TabLayout相关联
         tab.setupWithViewPager(viewpager);
         tv_title.setText("消息中心");
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

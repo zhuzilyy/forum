@@ -75,6 +75,7 @@
             android:textColor="#ff919191"
             android:textSize="13sp" />
         <CheckBox
+            android:visibility="invisible"
             android:layout_alignParentRight="true"
             android:checked="false"
             android:button="@drawable/select_forum"

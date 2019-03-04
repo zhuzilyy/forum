@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.api;
 
 import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.ui.community.bean.HotWordBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
 import com.chuangsheng.forum.util.OkHttpManager;
@@ -83,5 +84,12 @@ public class ApiForum {
         params.put("user_id",user_id);
         params.put("discussion_id",discussion_id);
         OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 获取热词
+     * @param callback
+     */
+    public static void getHotSearch(String url,RequestCallBack<HotWordBean> callback){
+        OkHttpManager.getInstance().getRequest(url,callback);
     }
 }

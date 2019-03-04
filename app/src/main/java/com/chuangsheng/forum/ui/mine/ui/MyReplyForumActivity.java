@@ -50,6 +50,7 @@ public class MyReplyForumActivity extends BaseActivity {
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
         userId = (String) SPUtils.get(this,"user_id","");
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {

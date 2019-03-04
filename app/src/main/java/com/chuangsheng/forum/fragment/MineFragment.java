@@ -2,6 +2,7 @@ package com.chuangsheng.forum.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,9 @@ public class MineFragment extends BaseFragment {
         String username = (String) SPUtils.get(getActivity(), "username", "");
         String headAvatar = (String) SPUtils.get(getActivity(), "headAvatar", "");
         tv_name.setText(username);
-        Glide.with(getActivity()).load(headAvatar).into(iv_head);
+        if (!TextUtils.isEmpty(headAvatar)){
+            Glide.with(getActivity()).load(headAvatar).into(iv_head);
+        }
     }
     @Override
     protected void initListener() {

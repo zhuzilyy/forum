@@ -44,8 +44,9 @@ public class LoginActivity extends BaseActivity {
         String userId = (String) SPUtils.get(this,"user_id","");
         if (!TextUtils.isEmpty(userId)){
             jumpActivity(this, MainActivity.class);
+            finish();
         }
-        finish();
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {
@@ -121,12 +122,16 @@ public class LoginActivity extends BaseActivity {
                         String user_id = result.getString("user_id");
                         String email = result.getString("email");
                         String username = result.getString("username");
+                        //String img = result.getString("img");
                         SPUtils.put(LoginActivity.this,"user_id",user_id);
+                        //SPUtils.put(LoginActivity.this,"headAvatar",img);
                         if (TextUtils.isEmpty(email)){
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);
                             jumpActivity(LoginActivity.this, BindEmailActivity.class,bundle);
                             timer.cancel();
+                        }else{
+                            jumpActivity(LoginActivity.this, MainActivity.class);
                         }
                     }else{
                         ToastUtils.show(LoginActivity.this,reason);

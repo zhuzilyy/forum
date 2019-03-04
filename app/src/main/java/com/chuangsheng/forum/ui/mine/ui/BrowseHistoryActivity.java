@@ -1,7 +1,11 @@
 package com.chuangsheng.forum.ui.mine.ui;
 
+import android.content.DialogInterface;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +22,9 @@ import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
 import com.chuangsheng.forum.ui.mine.bean.HistoryBean;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.view.PullToRefreshView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +53,18 @@ public class BrowseHistoryActivity extends BaseActivity {
     @Override
     protected void initViews() {
         tv_title.setText("浏览历史");
-        tv_right.setVisibility(View.VISIBLE);
+        //tv_right.setVisibility(View.VISIBLE);
         tv_right.setText("管理");
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
+        BaseActivity.activityList.add(this);
     }
 
     @Override
     protected void initData() {
         infoList = new ArrayList<>();
         userId= (String) SPUtils.get(BrowseHistoryActivity.this,"user_id","");
-        adapter = new MyCollectionAdapter(this,infoList);
+        adapter = new MyCollectionAdapter(this,infoList,"gone");
         lv_forums.setAdapter(adapter);
         getData();
     }
@@ -118,6 +126,56 @@ public class BrowseHistoryActivity extends BaseActivity {
             public void onFooterRefresh(PullToRefreshView view) {
                 page++;
                 loadMore();
+            }
+        });
+        lv_forums.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(BrowseHistoryActivity.this);
+                builder.setTitle("确定删除此条记录吗?");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteHistory(infoList.get(position).getId(),position);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                return false;
+            }
+        });
+    }
+    //删除记录
+    private void deleteHistory(String id,final int position) {
+        customLoadingDialog.show();
+        ApiMine.deleteHistory(ApiConstant.DELETE_HISTORY, userId, id, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.getInt("error_code");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        infoList.remove(position);
+                        adapter.notifyDataSetChanged();
+                        if (infoList.size()==0){
+                            pulltorefreshView.setVisibility(View.GONE);
+                            no_data_rl.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                customLoadingDialog.dismiss();
+                Log.i("tag",e.getMessage());
             }
         });
     }

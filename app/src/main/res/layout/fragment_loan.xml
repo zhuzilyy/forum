@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#f3f5fe"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/layout_title"/>
+    android:layout_height="match_parent"
+    android:background="#f3f5fe"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title" />
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/tv_marquee"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="这才是真正的文字跑马灯效果,但是并没有什么卵用reeeeeeeeeeeeeeeeeeeeeeeeeee"
+        android:textSize="16sp" />
     <com.chuangsheng.forum.view.PullToRefreshView
-        android:layout_marginTop="5dp"
-        android:orientation="vertical"
         android:id="@+id/pulltorefreshView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
         <GridView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            android:scrollbars="none"
             android:id="@+id/gv_loan"
-            android:numColumns="2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:verticalSpacing="10dp" />
     </com.chuangsheng.forum.view.PullToRefreshView>
-    <include layout="@layout/common_no_data"/>
+
+    <include layout="@layout/common_no_data" />
 </LinearLayout>

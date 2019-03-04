@@ -69,7 +69,7 @@ public class ForumDetailActivity extends BaseActivity {
     private TextView tv_headerTitle,tv_name,tv_time,tv_content,tv_browse,tv_commentCount;
     private CircleImageView iv_head;
     private List<DetailForumInfo> infoList;
-
+    private String advertisement;
     @Override
     protected void initViews() {
         view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
@@ -85,6 +85,7 @@ public class ForumDetailActivity extends BaseActivity {
         tv_title.setText("详情");
         registerBroadCast();
         infoList = new ArrayList<>();
+        BaseActivity.activityList.add(this);
     }
     private void registerBroadCast() {
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -107,7 +108,7 @@ public class ForumDetailActivity extends BaseActivity {
             discussionId = extras.getString("discussionId");
         }
         userId = (String) SPUtils.get(this,"user_id","");
-        detailAdapter = new ForumDetailAdapter(this,infoList);
+        detailAdapter = new ForumDetailAdapter(this,infoList,advertisement);
         lv_forumDetail.setAdapter(detailAdapter);
         lv_forumDetail.addHeaderView(view_header);
         getData();
@@ -160,6 +161,7 @@ public class ForumDetailActivity extends BaseActivity {
                     //显示评论
                     List<DetailForumInfo> comments = detailForumBean.getResult().getComments();
                     if (comments!=null && comments.size()>0){
+                        advertisement = detailForumBean.getResult().getCommunity().getAd();
                         pulltorefreshView.setVisibility(View.VISIBLE);
                         no_data_rl.setVisibility(View.GONE);
                         infoList.addAll(comments);

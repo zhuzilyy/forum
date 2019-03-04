@@ -66,6 +66,7 @@ public class PostForumActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
         tv_title.setText("发帖");
         customLoadingDialog = new CustomLoadingDialog(this);
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {
