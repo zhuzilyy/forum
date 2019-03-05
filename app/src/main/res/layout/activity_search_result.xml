@@ -47,38 +47,19 @@
             android:textSize="16sp"
             />
     </RelativeLayout>
-    <TextView
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="35dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="热门搜索"
-        android:textColor="#ff2e2e2e"
-        android:textSize="18sp"
-        />
-    <com.chuangsheng.forum.view.FlowGroupView
-        android:layout_marginTop="26dp"
-        android:layout_marginLeft="17dp"
-        android:id="@+id/flowLayout_hot"
+    <com.chuangsheng.forum.view.PullToRefreshView
+        android:paddingBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:id="@+id/pulltorefreshView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.chuangsheng.forum.view.FlowGroupView>
-    <!--历史搜索-->
-    <TextView
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="29dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="历史搜索"
-        android:textColor="#ff2e2e2e"
-        android:textSize="18sp"
-        />
-    <com.chuangsheng.forum.view.FlowGroupView
-        android:layout_marginTop="26dp"
-        android:layout_marginLeft="17dp"
-        android:id="@+id/flowLayout_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.chuangsheng.forum.view.FlowGroupView>
-
+        android:layout_height="match_parent">
+        <ListView
+            android:scrollbars="none"
+            android:divider="@null"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.chuangsheng.forum.view.PullToRefreshView>
+    <include layout="@layout/common_no_data"/>
 </LinearLayout>

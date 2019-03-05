@@ -13,6 +13,15 @@ public class DetailForumInfo {
     private String likes;
     private String like_status;
     private List<String> attachment;
+    private String adImg;
+    public String getAdImg() {
+        return adImg;
+    }
+
+    public void setAdImg(String adImg) {
+        this.adImg = adImg;
+    }
+
     public String getLike_status() {
         return like_status;
     }

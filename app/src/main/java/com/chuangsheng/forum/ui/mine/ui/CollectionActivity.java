@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
+import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
 import com.chuangsheng.forum.ui.mine.adapter.MyFroumAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
@@ -106,6 +108,7 @@ public class CollectionActivity extends BaseActivity {
         infoList = new ArrayList<>();
         userId= (String) SPUtils.get(CollectionActivity.this,"user_id","");
         adapter = new MyCollectionAdapter(this,infoList,"gone");
+        adapter.initCheck(false);
         lv_forums.setAdapter(adapter);
         getData();
     }
@@ -195,7 +198,7 @@ public class CollectionActivity extends BaseActivity {
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            cancleCollection(infoList.get(position).getId(),position);
+                            cancleCollection(infoList.get(position).getCollection_id(),position);
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -205,7 +208,16 @@ public class CollectionActivity extends BaseActivity {
                     }
                 });
                 builder.show();
-                return false;
+                return true;
+            }
+        });
+        //点击事件跳转到详情
+        lv_forums.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(CollectionActivity.this, ForumDetailActivity.class,bundle);
             }
         });
     }

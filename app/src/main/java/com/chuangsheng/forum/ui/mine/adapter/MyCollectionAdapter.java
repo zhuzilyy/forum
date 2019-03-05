@@ -38,13 +38,15 @@ public class MyCollectionAdapter extends BaseAdapter {
     private deleteCheckedListener deleteCheckedListener;
     // 存储勾选框状态的map集合
     private Map<Integer, Boolean> isCheck = new HashMap<Integer, Boolean>();
-    public MyCollectionAdapter(Context context, List<CollectionInfo> infoList,String showStatus) {
+
+    public MyCollectionAdapter(Context context, List<CollectionInfo> infoList, String showStatus) {
         this.context = context;
         this.infoList = infoList;
         this.showStatus = showStatus;
         // 默觉得不选中
         initCheck(false);
     }
+
     // 初始化map集合
     public void initCheck(boolean flag) {
         // map集合的数量和list的数量是一致的
@@ -53,6 +55,7 @@ public class MyCollectionAdapter extends BaseAdapter {
             isCheck.put(i, flag);
         }
     }
+
     @Override
     public int getCount() {
         return infoList.size();
@@ -73,27 +76,27 @@ public class MyCollectionAdapter extends BaseAdapter {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.pic);
         ViewHolder viewHolder = null;
-        if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_forum_collection,null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_forum_collection, null);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         CollectionInfo collectionInfo = infoList.get(position);
         //帖子的图片的数量
         List<String> attachmentForum = collectionInfo.getAttachment();
-        if (attachmentForum.size() == 0){
+        if (attachmentForum.size() == 0) {
             viewHolder.iv_singlePic.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.GONE);
-        }else if(attachmentForum.size() == 1){
+        } else if (attachmentForum.size() == 1) {
             viewHolder.iv_singlePic.setVisibility(View.VISIBLE);
             viewHolder.gv_image.setVisibility(View.GONE);
             Glide.with(context).applyDefaultRequestOptions(options).load(attachmentForum.get(0)).into(viewHolder.iv_singlePic);
-        }else{
+        } else {
             viewHolder.iv_singlePic.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.VISIBLE);
-            GvImageAdapter adapter = new GvImageAdapter(context,attachmentForum);
+            GvImageAdapter adapter = new GvImageAdapter(context, attachmentForum);
             viewHolder.gv_image.setAdapter(adapter);
         }
         viewHolder.tv_name.setText(collectionInfo.getUser_username());
@@ -102,14 +105,14 @@ public class MyCollectionAdapter extends BaseAdapter {
         viewHolder.tv_content.setText(collectionInfo.getContent());
         viewHolder.tv_message.setText(collectionInfo.getComments());
         viewHolder.tv_title.setText(collectionInfo.getSubject());
-        if (showStatus.equals("show")){
+        if (showStatus.equals("show")) {
             viewHolder.cb_delete.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             viewHolder.cb_delete.setVisibility(View.INVISIBLE);
         }
-        if (infoList.get(position).isSelected()){
+        if (infoList.get(position).isSelected()) {
             viewHolder.cb_delete.setChecked(true);
-        }else{
+        } else {
             viewHolder.cb_delete.setChecked(false);
         }
         // 设置状态
@@ -117,39 +120,43 @@ public class MyCollectionAdapter extends BaseAdapter {
             isCheck.put(position, false);
         }
         viewHolder.cb_delete.setChecked(isCheck.get(position));
-       /* viewHolder.cb_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.cb_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isCheck.put(position,isChecked);
-                if (isChecked){
+                isCheck.put(position, isChecked);
+              /*  if (isChecked){
                     Intent intent = new Intent();
                     intent.setAction("com.action.notSelectAll");
                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 }
                 //deleteCheckedListener.click(getSelectesCount());
-                getSelectesCount();
+                getSelectesCount();*/
             }
-        });*/
+        });
         return convertView;
     }
-    public void setCheckListShow(String showStatus){
+
+    public void setCheckListShow(String showStatus) {
         this.showStatus = showStatus;
         notifyDataSetChanged();
     }
-    public interface deleteCheckedListener{
+
+    public interface deleteCheckedListener {
         void click(int count);
     }
-    public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener){
+
+    public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener) {
         this.deleteCheckedListener = deleteCheckedListener;
     }
-    public int getSelectesCount(){
-        int count=0;
-        for (int i = 0; i <isCheck.size(); i++) {
-            if (isCheck.get(i)){
+
+    public int getSelectesCount() {
+        int count = 0;
+        for (int i = 0; i < isCheck.size(); i++) {
+            if (isCheck.get(i)) {
                 count++;
             }
         }
-        if (count == infoList.size()){
+        if (count == infoList.size()) {
             //发送广播 回帖成功
             Intent intent = new Intent();
             intent.setAction("com.action.selectAll");
@@ -157,6 +164,7 @@ public class MyCollectionAdapter extends BaseAdapter {
         }
         return count;
     }
+
     static class ViewHolder {
         @BindView(R.id.iv_head)
         CircleImageView iv_head;
@@ -178,8 +186,9 @@ public class MyCollectionAdapter extends BaseAdapter {
         ImageView iv_singlePic;
         @BindView(R.id.cb_delete)
         CheckBox cb_delete;
-        public ViewHolder(View view){
-            ButterKnife.bind(this,view);
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
         }
     }
 }

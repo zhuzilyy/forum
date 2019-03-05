@@ -14,6 +14,7 @@ import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.forum.adapter.ChooseAreaAdapter;
 import com.chuangsheng.forum.ui.forum.adapter.FroumAdapter;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
@@ -36,14 +37,13 @@ public class ChooseAreaActivity extends BaseActivity{
     TextView tv_title;
     @BindView(R.id.iv_back)
     ImageView iv_back;
-    private FroumAdapter adapter;
+    private ChooseAreaAdapter adapter;
     private int page=1;
     private List<CommunityInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
         tv_title.setText("选择版区");
-        iv_back.setVisibility(View.GONE);
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
         BaseActivity.activityList.add(this);
@@ -52,7 +52,7 @@ public class ChooseAreaActivity extends BaseActivity{
     protected void initData() {
         infoList = new ArrayList<>();
         getData();
-        adapter = new FroumAdapter(this,infoList);
+        adapter = new ChooseAreaAdapter(this,infoList);
         lv_froum.setAdapter(adapter);
     }
 

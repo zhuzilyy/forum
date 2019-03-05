@@ -1,7 +1,9 @@
 package com.chuangsheng.forum.ui.mine.ui;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import com.chuangsheng.forum.api.ApiMine;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.adapter.MyReplyFroumAdapter;
@@ -110,6 +113,15 @@ public class MyReplyForumActivity extends BaseActivity {
             @Override
             public void onFooterRefresh(PullToRefreshView view) {
                 loadMore();
+            }
+        });
+        //点击事件跳转到详情
+        lv_forums.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getDiscussion().getId());
+                jumpActivity(MyReplyForumActivity.this, ForumDetailActivity.class,bundle);
             }
         });
     }

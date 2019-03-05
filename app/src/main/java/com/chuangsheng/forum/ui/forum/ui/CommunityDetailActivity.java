@@ -140,7 +140,7 @@ public class CommunityDetailActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.ll_newest,R.id.ll_hot,R.id.ll_good,R.id.iv_right,R.id.iv_fatie})
+    @OnClick({R.id.ll_newest,R.id.ll_hot,R.id.ll_good,R.id.iv_right,R.id.iv_fatie,R.id.iv_back})
     public void click(View view){
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         switch (view.getId()){
@@ -173,6 +173,9 @@ public class CommunityDetailActivity extends BaseActivity {
                 break;
             case R.id.iv_fatie:
                 jumpActivity(CommunityDetailActivity.this,PostForumActivity.class);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

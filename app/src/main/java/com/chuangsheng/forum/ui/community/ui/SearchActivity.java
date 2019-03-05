@@ -1,7 +1,9 @@
 package com.chuangsheng.forum.ui.community.ui;
 
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,15 +19,21 @@ import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.community.bean.HotWordBean;
+import com.chuangsheng.forum.ui.mine.adapter.SearchAdapter;
+import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.FlowGroupView;
 import com.chuangsheng.forum.view.FlowLayout;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,17 +47,39 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.et_search)
     EditText et_search;
     @BindView(R.id.flowLayout_history)
-    FlowLayout  flowLayout_history;
+    FlowGroupView  flowLayout_history;
     private CustomLoadingDialog customLoadingDialog;
+    private String searchList;
+    private List<String> historyList;
     @Override
     protected void initViews() {
         BaseActivity.activityList.add(this);
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
+        historyList = new ArrayList<>();
     }
     @Override
     protected void initData() {
         getHotSearch();
+        getHistoryData();
+    }
+    private void getHistoryData() {
+        searchList = (String)SPUtils.get(SearchActivity.this,"searchHistory","");
+        Gson gson = new Gson();
+        List<String> list = gson.fromJson(searchList, List.class);
+        for (int i = 0; i < list.size(); i++) {
+            TextView child = new TextView(SearchActivity.this);
+            ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 5, 35, 5);
+            child.setLayoutParams(params);
+            child.setBackgroundResource(R.drawable.shape_hot_word);
+            child.setText(list.get(i));
+            //child.setTextColor(Color.WHITE);
+            //initEvents(child);//监听
+            flowLayout_history.addView(child);
+            initEventListener(child);
+            historyList.add(list.get(i));
+        }
     }
     //获取热门搜索的数据
     private void getHotSearch() {
@@ -61,16 +91,18 @@ public class SearchActivity extends BaseActivity {
                 if (code == ApiConstant.SUCCESS_CODE){
                     List<String> result =  hotWordBean.getResult();
                     for (int i = 0; i <result.size() ; i++) {
-                        TextView child = new TextView(SearchActivity.this);
-                        ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-                        params.setMargins(0, 5, 35, 5);
-                        child.setLayoutParams(params);
-                        child.setBackgroundResource(R.drawable.shape_hot_word);
-                        child.setText(result.get(i));
-                        //child.setTextColor(Color.WHITE);
-                        //initEvents(child);//监听
-                        flowLayout_hot.addView(child);
-                        initEventListener(child);
+                        if (!TextUtils.isEmpty(result.get(i))){
+                            TextView child = new TextView(SearchActivity.this);
+                            ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                            params.setMargins(0, 5, 35, 5);
+                            child.setLayoutParams(params);
+                            child.setBackgroundResource(R.drawable.shape_hot_word);
+                            child.setText(result.get(i));
+                            //child.setTextColor(Color.WHITE);
+                            //initEvents(child);//监听
+                            flowLayout_hot.addView(child);
+                            initEventListener(child);
+                        }
                     }
                 }
             }
@@ -86,7 +118,9 @@ public class SearchActivity extends BaseActivity {
         child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.show(SearchActivity.this,child.getText().toString());
+                Intent intent = new Intent(SearchActivity.this,SearchResultActivity.class);
+                intent.putExtra("keyWord",child.getText().toString().trim());
+                startActivity(intent);
             }
         });
     }
@@ -99,7 +133,18 @@ public class SearchActivity extends BaseActivity {
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
+                if (!TextUtils.isEmpty(v.getText().toString())){
+                    Intent intent = new Intent(SearchActivity.this,SearchResultActivity.class);
+                    intent.putExtra("keyWord",et_search.getText().toString().trim());
+                    if (!historyList.contains(et_search.getText().toString().trim())){
+                        historyList.add(et_search.getText().toString().trim());
+                    }
+                    Gson gson = new Gson();
+                    SPUtils.put(SearchActivity.this,"searchHistory",gson.toJson(historyList));
+                    startActivity(intent);
+                }else {
+                    ToastUtils.show(SearchActivity.this,"搜索内容不能为空");
+                }
                 return false;
             }
         });

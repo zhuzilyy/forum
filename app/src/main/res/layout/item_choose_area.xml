@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+        <ImageView
+            android:id="@+id/iv_forum"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/holder"
+            android:scaleType="center"
+            android:layout_width="73dp"
+            android:layout_height="73dp" />
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_forum"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="信用贷款"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_count"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:text="主题：66.2万  帖子：55.2万"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_desc"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:layout_marginTop="6dp"
+                android:textSize="13sp"
+                android:text="合理贷款 谨防被套路"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <ImageView
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/jinru"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+</LinearLayout>

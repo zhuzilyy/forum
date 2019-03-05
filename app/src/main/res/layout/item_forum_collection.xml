@@ -59,7 +59,6 @@
             android:text="为什么网申任何信用卡都是秒拒呢？"
             android:textColor="#ff2e2e2e"
             android:textSize="16sp" />
-
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"

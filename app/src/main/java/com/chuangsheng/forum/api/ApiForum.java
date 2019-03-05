@@ -4,6 +4,7 @@ import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.ui.community.bean.HotWordBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
+import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.util.OkHttpManager;
 
 import java.util.HashMap;
@@ -91,5 +92,15 @@ public class ApiForum {
      */
     public static void getHotSearch(String url,RequestCallBack<HotWordBean> callback){
         OkHttpManager.getInstance().getRequest(url,callback);
+    }
+    /**
+     * 搜索帖子
+     * @param callback
+     */
+    public static void searchForums(String url,String keyword,String page,RequestCallBack<HomeFroumBean> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("keyword",keyword);
+        params.put("page",page);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
     }
 }

@@ -42,7 +42,7 @@ public class BindEmailActivity extends BaseActivity {
     private MyCountDownTimer timer;
     private CustomLoadingDialog customLoadingDialog;
     private Intent intent;
-    private String userId;
+    private String userId,intentFrom;
     @Override
     protected void initViews() {
         tv_title.setText("绑定邮箱");
@@ -56,6 +56,7 @@ public class BindEmailActivity extends BaseActivity {
         if (intent!=null){
             Bundle extras = intent.getExtras();
             userId = extras.getString("userId");
+            intentFrom = extras.getString("intentFrom");
         }
     }
     @Override
@@ -79,8 +80,6 @@ public class BindEmailActivity extends BaseActivity {
                 String emailNum = et_email.getText().toString();
                 String confirmCode = et_confirmCode.getText().toString();
                 bindEmail(emailNum,confirmCode);
-               //jumpActivity(BindEmailActivity.this,SetNameActivity.class);
-               // finish();
                 break;
             case R.id.iv_back:
                 finish();
@@ -114,10 +113,16 @@ public class BindEmailActivity extends BaseActivity {
                     jsonObject = new JSONObject(s);
                     int code = jsonObject.getInt("error_code");
                     if (code == ApiConstant.SUCCESS_CODE){
-                        Bundle bundle = new Bundle();
-                        bundle.putString("userId",userId);
-                        jumpActivity(BindEmailActivity.this,SetNameActivity.class,bundle);
-                        timer.cancel();
+                        if (timer!=null){
+                            timer.cancel();
+                        }
+                        if (intentFrom.equals("safeCenter")){
+                            finish();
+                        }else{
+                            Bundle bundle = new Bundle();
+                            bundle.putString("userId",userId);
+                            jumpActivity(BindEmailActivity.this,SetNameActivity.class,bundle);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -152,5 +157,13 @@ public class BindEmailActivity extends BaseActivity {
                 //Toast.makeText(BindEmailActivity.this, "验证码发送失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timer!=null){
+            timer.cancel();
+        }
     }
 }

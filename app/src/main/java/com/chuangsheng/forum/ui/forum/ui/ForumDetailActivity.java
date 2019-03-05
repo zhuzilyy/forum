@@ -108,7 +108,7 @@ public class ForumDetailActivity extends BaseActivity {
             discussionId = extras.getString("discussionId");
         }
         userId = (String) SPUtils.get(this,"user_id","");
-        detailAdapter = new ForumDetailAdapter(this,infoList,advertisement);
+        detailAdapter = new ForumDetailAdapter(this,infoList);
         lv_forumDetail.setAdapter(detailAdapter);
         lv_forumDetail.addHeaderView(view_header);
         getData();
@@ -162,6 +162,7 @@ public class ForumDetailActivity extends BaseActivity {
                     List<DetailForumInfo> comments = detailForumBean.getResult().getComments();
                     if (comments!=null && comments.size()>0){
                         advertisement = detailForumBean.getResult().getCommunity().getAd();
+                        comments.get(0).setAdImg(advertisement);
                         pulltorefreshView.setVisibility(View.VISIBLE);
                         no_data_rl.setVisibility(View.GONE);
                         infoList.addAll(comments);

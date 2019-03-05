@@ -58,4 +58,14 @@ public class ApiAccount {
         params.put("attribute","username");
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
+    /**
+     *验证邮箱
+     * @param callback
+     */
+    public static void vertifyEmail(String url,String email,String code,RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("email",email);
+        params.put("code",code);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
 }

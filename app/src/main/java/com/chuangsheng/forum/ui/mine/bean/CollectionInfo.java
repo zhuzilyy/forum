@@ -18,8 +18,26 @@ public class CollectionInfo {
     private String user_points;
     private String id;
     private String subject;
+    private String history_id;
+    private String collection_id;
     private List<String> attachment;
     private boolean isSelected;
+    public String getCollection_id() {
+        return collection_id;
+    }
+
+    public void setCollection_id(String collection_id) {
+        this.collection_id = collection_id;
+    }
+
+    public String getHistory_id() {
+        return history_id;
+    }
+
+    public void setHistory_id(String history_id) {
+        this.history_id = history_id;
+    }
+
     public boolean isSelected() {
         return isSelected;
     }

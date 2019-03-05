@@ -32,11 +32,9 @@ public class ForumDetailAdapter extends BaseAdapter{
     private Context context;
     private List<DetailForumInfo> infoList;
     private DianZanListener dianZanListener;
-    private String ad;
-    public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList,String ad) {
+    public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
-        this.ad = ad;
     }
     @Override
     public int getCount() {
@@ -94,8 +92,7 @@ public class ForumDetailAdapter extends BaseAdapter{
         }
         if (position == 0){
             viewHolder.iv_advertisement.setVisibility(View.VISIBLE);
-            Glide.with(context).load(ad).into(viewHolder.iv_advertisement);
-            Log.i("tag",ad+"=====qq======");
+            Glide.with(context).load(infoList.get(position).getAdImg()).into(viewHolder.iv_advertisement);
         }else{
             viewHolder.iv_advertisement.setVisibility(View.GONE);
         }

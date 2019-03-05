@@ -127,6 +127,10 @@
         <activity android:name=".ui.forum.ui.ChooseAreaActivity"
             android:screenOrientation="portrait"
             />
+        <!--搜索结果-->
+        <activity android:name=".ui.community.ui.SearchResultActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

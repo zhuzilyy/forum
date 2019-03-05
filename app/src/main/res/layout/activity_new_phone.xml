@@ -19,6 +19,8 @@
         android:background="#F6F7F8"
         android:gravity="center_vertical">
         <EditText
+            android:inputType="number"
+            android:id="@+id/et_phoneNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -42,6 +44,8 @@
             android:layout_height="match_parent"
             android:background="#F6F7F8">
         <EditText
+            android:inputType="number"
+            android:id="@+id/et_confirmCode"
             android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -51,6 +55,7 @@
             android:textSize="15sp" />
         </LinearLayout>
         <Button
+            android:id="@+id/btn_getConfirmCode"
             android:background="@drawable/shape_phone"
             android:layout_width="86dp"
             android:layout_height="46dp"
@@ -60,6 +65,7 @@
             android:textSize="12sp" />
     </LinearLayout>
     <Button
+        android:id="@+id/btn_confirm"
         android:layout_marginTop="37dp"
         android:layout_gravity="center_horizontal"
         android:textSize="16sp"

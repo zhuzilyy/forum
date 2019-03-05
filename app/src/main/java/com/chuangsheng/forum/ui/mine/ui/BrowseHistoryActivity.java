@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.ui.mine.ui;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.chuangsheng.forum.api.ApiMine;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
 import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
@@ -59,7 +61,6 @@ public class BrowseHistoryActivity extends BaseActivity {
         customLoadingDialog.show();
         BaseActivity.activityList.add(this);
     }
-
     @Override
     protected void initData() {
         infoList = new ArrayList<>();
@@ -136,7 +137,7 @@ public class BrowseHistoryActivity extends BaseActivity {
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteHistory(infoList.get(position).getId(),position);
+                        deleteHistory(infoList.get(position).getHistory_id(),position);
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -146,7 +147,16 @@ public class BrowseHistoryActivity extends BaseActivity {
                     }
                 });
                 builder.show();
-                return false;
+                return true;
+            }
+        });
+        //点击事件跳转到详情
+        lv_forums.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(BrowseHistoryActivity.this, ForumDetailActivity.class,bundle);
             }
         });
     }

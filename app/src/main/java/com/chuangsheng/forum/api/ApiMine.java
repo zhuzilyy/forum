@@ -5,9 +5,11 @@ import android.text.TextUtils;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
+import com.chuangsheng.forum.ui.mine.bean.CommonNewsBean;
 import com.chuangsheng.forum.ui.mine.bean.HistoryBean;
 import com.chuangsheng.forum.ui.mine.bean.MyFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumBean;
+import com.chuangsheng.forum.ui.mine.bean.SystemNewsBean;
 import com.chuangsheng.forum.ui.mine.bean.UserBean;
 import com.chuangsheng.forum.util.OkHttpManager;
 
@@ -97,6 +99,36 @@ public class ApiMine {
         Map<String,String> params = new HashMap<>();
         params.put("user_id",user_id);
         params.put("discussion_history_ids",discussion_history_ids);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 绑定新的手机号
+     * @param callback
+     */
+    public static void bindNewPhone(String url,String user_id,String phone_number,String code,RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("phone_number",phone_number);
+        params.put("code",code);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 我的消息
+     * @param callback
+     */
+    public static void getCommonNews(String url,String user_id,String page,RequestCallBack<CommonNewsBean> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        params.put("page",page);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 系统消息
+     * @param callback
+     */
+    public static void getSystemNews(String url,String page,RequestCallBack<SystemNewsBean> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("page",page);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
 }
