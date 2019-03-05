@@ -65,7 +65,7 @@ public class BrowseHistoryActivity extends BaseActivity {
     protected void initData() {
         infoList = new ArrayList<>();
         userId= (String) SPUtils.get(BrowseHistoryActivity.this,"user_id","");
-        adapter = new MyCollectionAdapter(this,infoList,"gone");
+        adapter = new MyCollectionAdapter(this,infoList,null,"gone");
         lv_forums.setAdapter(adapter);
         getData();
     }

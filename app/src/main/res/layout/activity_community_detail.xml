@@ -61,9 +61,9 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
     <TextView
+        android:paddingBottom="10dp"
         android:id="@+id/tv_subject"
         android:paddingTop="14dp"
-        android:paddingBottom="10dp"
         android:background="@color/white"
         android:paddingLeft="10dp"
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
         android:paddingBottom="10dp"
         android:id="@+id/ll_top"
         android:background="@color/white"
-        android:paddingTop="21dp"
+        android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"

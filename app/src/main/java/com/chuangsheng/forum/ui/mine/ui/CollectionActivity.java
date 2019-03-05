@@ -69,6 +69,7 @@ public class CollectionActivity extends BaseActivity {
     private List<CollectionInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
     private String textStatus;
+    private List<Boolean> selectedList;
     private LocalBroadcastManager localBroadcastManager;
     private BroadcastReceiver broadcastReceiver;
     @Override
@@ -81,34 +82,12 @@ public class CollectionActivity extends BaseActivity {
         customLoadingDialog.show();
         BaseActivity.activityList.add(this);
     }
-   /* private void registerBoradCastReceiver() {
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        IntentFilter intentFilterSelectAll = new IntentFilter();
-        intentFilterSelectAll.addAction("com.action.selectAll");
-
-        IntentFilter intentFilterNotSellectAll = new IntentFilter();
-        intentFilterNotSellectAll.addAction("com.action.notSelectAll");
-
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals("com.action.selectAll")){
-                    cb_selectAll.setChecked(true);
-                }else if (intent.getAction().equals("com.action.notSelectAll")){
-                    cb_selectAll.setChecked(false);
-                }
-            }
-        };
-        localBroadcastManager.registerReceiver(broadcastReceiver, intentFilterSelectAll);
-        localBroadcastManager.registerReceiver(broadcastReceiver, intentFilterNotSellectAll);
-    }*/
-
     @Override
     protected void initData() {
         infoList = new ArrayList<>();
+        selectedList = new ArrayList<>();
         userId= (String) SPUtils.get(CollectionActivity.this,"user_id","");
-        adapter = new MyCollectionAdapter(this,infoList,"gone");
-        adapter.initCheck(false);
+        adapter = new MyCollectionAdapter(this,infoList,selectedList,"gone");
         lv_forums.setAdapter(adapter);
         getData();
     }
@@ -129,6 +108,9 @@ public class CollectionActivity extends BaseActivity {
                         pulltorefreshView.setVisibility(View.VISIBLE);
                         no_data_rl.setVisibility(View.GONE);
                         pulltorefreshView.onHeaderRefreshComplete();
+                        for (int i = 0; i <list.size() ; i++) {
+                            selectedList.add(false);
+                        }
                         infoList.addAll(list);
                         adapter.notifyDataSetChanged();
                         //判断是不是没有更多数据了
@@ -218,6 +200,16 @@ public class CollectionActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("discussionId",infoList.get(position).getId());
                 jumpActivity(CollectionActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
+        adapter.setDeleteCheckedListener(new MyCollectionAdapter.deleteCheckedListener() {
+            @Override
+            public void click(int count) {
+                if (count == infoList.size()){
+                    cb_selectAll.setChecked(true);
+                }else{
+                    cb_selectAll.setChecked(false);
+                }
             }
         });
     }

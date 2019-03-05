@@ -125,6 +125,7 @@ public class FeedBackActivity extends BaseActivity {
             }
             @Override
             public void onEror(Call call, int statusCode, Exception e) {
+                Log.i("tag",e.getMessage());
                 customLoadingDialog.dismiss();
             }
         });

@@ -1,7 +1,9 @@
 package com.chuangsheng.forum.fragment;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +13,18 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
+import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.api.ApiHome;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
+import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
 import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.BannerBean;
@@ -43,6 +49,8 @@ import okhttp3.Response;
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.listview)
     ListView lv_home;
+    @BindView(R.id.no_data_rl)
+    RelativeLayout no_data_rl;
     @BindView(R.id.pulltorefreshView)
     PullToRefreshView pulltorefreshView;
     private View view_home,view_header;
@@ -102,10 +110,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 customLoadingDialog.dismiss();
                 List<HomeFroumInfo> list = homeFroumBean.getResult().getDiscussions();
-                if (list!=null && list.size()>0){
-                    pulltorefreshView.onHeaderRefreshComplete();
-                    infoList.addAll(list);
-                    homeAdapter.notifyDataSetChanged();
+                pulltorefreshView.onHeaderRefreshComplete();
+                if (homeFroumBean.getCode() == ApiConstant.SUCCESS_CODE){
+                    if (list!=null && list.size()>0){
+                        no_data_rl.setVisibility(View.GONE);
+                        pulltorefreshView.setVisibility(View.VISIBLE);
+                        infoList.addAll(list);
+                        homeAdapter.notifyDataSetChanged();
+                    }
                     //判断是不是没有更多数据了
                     if (list.size() < ApiConstant.PAGE_SIZE) {
                         pulltorefreshView.onFooterRefreshComplete(true);
@@ -215,7 +227,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         Bundle bundle = new Bundle();
         switch (v.getId()){
             case R.id.ll_applyCard:
-                jumpActivity(getActivity(), ApplyCardActivity.class,null);
+                //jumpActivity(getActivity(), ApplyCardActivity.class,null);
+                Intent intent = new Intent();
+                intent.setAction("com.action.applyCard");
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                 break;
             case R.id.ll_process:
                 bundle.putString("title","进度查询");

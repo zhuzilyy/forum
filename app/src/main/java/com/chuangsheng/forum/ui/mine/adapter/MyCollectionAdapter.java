@@ -37,25 +37,14 @@ public class MyCollectionAdapter extends BaseAdapter {
     private String showStatus;
     private deleteCheckedListener deleteCheckedListener;
     // 存储勾选框状态的map集合
-    private Map<Integer, Boolean> isCheck = new HashMap<Integer, Boolean>();
+    private List<Boolean> selectList;
 
-    public MyCollectionAdapter(Context context, List<CollectionInfo> infoList, String showStatus) {
+    public MyCollectionAdapter(Context context, List<CollectionInfo> infoList,List<Boolean> selectList, String showStatus) {
         this.context = context;
         this.infoList = infoList;
+        this.selectList = selectList;
         this.showStatus = showStatus;
-        // 默觉得不选中
-        initCheck(false);
     }
-
-    // 初始化map集合
-    public void initCheck(boolean flag) {
-        // map集合的数量和list的数量是一致的
-        for (int i = 0; i < infoList.size(); i++) {
-            // 设置默认的显示
-            isCheck.put(i, flag);
-        }
-    }
-
     @Override
     public int getCount() {
         return infoList.size();
@@ -115,27 +104,29 @@ public class MyCollectionAdapter extends BaseAdapter {
         } else {
             viewHolder.cb_delete.setChecked(false);
         }
-        // 设置状态
-        if (isCheck.get(position) == null) {
-            isCheck.put(position, false);
-        }
-        viewHolder.cb_delete.setChecked(isCheck.get(position));
-        viewHolder.cb_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.cb_delete.setChecked(selectList.get(position));
+        viewHolder.cb_delete.setTag(position);
+        viewHolder.cb_delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isCheck.put(position, isChecked);
-              /*  if (isChecked){
-                    Intent intent = new Intent();
-                    intent.setAction("com.action.notSelectAll");
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                }
-                //deleteCheckedListener.click(getSelectesCount());
-                getSelectesCount();*/
+            public void onClick(View v) {
+                int tag = (int)v.getTag();
+                selectList.set(tag, !selectList.get(tag));
+                MyCollectionAdapter.this.notifyDataSetChanged();
+                getSelectedCount();
             }
         });
         return convertView;
     }
-
+    //获取选中的删除的个数
+    private void getSelectedCount() {
+        int count=0;
+        for (int i = 0; i <selectList.size() ; i++) {
+            if (selectList.get(i)){
+                count++;
+            }
+        }
+        deleteCheckedListener.click(count);
+    }
     public void setCheckListShow(String showStatus) {
         this.showStatus = showStatus;
         notifyDataSetChanged();
@@ -148,23 +139,6 @@ public class MyCollectionAdapter extends BaseAdapter {
     public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener) {
         this.deleteCheckedListener = deleteCheckedListener;
     }
-
-    public int getSelectesCount() {
-        int count = 0;
-        for (int i = 0; i < isCheck.size(); i++) {
-            if (isCheck.get(i)) {
-                count++;
-            }
-        }
-        if (count == infoList.size()) {
-            //发送广播 回帖成功
-            Intent intent = new Intent();
-            intent.setAction("com.action.selectAll");
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-        }
-        return count;
-    }
-
     static class ViewHolder {
         @BindView(R.id.iv_head)
         CircleImageView iv_head;

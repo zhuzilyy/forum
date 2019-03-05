@@ -26,4 +26,9 @@ public class ApiHome {
         params.put("page",page);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
+    public static void login(String url,String phoneNum, RequestCallBack<String> callback){
+        Map<String,String> params=new HashMap<>();
+        params.put("phone_number",phoneNum);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
 }
