@@ -131,4 +131,11 @@ public class ApiMine {
         params.put("page",page);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
+    /**
+     * 联系我们
+     * @param callback
+     */
+    public static void contactUs(String url,RequestCallBack<String> callback){
+        OkHttpManager.getInstance().getRequest(url,callback);
+    }
 }

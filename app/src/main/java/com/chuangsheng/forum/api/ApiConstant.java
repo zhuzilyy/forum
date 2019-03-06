@@ -61,4 +61,6 @@ public class ApiConstant {
     public static String SYSTEM_NEWS= BASE_URL + "get_system_notification_list";
     //获取系统变量
     public static String GET_SYSTEM_ATTRIBUTE= BASE_URL + "get_system_variables";
+    //联系我们
+    public static String CONTACT_US= BASE_URL + "get_contact_us_variable";
 }
