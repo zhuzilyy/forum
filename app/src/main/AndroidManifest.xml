@@ -14,9 +14,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:icon,android:theme"
-        android:theme="@style/MyAppTheme">
-
+        android:theme="@style/MyAppTheme"
+        tools:replace="android:theme"
+        >
         <!--7.0拍照权限-->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -129,6 +129,12 @@
             />
         <!--搜索结果-->
         <activity android:name=".ui.community.ui.SearchResultActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--联系我们-->
+        <activity
+            android:theme="@style/ContactMyAppTheme"
+            android:name=".ui.mine.ui.ContactUsActivity"
             android:screenOrientation="portrait"
             />
     </application>

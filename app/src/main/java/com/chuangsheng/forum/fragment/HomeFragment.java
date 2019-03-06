@@ -20,6 +20,7 @@ import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.api.ApiHome;
+import com.chuangsheng.forum.api.ApiLoan;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
@@ -38,6 +39,9 @@ import com.chuangsheng.forum.util.loader.GlideImageLoader;
 import com.chuangsheng.forum.view.PullToRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -233,25 +237,42 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                 break;
             case R.id.ll_process:
-                bundle.putString("title","进度查询");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
-                jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                getLinkUrl("进度查询");
                 break;
             case R.id.ll_blackSearch:
-                bundle.putString("title","黑网查询");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
-                jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                getLinkUrl("网黑查询");
                 break;
             case R.id.ll_huabei:
-                bundle.putString("title","花呗提现");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
-                jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                getLinkUrl("花呗提现");
                 break;
             case R.id.ll_pos:
-                bundle.putString("title","官方pos");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
-                jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                getLinkUrl("官方pos");
                 break;
         }
+    }
+    //获取链接
+    private void getLinkUrl(final String keyword) {
+        ApiLoan.getLoanTitle(ApiConstant.GET_SYSTEM_ATTRIBUTE, keyword, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    int code = jsonObject.getInt("error_code");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        Bundle bundle = new Bundle();
+                        String value = jsonObject.getJSONObject("result").getString("value");
+                        bundle.putString("title",keyword);
+                        bundle.putString("url",value);
+                        jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                Log.i("tag",e.getMessage());
+            }
+        });
     }
 }

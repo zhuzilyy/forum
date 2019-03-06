@@ -125,6 +125,22 @@ public class CommunityDetailActivity extends BaseActivity {
                 ll_top.setVisibility(View.GONE);
             }
         }
+        ll_fire.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",fire_discussion_id);
+                jumpActivity(CommunityDetailActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
+        ll_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",top_discussion_id);
+                jumpActivity(CommunityDetailActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
     }
     @Override
     protected void getResLayout() {

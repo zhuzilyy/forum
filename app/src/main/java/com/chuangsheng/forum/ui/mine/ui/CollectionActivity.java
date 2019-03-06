@@ -100,9 +100,6 @@ public class CollectionActivity extends BaseActivity {
                 int code = collectionBean.getError_code();
                 customLoadingDialog.dismiss();
                 List<CollectionInfo> list = collectionBean.getResult();
-                for (int i = 0; i <list.size() ; i++) {
-                    list.get(i).setSelected(false);
-                }
                 if (code == ApiConstant.SUCCESS_CODE){
                     if (list!=null && list.size()>0){
                         pulltorefreshView.setVisibility(View.VISIBLE);
@@ -161,12 +158,12 @@ public class CollectionActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     for (int i = 0; i <infoList.size() ; i++) {
-                       infoList.get(i).setSelected(true);
+                       selectedList.set(i,true);
                        adapter.notifyDataSetChanged();
                     }
                 }else{
                     for (int i = 0; i <infoList.size() ; i++) {
-                        infoList.get(i).setSelected(false);
+                        selectedList.set(i,false);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -198,18 +195,21 @@ public class CollectionActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("discussionId",infoList.get(position).getId());
+                bundle.putString("discussionId",infoList.get(position).getCollection_id());
                 jumpActivity(CollectionActivity.this, ForumDetailActivity.class,bundle);
             }
         });
         adapter.setDeleteCheckedListener(new MyCollectionAdapter.deleteCheckedListener() {
             @Override
             public void click(int count) {
-                if (count == infoList.size()){
-                    cb_selectAll.setChecked(true);
-                }else{
-                    cb_selectAll.setChecked(false);
-                }
+                cb_selectAll.setChecked(true);
+
+            }
+        });
+        adapter.setNotSelectAllListener(new MyCollectionAdapter.notSelectAllListener() {
+            @Override
+            public void click() {
+                cb_selectAll.setChecked(false);
             }
         });
     }
@@ -276,7 +276,7 @@ public class CollectionActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.iv_back,R.id.tv_right})
+    @OnClick({R.id.iv_back,R.id.tv_right,R.id.btn_deleteAll})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
@@ -295,7 +295,67 @@ public class CollectionActivity extends BaseActivity {
                     adapter.setCheckListShow("gone");
                 }
                 break;
+            case R.id.btn_deleteAll:
+                deleteAllSelectItem();
+                break;
         }
+    }
+    //全选删除
+    private void deleteAllSelectItem() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(CollectionActivity.this);
+        builder.setTitle("确定删除所选收藏吗");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCollection();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+    //删除所有收藏
+    private void deleteCollection() {
+        customLoadingDialog.show();
+        String deleteIds = "";
+        final List<Integer> deletePositions = new ArrayList<>();
+        for (int i = 0; i <selectedList.size() ; i++) {
+            if (selectedList.get(i)){
+                deleteIds+=infoList.get(i).getCollection_id()+",";
+                deletePositions.add(i);
+            }
+        }
+        ApiForum.collectionDiscussion(ApiConstant.COLLECTION_COMMENT, userId,deleteIds , new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.getInt("error_code");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        for (int i = 0; i <deletePositions.size() ; i++) {
+                            infoList.remove(deletePositions.get(i));
+                            adapter.notifyDataSetChanged();
+                        }
+                        if (infoList.size()==0){
+                            pulltorefreshView.setVisibility(View.GONE);
+                            no_data_rl.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                customLoadingDialog.dismiss();
+            }
+        });
     }
     @Override
     protected void onDestroy() {

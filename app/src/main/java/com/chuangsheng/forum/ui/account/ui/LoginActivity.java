@@ -121,10 +121,12 @@ public class LoginActivity extends BaseActivity {
                         JSONObject result = jsonObject.getJSONObject("result");
                         String user_id = result.getString("user_id");
                         String email = result.getString("email");
+                        String user_points = result.getString("user_points");
                         String username = result.getString("username");
                         String img = result.getString("img");
                         SPUtils.put(LoginActivity.this,"user_id",user_id);
                         SPUtils.put(LoginActivity.this,"headAvatar",img);
+                        SPUtils.put(LoginActivity.this,"user_points",user_points);
                         if (TextUtils.isEmpty(email)){
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);

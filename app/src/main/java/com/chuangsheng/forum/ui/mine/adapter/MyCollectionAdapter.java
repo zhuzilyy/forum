@@ -3,6 +3,7 @@ package com.chuangsheng.forum.ui.mine.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,12 @@ import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
 import com.chuangsheng.forum.ui.forum.ui.ReplyForumActivity;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
+import java.security.acl.LastOwnerException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +39,7 @@ public class MyCollectionAdapter extends BaseAdapter {
     private List<CollectionInfo> infoList;
     private String showStatus;
     private deleteCheckedListener deleteCheckedListener;
+    private notSelectAllListener notSelectAllListener;
     // 存储勾选框状态的map集合
     private List<Boolean> selectList;
 
@@ -94,6 +98,7 @@ public class MyCollectionAdapter extends BaseAdapter {
         viewHolder.tv_content.setText(collectionInfo.getContent());
         viewHolder.tv_message.setText(collectionInfo.getComments());
         viewHolder.tv_title.setText(collectionInfo.getSubject());
+        viewHolder.iv_level.setImageResource(LevelUtil.userLevel(collectionInfo.getUser_points()));
         if (showStatus.equals("show")) {
             viewHolder.cb_delete.setVisibility(View.VISIBLE);
         } else {
@@ -125,7 +130,9 @@ public class MyCollectionAdapter extends BaseAdapter {
                 count++;
             }
         }
-        deleteCheckedListener.click(count);
+        if (count == selectList.size()){
+            deleteCheckedListener.click(count);
+        }
     }
     public void setCheckListShow(String showStatus) {
         this.showStatus = showStatus;
@@ -135,9 +142,14 @@ public class MyCollectionAdapter extends BaseAdapter {
     public interface deleteCheckedListener {
         void click(int count);
     }
-
     public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener) {
         this.deleteCheckedListener = deleteCheckedListener;
+    }
+    public interface notSelectAllListener {
+        void click();
+    }
+    public void setNotSelectAllListener(notSelectAllListener notSelectAllListener) {
+        this.notSelectAllListener = notSelectAllListener;
     }
     static class ViewHolder {
         @BindView(R.id.iv_head)
@@ -160,7 +172,6 @@ public class MyCollectionAdapter extends BaseAdapter {
         ImageView iv_singlePic;
         @BindView(R.id.cb_delete)
         CheckBox cb_delete;
-
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

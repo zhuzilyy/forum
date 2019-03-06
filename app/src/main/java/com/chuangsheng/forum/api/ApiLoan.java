@@ -18,4 +18,13 @@ public class ApiLoan {
         params.put("page",page);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
+    /**
+     * 获取贷款跑马灯title
+     * @param callback
+     */
+    public static void getLoanTitle(String url,String attribute,RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("attribute",attribute);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
 }

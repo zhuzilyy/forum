@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.account.ui.SetNameActivity;
@@ -19,6 +20,7 @@ import com.chuangsheng.forum.ui.forum.ui.PostForumActivity;
 import com.chuangsheng.forum.ui.forum.ui.ReplyForumActivity;
 import com.chuangsheng.forum.ui.mine.ui.BrowseHistoryActivity;
 import com.chuangsheng.forum.ui.mine.ui.CollectionActivity;
+import com.chuangsheng.forum.ui.mine.ui.ContactUsActivity;
 import com.chuangsheng.forum.ui.mine.ui.FeedBackActivity;
 import com.chuangsheng.forum.ui.mine.ui.MyFroumsActivity;
 import com.chuangsheng.forum.ui.mine.ui.MyReplyForumActivity;
@@ -26,6 +28,7 @@ import com.chuangsheng.forum.ui.mine.ui.NewsActivity;
 import com.chuangsheng.forum.ui.mine.ui.PersonInfoActivity;
 import com.chuangsheng.forum.ui.mine.ui.SafeCenterActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 
@@ -39,6 +42,8 @@ public class MineFragment extends BaseFragment {
     TextView tv_title;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.iv_level)
+    ImageView iv_level;
     @BindView(R.id.iv_head)
     CircleImageView iv_head;
     @BindView(R.id.tv_name)
@@ -66,9 +71,13 @@ public class MineFragment extends BaseFragment {
     private void setValue() {
         String username = (String) SPUtils.get(getActivity(), "username", "");
         String headAvatar = (String) SPUtils.get(getActivity(), "headAvatar", "");
+        String user_points = (String) SPUtils.get(getActivity(), "user_points", "");
         tv_name.setText(username);
         if (!TextUtils.isEmpty(headAvatar)){
             Glide.with(getActivity()).load(headAvatar).into(iv_head);
+        }
+        if (!TextUtils.isEmpty(user_points)){
+            iv_level.setImageResource(LevelUtil.userLevel(user_points));
         }
     }
     @Override
@@ -97,13 +106,14 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.rl_aboutUs:
                 bundle.putString("title","关于我们");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
+                bundle.putString("url", ApiConstant.BASE_URL+"contact_us");
                 jumpActivity(getActivity(), WebviewActivity.class,bundle);
                 break;
             case R.id.rl_contactUs:
-                bundle.putString("title","联系我们");
+               /* bundle.putString("title","联系我们");
                 bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
-                jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                jumpActivity(getActivity(), WebviewActivity.class,bundle);*/
+                jumpActivity(getActivity(), ContactUsActivity.class,null);
                 break;
             case R.id.rl_myFroums:
                 jumpActivity(getActivity(), MyFroumsActivity.class,null);

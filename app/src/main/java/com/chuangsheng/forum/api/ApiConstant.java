@@ -1,8 +1,8 @@
 package com.chuangsheng.forum.api;
 
 public class ApiConstant {
-    //public static final String BASE_URL="http://192.168.0.102:8000/";
-    public static final String BASE_URL="http://47.92.200.176:8000/";
+    public static final String BASE_URL="http://192.168.0.102:8000/";
+    //public static final String BASE_URL="http://47.92.200.176:8000/";
     public static final int SUCCESS_CODE = 0;
     public static final int LIMIT_CODE = 1;
     public static final int PAGE_SIZE = 10;
@@ -59,4 +59,6 @@ public class ApiConstant {
     public static String COMMON_NEWS= BASE_URL + "get_user_notification_list";
     //系统消息
     public static String SYSTEM_NEWS= BASE_URL + "get_system_notification_list";
+    //获取系统变量
+    public static String GET_SYSTEM_ATTRIBUTE= BASE_URL + "get_system_variables";
 }

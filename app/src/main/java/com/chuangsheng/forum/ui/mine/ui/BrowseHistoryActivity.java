@@ -45,6 +45,8 @@ public class BrowseHistoryActivity extends BaseActivity {
     ListView lv_forums;
     @BindView(R.id.pulltorefreshView)
     PullToRefreshView pulltorefreshView;
+    @BindView(R.id.rl_deleteAll)
+    RelativeLayout rl_deleteAll;
     @BindView(R.id.no_data_rl)
     RelativeLayout no_data_rl;
     private MyCollectionAdapter adapter;
@@ -52,6 +54,8 @@ public class BrowseHistoryActivity extends BaseActivity {
     private String userId;
     private List<CollectionInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
+    private List<Boolean> selectedList;
+    private String textStatus;
     @Override
     protected void initViews() {
         tv_title.setText("浏览历史");
@@ -60,12 +64,14 @@ public class BrowseHistoryActivity extends BaseActivity {
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
         BaseActivity.activityList.add(this);
+        selectedList = new ArrayList<>();
+        textStatus = "manage";
     }
     @Override
     protected void initData() {
         infoList = new ArrayList<>();
         userId= (String) SPUtils.get(BrowseHistoryActivity.this,"user_id","");
-        adapter = new MyCollectionAdapter(this,infoList,null,"gone");
+        adapter = new MyCollectionAdapter(this,infoList,selectedList,"gone");
         lv_forums.setAdapter(adapter);
         getData();
     }
@@ -80,6 +86,9 @@ public class BrowseHistoryActivity extends BaseActivity {
                 List<CollectionInfo> list = collectionBean.getResult();
                 if (code == ApiConstant.SUCCESS_CODE){
                     if (list!=null && list.size()>0){
+                        for (int i = 0; i <list.size() ; i++) {
+                            selectedList.add(false);
+                        }
                         pulltorefreshView.setVisibility(View.VISIBLE);
                         no_data_rl.setVisibility(View.GONE);
                         pulltorefreshView.onHeaderRefreshComplete();
@@ -223,11 +232,24 @@ public class BrowseHistoryActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.iv_back})
+    @OnClick({R.id.iv_back,R.id.tv_right})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.tv_right:
+                if (textStatus.equals("manage")){
+                    tv_right.setText("完成");
+                    rl_deleteAll.setVisibility(View.VISIBLE);
+                    textStatus = "finish";
+                    adapter.setCheckListShow("show");
+                }else{
+                    tv_right.setText("管理");
+                    textStatus = "manage";
+                    rl_deleteAll.setVisibility(View.GONE);
+                    adapter.setCheckListShow("gone");
+                }
                 break;
         }
     }

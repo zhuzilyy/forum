@@ -6,13 +6,16 @@
     android:orientation="vertical">
 
     <include layout="@layout/layout_title" />
-    <TextView
+    <com.chuangsheng.forum.view.MarqueeTextView
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_vertical"
+        android:background="#FCB766"
         android:textStyle="bold"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         android:id="@+id/tv_marquee"
-        android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:focusable="true"
@@ -20,8 +23,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="这才是真正的文字跑马灯效果,但是并没有什么卵用reeeeeeeeeeeeeeeeeeeeeeeeeee"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
     <com.chuangsheng.forum.view.PullToRefreshView
         android:id="@+id/pulltorefreshView"
         android:layout_width="match_parent"

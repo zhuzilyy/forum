@@ -15,6 +15,7 @@ import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.bean.CommonNewsInfo;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
@@ -100,6 +101,7 @@ public class CommonNewsAdapter extends BaseAdapter {
         viewHolder.tv_title.setText(discussion.getSubject());
         viewHolder.tv_content.setText(discussion.getContent());
         viewHolder.tv_comment.setText(myReplyFroumInfo.getContent());
+        viewHolder.iv_level.setImageResource(LevelUtil.userLevel(myReplyFroumInfo.getUser_points()));
         return convertView;
     }
     static class ViewHolder{

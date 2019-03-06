@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.application.MyApplication;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
@@ -91,6 +92,7 @@ public class HomeAdapter extends BaseAdapter {
             noPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             noPictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             noPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            noPictureViewHolder.iv_level.setImageResource(LevelUtil.userLevel(homeFroumInfo.getUser_points()));
             if (tag.equals("精华")){
                 noPictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
             }else{
@@ -113,6 +115,7 @@ public class HomeAdapter extends BaseAdapter {
             onePictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             onePictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             onePictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            onePictureViewHolder.iv_level.setImageResource(LevelUtil.userLevel(homeFroumInfo.getUser_points()));
             if (tag.equals("精华")){
                 onePictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
             }else{
@@ -134,6 +137,7 @@ public class HomeAdapter extends BaseAdapter {
             mutiPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             mutiPictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             mutiPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            mutiPictureViewHolder.iv_level.setImageResource(LevelUtil.userLevel(homeFroumInfo.getUser_points()));
             if (tag.equals("精华")){
                 mutiPictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
             }else{
@@ -161,6 +165,8 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_message;
         @BindView(R.id.tv_browse)
         TextView tv_browse;
+        @BindView(R.id.iv_level)
+        ImageView iv_level;
         public NoPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -184,6 +190,8 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_browse;
         @BindView(R.id.iv_jinghua)
         ImageView iv_jinghua;
+        @BindView(R.id.iv_level)
+        ImageView iv_level;
         public OnePictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -207,6 +215,8 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_browse;
         @BindView(R.id.iv_jinghua)
         ImageView iv_jinghua;
+        @BindView(R.id.iv_level)
+        ImageView iv_level;
         public MutiPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }

@@ -7,7 +7,15 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="ContactAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
     <style name="MyAppTheme" parent="AppTheme">
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="ContactMyAppTheme" parent="ContactAppTheme">
         <item name="windowNoTitle">true</item>
     </style>
     <declare-styleable name="CircleImageView">
@@ -57,5 +65,9 @@
         <item name="android:windowSoftInputMode">stateAlwaysVisible</item><!--显示软件盘-->
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
-
+    <style name="AppTheme.StatusBarColorWithToolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

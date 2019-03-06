@@ -17,6 +17,7 @@ import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.community.ui.SearchActivity;
 import com.chuangsheng.forum.ui.forum.adapter.FroumAdapter;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -39,6 +41,8 @@ public class ForumFragment extends BaseFragment {
     TextView tv_title;
     @BindView(R.id.iv_back)
     ImageView iv_back;
+    @BindView(R.id.iv_right)
+    ImageView iv_right;
     @BindView(R.id.no_data_rl)
     RelativeLayout no_data_rl;
     private View view_froum;
@@ -55,6 +59,8 @@ public class ForumFragment extends BaseFragment {
     protected void initViews() {
         tv_title.setText("社区");
         iv_back.setVisibility(View.GONE);
+        iv_right.setVisibility(View.VISIBLE);
+        iv_right.setImageResource(R.mipmap.sousuo);
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
     }
@@ -178,5 +184,13 @@ public class ForumFragment extends BaseFragment {
                 Log.i("tag",e.getMessage());
             }
         });
+    }
+    @OnClick({R.id.iv_right})
+    public void click(View view){
+        switch (view.getId()){
+            case R.id.iv_right:
+                jumpActivity(getActivity(), SearchActivity.class,null);
+                break;
+        }
     }
 }

@@ -231,7 +231,7 @@ public class PostForumActivity extends BaseActivity {
                     if (code == ApiConstant.SUCCESS_CODE){
                         //finish();
                         dialog.setImageRes(R.mipmap.fatiechengg);
-                        dialog.setTitle("发帖成功，经验值+5");
+                        dialog.setTitle("发帖成功，经验值+2");
                         dialog.show();
                     }else if(code == ApiConstant.LIMIT_CODE){
                         dialog.setImageRes(R.mipmap.jingyanzhi);

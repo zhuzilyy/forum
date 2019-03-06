@@ -67,18 +67,20 @@ public class SearchActivity extends BaseActivity {
         searchList = (String)SPUtils.get(SearchActivity.this,"searchHistory","");
         Gson gson = new Gson();
         List<String> list = gson.fromJson(searchList, List.class);
-        for (int i = 0; i < list.size(); i++) {
-            TextView child = new TextView(SearchActivity.this);
-            ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 5, 35, 5);
-            child.setLayoutParams(params);
-            child.setBackgroundResource(R.drawable.shape_hot_word);
-            child.setText(list.get(i));
-            //child.setTextColor(Color.WHITE);
-            //initEvents(child);//监听
-            flowLayout_history.addView(child);
-            initEventListener(child);
-            historyList.add(list.get(i));
+        if (list!=null && list.size()>0){
+            for (int i = 0; i < list.size(); i++) {
+                TextView child = new TextView(SearchActivity.this);
+                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                params.setMargins(0, 5, 35, 5);
+                child.setLayoutParams(params);
+                child.setBackgroundResource(R.drawable.shape_hot_word);
+                child.setText(list.get(i));
+                //child.setTextColor(Color.WHITE);
+                //initEvents(child);//监听
+                flowLayout_history.addView(child);
+                initEventListener(child);
+                historyList.add(list.get(i));
+            }
         }
     }
     //获取热门搜索的数据

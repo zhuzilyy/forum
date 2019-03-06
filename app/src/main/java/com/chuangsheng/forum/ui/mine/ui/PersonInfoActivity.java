@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.UserBean;
 import com.chuangsheng.forum.ui.mine.bean.UserResult;
 import com.chuangsheng.forum.util.BitmapToBase64;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.PhotoUtils;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
@@ -67,6 +69,8 @@ public class PersonInfoActivity extends BaseActivity {
     TextView tv_desc;
     @BindView(R.id.iv_head)
     CircleImageView iv_head;
+    @BindView(R.id.iv_level)
+    ImageView iv_level;
     //***************************************************************7.0拍照相册
     private static final int CODE_GALLERY_REQUEST = 0xa0;
     private static final int CODE_CAMERA_REQUEST = 0xa1;
@@ -118,6 +122,7 @@ public class PersonInfoActivity extends BaseActivity {
                         tv_bithday.setText(result.getBrith());
                     }
                     tv_desc.setText(result.getDescription());
+                    iv_level.setImageResource(LevelUtil.userLevel(result.getPoints()));
                 }
             }
             @Override
