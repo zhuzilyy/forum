@@ -60,6 +60,14 @@ public class MyReplyForumActivity extends BaseActivity {
         getData();
         myReplyFroumAdapter = new MyReplyFroumAdapter(this,infoList);
         lv_forums.setAdapter(myReplyFroumAdapter);
+        myReplyFroumAdapter.setHeadClickListener(new MyReplyFroumAdapter.headClickListener() {
+            @Override
+            public void headClick(int postion) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",userId);
+                jumpActivity(MyReplyForumActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);

@@ -52,12 +52,16 @@ public class ForumDetailActivity extends BaseActivity {
     RelativeLayout no_data_rl;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.common_no__data_tv)
+    TextView common_no__data_tv;
     @BindView(R.id.tv_dianzan)
     TextView tv_dianzan;
     @BindView(R.id.iv_dianzan)
     ImageView iv_dianzan;
     @BindView(R.id.iv_collection)
     ImageView iv_collection;
+    @BindView(R.id.rl_comment)
+    RelativeLayout rl_comment;
     private ForumDetailAdapter detailAdapter;
     private View view_header;
     private String userId,discussionId,discussionLikes;
@@ -174,6 +178,12 @@ public class ForumDetailActivity extends BaseActivity {
                     }else{
                         pulltorefreshView.onFooterRefreshComplete(false);
                     }
+                //删除帖子之后 帖子不存在
+                }else if(error_code == 1){
+                    pulltorefreshView.setVisibility(View.GONE);
+                    no_data_rl.setVisibility(View.VISIBLE);
+                    rl_comment.setVisibility(View.GONE);
+                    common_no__data_tv.setText("内容已经被删除");
                 }
             }
             @Override

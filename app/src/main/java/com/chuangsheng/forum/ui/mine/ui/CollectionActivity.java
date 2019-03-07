@@ -1,19 +1,12 @@
 package com.chuangsheng.forum.ui.mine.ui;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,16 +18,11 @@ import com.chuangsheng.forum.api.ApiMine;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
-import com.chuangsheng.forum.ui.account.ui.LoginActivity;
-import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
-import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
 import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
-import com.chuangsheng.forum.ui.mine.adapter.MyFroumAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
 import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
 import com.chuangsheng.forum.util.SPUtils;
-import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import org.json.JSONException;
@@ -70,8 +58,6 @@ public class CollectionActivity extends BaseActivity {
     private CustomLoadingDialog customLoadingDialog;
     private String textStatus;
     private List<Boolean> selectedList;
-    private LocalBroadcastManager localBroadcastManager;
-    private BroadcastReceiver broadcastReceiver;
     @Override
     protected void initViews() {
         tv_title.setText("我的收藏");
@@ -87,9 +73,17 @@ public class CollectionActivity extends BaseActivity {
         infoList = new ArrayList<>();
         selectedList = new ArrayList<>();
         userId= (String) SPUtils.get(CollectionActivity.this,"user_id","");
+        getData();
         adapter = new MyCollectionAdapter(this,infoList,selectedList,"gone");
         lv_forums.setAdapter(adapter);
-        getData();
+        adapter.setHeadClickListener(new MyCollectionAdapter.headClickListener() {
+            @Override
+            public void headClick(int postion) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",userId);
+                jumpActivity(CollectionActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
     }
     //获取收藏的数据
     private void getData() {
@@ -153,13 +147,13 @@ public class CollectionActivity extends BaseActivity {
                 loadMore();
             }
         });
-        cb_selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cb_selectAll.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+            public void onClick(View v) {
+                if (cb_selectAll.isChecked()){
                     for (int i = 0; i <infoList.size() ; i++) {
-                       selectedList.set(i,true);
-                       adapter.notifyDataSetChanged();
+                        selectedList.set(i,true);
+                        adapter.notifyDataSetChanged();
                     }
                 }else{
                     for (int i = 0; i <infoList.size() ; i++) {
@@ -169,6 +163,7 @@ public class CollectionActivity extends BaseActivity {
                 }
             }
         });
+
         lv_forums.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -195,21 +190,19 @@ public class CollectionActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("discussionId",infoList.get(position).getCollection_id());
+                bundle.putString("discussionId",infoList.get(position).getId());
                 jumpActivity(CollectionActivity.this, ForumDetailActivity.class,bundle);
             }
         });
         adapter.setDeleteCheckedListener(new MyCollectionAdapter.deleteCheckedListener() {
             @Override
             public void click(int count) {
-                cb_selectAll.setChecked(true);
+                if (count == infoList.size()){
+                    cb_selectAll.setChecked(true);
+                }else{
+                    cb_selectAll.setChecked(false);
+                }
 
-            }
-        });
-        adapter.setNotSelectAllListener(new MyCollectionAdapter.notSelectAllListener() {
-            @Override
-            public void click() {
-                cb_selectAll.setChecked(false);
             }
         });
     }
@@ -288,14 +281,19 @@ public class CollectionActivity extends BaseActivity {
                     rl_deleteAll.setVisibility(View.VISIBLE);
                     textStatus = "finish";
                     adapter.setCheckListShow("show");
+                    adapter.notifyDataSetChanged();
                 }else{
                     tv_right.setText("管理");
                     textStatus = "manage";
                     rl_deleteAll.setVisibility(View.GONE);
                     adapter.setCheckListShow("gone");
+                    adapter.notifyDataSetChanged();
                 }
                 break;
             case R.id.btn_deleteAll:
+                if (infoList.size()==0){
+                    return;
+                }
                 deleteAllSelectItem();
                 break;
         }
@@ -322,14 +320,15 @@ public class CollectionActivity extends BaseActivity {
     private void deleteCollection() {
         customLoadingDialog.show();
         String deleteIds = "";
-        final List<Integer> deletePositions = new ArrayList<>();
+        final List<String> deletePositions = new ArrayList<>();
         for (int i = 0; i <selectedList.size() ; i++) {
             if (selectedList.get(i)){
                 deleteIds+=infoList.get(i).getCollection_id()+",";
-                deletePositions.add(i);
+                deletePositions.add(i+"");
             }
         }
-        ApiForum.collectionDiscussion(ApiConstant.COLLECTION_COMMENT, userId,deleteIds , new RequestCallBack<String>() {
+        Log.i("tag",deleteIds);
+        ApiForum.cancleCollectionDiscussion(ApiConstant.DELETE_COLLECTION, deleteIds, new RequestCallBack<String>() {
             @Override
             public void onSuccess(Call call, Response response, String s) {
                 customLoadingDialog.dismiss();
@@ -337,10 +336,11 @@ public class CollectionActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(s);
                     int code = jsonObject.getInt("error_code");
                     if (code == ApiConstant.SUCCESS_CODE){
-                        for (int i = 0; i <deletePositions.size() ; i++) {
-                            infoList.remove(deletePositions.get(i));
-                            adapter.notifyDataSetChanged();
+                        for (int i = deletePositions.size()-1; i>=0; i--) {
+                            infoList.remove(Integer.parseInt(deletePositions.get(i)));
+                            selectedList.remove(Integer.parseInt(deletePositions.get(i)));
                         }
+                        adapter.notifyDataSetChanged();
                         if (infoList.size()==0){
                             pulltorefreshView.setVisibility(View.GONE);
                             no_data_rl.setVisibility(View.VISIBLE);
@@ -360,8 +360,5 @@ public class CollectionActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-      /*  if (broadcastReceiver!=null){
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
-        }*/
     }
 }

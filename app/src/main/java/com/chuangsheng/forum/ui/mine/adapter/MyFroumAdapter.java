@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,9 +29,15 @@ public class MyFroumAdapter extends BaseAdapter {
     private final int MUTI_PICTURE = 2;
     private Context context;
     private List<HomeFroumInfo> infoList;
-    public MyFroumAdapter(Context context, List<HomeFroumInfo> infoList) {
+    private String showStatus;
+    private deleteCheckedListener deleteCheckedListener;
+    // 存储勾选框状态的map集合
+    private List<Boolean> selectList;
+    public MyFroumAdapter(Context context, List<HomeFroumInfo> infoList,List<Boolean> selectList,String showStatus) {
         this.context = context;
         this.infoList = infoList;
+        this.showStatus = showStatus;
+        this.selectList = selectList;
     }
     @Override
     public int getCount() {
@@ -85,6 +92,23 @@ public class MyFroumAdapter extends BaseAdapter {
             noPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
             noPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             noPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            noPictureViewHolder.cb_delete.setChecked(selectList.get(position));
+            noPictureViewHolder.cb_delete.setTag(position);
+            if (showStatus.equals("show")) {
+                noPictureViewHolder.cb_delete.setVisibility(View.VISIBLE);
+            } else {
+                noPictureViewHolder.cb_delete.setVisibility(View.INVISIBLE);
+            }
+            noPictureViewHolder.cb_delete.setChecked(selectList.get(position));
+            noPictureViewHolder.cb_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag = (int)v.getTag();
+                    selectList.set(tag, !selectList.get(tag));
+                    notifyDataSetChanged();
+                    getSelectedCount();
+                }
+            });
             //一张图片
         }else if(itemViewType == SINGLE_PICTURE){
             if (convertView == null){
@@ -100,6 +124,22 @@ public class MyFroumAdapter extends BaseAdapter {
             onePictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
             onePictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             onePictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            onePictureViewHolder.cb_delete.setTag(position);
+            onePictureViewHolder.cb_delete.setChecked(selectList.get(position));
+            if (showStatus.equals("show")) {
+                onePictureViewHolder.cb_delete.setVisibility(View.VISIBLE);
+            } else {
+                onePictureViewHolder.cb_delete.setVisibility(View.INVISIBLE);
+            }
+            onePictureViewHolder.cb_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag = (int)v.getTag();
+                    selectList.set(tag, !selectList.get(tag));
+                    notifyDataSetChanged();
+                    getSelectedCount();
+                }
+            });
             //多张图片
         }else if(itemViewType == MUTI_PICTURE){
             if (convertView == null){
@@ -114,12 +154,37 @@ public class MyFroumAdapter extends BaseAdapter {
             mutiPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
             mutiPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             mutiPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            mutiPictureViewHolder.cb_delete.setChecked(selectList.get(position));
+            mutiPictureViewHolder.cb_delete.setTag(position);
+            if (showStatus.equals("show")) {
+                mutiPictureViewHolder.cb_delete.setVisibility(View.VISIBLE);
+            } else {
+                mutiPictureViewHolder.cb_delete.setVisibility(View.INVISIBLE);
+            }
+            mutiPictureViewHolder.cb_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int tag = (int)v.getTag();
+                    selectList.set(tag, !selectList.get(tag));
+                    notifyDataSetChanged();
+                    getSelectedCount();
+                }
+            });
             GvImageAdapter adapter = new GvImageAdapter(context,infoList.get(position).getAttachment());
             mutiPictureViewHolder.gv_image.setAdapter(adapter);
         }
         return convertView;
     }
-
+    //获取选中的删除的个数
+    private void getSelectedCount() {
+        int count=0;
+        for (int i = 0; i <selectList.size() ; i++) {
+            if (selectList.get(i)){
+                count++;
+            }
+        }
+        deleteCheckedListener.click(count);
+    }
     static class NoPictureViewHolder{
         @BindView(R.id.tv_title)
         TextView tv_title;
@@ -129,6 +194,8 @@ public class MyFroumAdapter extends BaseAdapter {
         TextView tv_time;
         @BindView(R.id.tv_message)
         TextView tv_message;
+        @BindView(R.id.cb_delete)
+        CheckBox cb_delete;
         public NoPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -144,6 +211,8 @@ public class MyFroumAdapter extends BaseAdapter {
         TextView tv_time;
         @BindView(R.id.tv_message)
         TextView tv_message;
+        @BindView(R.id.cb_delete)
+        CheckBox cb_delete;
         public OnePictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -159,8 +228,20 @@ public class MyFroumAdapter extends BaseAdapter {
         TextView tv_time;
         @BindView(R.id.tv_message)
         TextView tv_message;
+        @BindView(R.id.cb_delete)
+        CheckBox cb_delete;
         public MutiPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
+    }
+    public void setCheckListShow(String showStatus) {
+        this.showStatus = showStatus;
+        notifyDataSetChanged();
+    }
+    public interface deleteCheckedListener {
+        void click(int count);
+    }
+    public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener) {
+        this.deleteCheckedListener = deleteCheckedListener;
     }
 }

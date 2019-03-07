@@ -21,6 +21,7 @@ import com.chuangsheng.forum.ui.mine.bean.CommonNewsBean;
 import com.chuangsheng.forum.ui.mine.bean.CommonNewsInfo;
 import com.chuangsheng.forum.ui.mine.bean.SystemNewsBean;
 import com.chuangsheng.forum.ui.mine.bean.SystemNewsInfo;
+import com.chuangsheng.forum.ui.mine.ui.SystemDetailActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import java.util.ArrayList;
@@ -112,9 +113,11 @@ public class SystemNewsFragment extends BaseFragment {
         lv_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              /*  Bundle bundle = new Bundle();
-                bundle.putString("discussionId",infoList.get(position).getComment().getDiscussion().getId());
-                jumpActivity(getActivity(), ForumDetailActivity.class,bundle);*/
+                Bundle bundle = new Bundle();
+                bundle.putString("content",infoList.get(position).getContent());
+                bundle.putString("time",infoList.get(position).getCreate_date());
+                bundle.putString("pic",infoList.get(position).getAttachment().get(0));
+                jumpActivity(getActivity(), SystemDetailActivity.class,bundle);
             }
         });
     }

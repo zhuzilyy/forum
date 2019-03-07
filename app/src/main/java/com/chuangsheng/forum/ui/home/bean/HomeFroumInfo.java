@@ -16,7 +16,16 @@ public class HomeFroumInfo {
     private String user_points;
     private String id;
     private String subject;
+    private String user_id;
     private List<String> attachment;
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     public String getId() {
         return id;
     }

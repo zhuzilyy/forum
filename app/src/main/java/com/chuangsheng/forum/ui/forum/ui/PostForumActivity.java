@@ -3,6 +3,7 @@ package com.chuangsheng.forum.ui.forum.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -225,17 +226,30 @@ public class PostForumActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     int code = jsonObject.getInt("error_code");
-                    String reason = jsonObject.getString("reason");
-                    //ToastUtils.show(PostForumActivity.this,reason);
                     ForumDialog dialog = new ForumDialog(PostForumActivity.this);
                     if (code == ApiConstant.SUCCESS_CODE){
-                        //finish();
-                        dialog.setImageRes(R.mipmap.fatiechengg);
-                        dialog.setTitle("发帖成功，经验值+2");
-                        dialog.show();
+                        JSONObject jsonResult = jsonObject.getJSONObject("result");
+                        String point= jsonResult.getString("point");
+                        String total_point=jsonResult.getString("total_point");
+                        //经验没有到达上限
+                        if (!point.equals("0")){
+                            dialog.setImageRes(R.mipmap.fatiechengg);
+                            dialog.setTitle("发帖成功，经验值"+point);
+                            dialog.show();
+                            //发送广播更新等级
+                            Intent intent = new Intent();
+                            intent.setAction("com.action.update.point");
+                            intent.putExtra("total_point",total_point);
+                            LocalBroadcastManager.getInstance(PostForumActivity.this).sendBroadcast(intent);
+                        //经验到达上限
+                        }else{
+                            dialog.setImageRes(R.mipmap.jingyanzhi);
+                            dialog.setTitle("该日经验积累到达上限");
+                            dialog.show();
+                        }
                     }else if(code == ApiConstant.LIMIT_CODE){
-                        dialog.setImageRes(R.mipmap.jingyanzhi);
-                        dialog.setTitle("今日获取经验值已达上限");
+                        dialog.setImageRes(R.mipmap.fatiechengg);
+                        dialog.setTitle("发帖过于频繁");
                         dialog.show();
                     }
                 } catch (JSONException e) {

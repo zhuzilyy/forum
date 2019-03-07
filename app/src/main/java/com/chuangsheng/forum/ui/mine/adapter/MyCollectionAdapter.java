@@ -39,7 +39,7 @@ public class MyCollectionAdapter extends BaseAdapter {
     private List<CollectionInfo> infoList;
     private String showStatus;
     private deleteCheckedListener deleteCheckedListener;
-    private notSelectAllListener notSelectAllListener;
+    private headClickListener headClickListener;
     // 存储勾选框状态的map集合
     private List<Boolean> selectList;
 
@@ -104,13 +104,9 @@ public class MyCollectionAdapter extends BaseAdapter {
         } else {
             viewHolder.cb_delete.setVisibility(View.INVISIBLE);
         }
-        if (infoList.get(position).isSelected()) {
-            viewHolder.cb_delete.setChecked(true);
-        } else {
-            viewHolder.cb_delete.setChecked(false);
-        }
         viewHolder.cb_delete.setChecked(selectList.get(position));
         viewHolder.cb_delete.setTag(position);
+        viewHolder.tv_name.setTag(position);
         viewHolder.cb_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +116,16 @@ public class MyCollectionAdapter extends BaseAdapter {
                 getSelectedCount();
             }
         });
+        viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int tag = (int)v.getTag();
+                if (headClickListener!=null){
+                    headClickListener.headClick(tag);
+                }
+            }
+        });
+
         return convertView;
     }
     //获取选中的删除的个数
@@ -130,9 +136,7 @@ public class MyCollectionAdapter extends BaseAdapter {
                 count++;
             }
         }
-        if (count == selectList.size()){
-            deleteCheckedListener.click(count);
-        }
+        deleteCheckedListener.click(count);
     }
     public void setCheckListShow(String showStatus) {
         this.showStatus = showStatus;
@@ -144,12 +148,6 @@ public class MyCollectionAdapter extends BaseAdapter {
     }
     public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener) {
         this.deleteCheckedListener = deleteCheckedListener;
-    }
-    public interface notSelectAllListener {
-        void click();
-    }
-    public void setNotSelectAllListener(notSelectAllListener notSelectAllListener) {
-        this.notSelectAllListener = notSelectAllListener;
     }
     static class ViewHolder {
         @BindView(R.id.iv_head)
@@ -175,5 +173,11 @@ public class MyCollectionAdapter extends BaseAdapter {
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+    public interface  headClickListener{
+        void headClick(int postion);
+    }
+    public void setHeadClickListener(headClickListener headClickListener){
+        this.headClickListener = headClickListener;
     }
 }

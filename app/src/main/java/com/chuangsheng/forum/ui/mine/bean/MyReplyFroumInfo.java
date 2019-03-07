@@ -7,12 +7,21 @@ import java.util.List;
 public class MyReplyFroumInfo {
     private HomeFroumInfo discussion;
     private String user_img;
+    private String user_id;
     private String user_username;
     private String user_points;
     private String id;
     private String likes;
     private String content;
     private List<String> attachment;
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     public String getContent() {
         return content;
     }

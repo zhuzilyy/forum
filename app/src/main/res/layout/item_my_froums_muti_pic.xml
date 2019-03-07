@@ -77,6 +77,7 @@
             android:textColor="#ff919191"
             android:textSize="13sp" />
         <CheckBox
+            android:id="@+id/cb_delete"
             android:visibility="invisible"
             android:layout_alignParentRight="true"
             android:checked="false"

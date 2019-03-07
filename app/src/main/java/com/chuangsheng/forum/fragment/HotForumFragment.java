@@ -21,6 +21,7 @@ import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
+import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import java.util.ArrayList;
@@ -61,6 +62,15 @@ public class HotForumFragment extends BaseFragment {
         adapter = new HomeAdapter(getActivity(),infoList,"热门");
         lv_forums.setAdapter(adapter);
         getData();
+        //名字点击事件
+        adapter.setHeadClickListener(new HomeAdapter.headClickListener() {
+            @Override
+            public void headClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",infoList.get(position).getUser_id());
+                jumpActivity(getActivity(), UserDetailActivity.class,bundle);
+            }
+        });
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.bean.CommonNewsInfo;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 public class CommonNewsAdapter extends BaseAdapter {
     private Context context;
     private List<CommonNewsInfo> infoList;
+    private headClickListener headClickListener;
     public CommonNewsAdapter(Context context, List<CommonNewsInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
@@ -102,6 +104,16 @@ public class CommonNewsAdapter extends BaseAdapter {
         viewHolder.tv_content.setText(discussion.getContent());
         viewHolder.tv_comment.setText(myReplyFroumInfo.getContent());
         viewHolder.iv_level.setImageResource(LevelUtil.userLevel(myReplyFroumInfo.getUser_points()));
+        viewHolder.tv_name.setTag(position);
+        viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int tag = (int)v.getTag();
+                if (headClickListener!=null){
+                    headClickListener.headClick(tag);
+                }
+            }
+        });
         return convertView;
     }
     static class ViewHolder{
@@ -131,5 +143,10 @@ public class CommonNewsAdapter extends BaseAdapter {
             ButterKnife.bind(this,view);
         }
     }
-
+    public interface  headClickListener{
+        void headClick(int postion);
+    }
+    public void setHeadClickListener(headClickListener headClickListener){
+        this.headClickListener = headClickListener;
+    }
 }

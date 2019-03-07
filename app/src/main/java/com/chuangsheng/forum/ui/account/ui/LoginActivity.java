@@ -127,6 +127,7 @@ public class LoginActivity extends BaseActivity {
                         SPUtils.put(LoginActivity.this,"user_id",user_id);
                         SPUtils.put(LoginActivity.this,"headAvatar",img);
                         SPUtils.put(LoginActivity.this,"user_points",user_points);
+                        SPUtils.put(LoginActivity.this,"username",username);
                         if (TextUtils.isEmpty(email)){
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);

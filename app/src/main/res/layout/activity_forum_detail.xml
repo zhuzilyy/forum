@@ -6,7 +6,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     <include layout="@layout/layout_title"/>
     <View
         android:background="@color/commonLine"
@@ -27,10 +27,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.chuangsheng.forum.view.PullToRefreshView>
-        <include layout="@layout/comment_common_no_data"/>
+        <include layout="@layout/common_no_data"/>
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_comment"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"

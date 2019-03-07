@@ -1,7 +1,11 @@
 package com.chuangsheng.forum.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +54,7 @@ public class MineFragment extends BaseFragment {
     TextView tv_name;
     private View view_mine;
     private static final int REQUEST_CODE = 100;
+    private BroadcastReceiver broadcastReceiver;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_mine = inflater.inflate(R.layout.fragment_mine,null);
@@ -57,8 +62,6 @@ public class MineFragment extends BaseFragment {
     }
     @Override
     protected void initViews() {
-       /* iv_right.setVisibility(View.VISIBLE);
-        iv_right.setImageResource(R.mipmap.shezhi);*/
         tv_title.setText("我的");
         iv_back.setVisibility(View.GONE);
     }
@@ -67,6 +70,23 @@ public class MineFragment extends BaseFragment {
     protected void initData() {
         //设置个人资料
         setValue();
+        //监听广播 更新个人等级
+        initReceiver();
+    }
+    //注册广播
+    private void initReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.action.update.point");
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (action.equals("com.action.update.point") ||action.equals("com.action.replySuccess"));
+                String total_point = intent.getStringExtra("total_point");
+                iv_level.setImageResource(LevelUtil.userLevel(total_point));
+            }
+        };
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver,intentFilter);
     }
     private void setValue() {
         String username = (String) SPUtils.get(getActivity(), "username", "");
@@ -137,6 +157,14 @@ public class MineFragment extends BaseFragment {
             if (requestCode == REQUEST_CODE){
                 setValue();
             }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (broadcastReceiver!=null){
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
         }
     }
 }

@@ -17,6 +17,7 @@ import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
+import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.mine.adapter.CommonNewsAdapter;
 import com.chuangsheng.forum.ui.mine.adapter.MyReplyFroumAdapter;
 import com.chuangsheng.forum.ui.mine.adapter.SystemNewsAdapter;
@@ -25,6 +26,7 @@ import com.chuangsheng.forum.ui.mine.bean.CommonNewsInfo;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumBean;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
 import com.chuangsheng.forum.ui.mine.ui.MyReplyForumActivity;
+import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
@@ -65,6 +67,15 @@ public class CommonNewsFragment extends BaseFragment {
         getData();
         commonNewsAdapter = new CommonNewsAdapter(getActivity(),infoList);
         lv_news.setAdapter(commonNewsAdapter);
+        //名字点击事件
+        commonNewsAdapter.setHeadClickListener(new CommonNewsAdapter.headClickListener() {
+            @Override
+            public void headClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",userId);
+                jumpActivity(getActivity(), UserDetailActivity.class,bundle);
+            }
+        });
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);

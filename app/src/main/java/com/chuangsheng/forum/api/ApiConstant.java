@@ -1,7 +1,7 @@
 package com.chuangsheng.forum.api;
 
 public class ApiConstant {
-    public static final String BASE_URL="http://192.168.0.102:8000/";
+    public static final String BASE_URL="http://192.168.0.111:8000/";
     //public static final String BASE_URL="http://47.92.200.176:8000/";
     public static final int SUCCESS_CODE = 0;
     public static final int LIMIT_CODE = 1;
@@ -39,6 +39,8 @@ public class ApiConstant {
     public static String LIKE_COMMENT = BASE_URL + "user_likes";
     //帖子收藏
     public static String COLLECTION_COMMENT = BASE_URL + "user_collection";
+    //帖子收藏
+    public static String DELETE_COLLECTION = BASE_URL + "del_discussion_collection";
     //获取我的收藏
     public static String MY_COLLECTION= BASE_URL + "get_user_discussion_collection";
     //获取浏览历史
@@ -63,4 +65,8 @@ public class ApiConstant {
     public static String GET_SYSTEM_ATTRIBUTE= BASE_URL + "get_system_variables";
     //联系我们
     public static String CONTACT_US= BASE_URL + "get_contact_us_variable";
+    //批量删除历史
+    public static String CANCLE_HISTORY= BASE_URL + "del_discussion_history";
+    //批量删除我的帖子
+    public static String DELETE_MY_FORUMS= BASE_URL + "del_discussions";
 }

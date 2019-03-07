@@ -33,6 +33,7 @@ import com.chuangsheng.forum.ui.home.bean.BannerInfo;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.home.ui.ApplyCardActivity;
+import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.util.loader.GlideImageLoader;
@@ -105,6 +106,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         homeAdapter = new HomeAdapter(getActivity(),infoList,"精华");
         lv_home.setAdapter(homeAdapter);
         lv_home.addHeaderView(view_header);
+        //名字点击事件
+        homeAdapter.setHeadClickListener(new HomeAdapter.headClickListener() {
+            @Override
+            public void headClick(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",infoList.get(position).getUser_id());
+                jumpActivity(getActivity(), UserDetailActivity.class,bundle);
+            }
+        });
     }
     //获取帖子列表
     private void getData() {

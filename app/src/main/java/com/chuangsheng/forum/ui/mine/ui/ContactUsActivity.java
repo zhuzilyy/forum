@@ -48,12 +48,12 @@ public class ContactUsActivity extends BaseActivity {
         iv_back.setImageResource(R.mipmap.fanhui_white);
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
+        BaseActivity.activityList.add(this);
     }
     @Override
     protected void initData() {
         getData();
     }
-
     private void getData() {
         ApiMine.contactUs(ApiConstant.CONTACT_US, new RequestCallBack<String>() {
             @Override

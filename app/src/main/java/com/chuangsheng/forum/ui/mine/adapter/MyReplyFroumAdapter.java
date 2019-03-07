@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 public class MyReplyFroumAdapter extends BaseAdapter {
     private Context context;
     private List<MyReplyFroumInfo> infoList;
+    private headClickListener headClickListener;
     public MyReplyFroumAdapter(Context context, List<MyReplyFroumInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
@@ -102,6 +103,16 @@ public class MyReplyFroumAdapter extends BaseAdapter {
         viewHolder.tv_content.setText(discussion.getContent());
         viewHolder.tv_comment.setText(myReplyFroumInfo.getContent());
         viewHolder.iv_level.setImageResource(LevelUtil.userLevel(myReplyFroumInfo.getUser_points()));
+        viewHolder.tv_name.setTag(position);
+        viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int tag = (int)v.getTag();
+                if (headClickListener!=null){
+                    headClickListener.headClick(tag);
+                }
+            }
+        });
         return convertView;
     }
     static class ViewHolder{
@@ -130,6 +141,12 @@ public class MyReplyFroumAdapter extends BaseAdapter {
         public ViewHolder(View view){
             ButterKnife.bind(this,view);
         }
+    }
+    public interface  headClickListener{
+        void headClick(int postion);
+    }
+    public void setHeadClickListener(headClickListener headClickListener){
+        this.headClickListener = headClickListener;
     }
 
 }

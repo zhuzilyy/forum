@@ -205,15 +205,25 @@ public class ReplyForumActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     int code = jsonObject.getInt("error_code");
+                    JSONObject jsonResult = jsonObject.getJSONObject("result");
+                    String point= jsonResult.getString("point");
+                    String total_point=jsonResult.getString("total_point");
                     ForumDialog dialog = new ForumDialog(ReplyForumActivity.this);
                     if (code == ApiConstant.SUCCESS_CODE){
-                        dialog.setImageRes(R.mipmap.huitiechengg);
-                        dialog.setTitle("回帖成功，经验值+1");
-                        dialog.show();
-                        //发送广播 回帖成功
-                        Intent intent = new Intent();
-                        intent.setAction("com.action.replySuccess");
-                        LocalBroadcastManager.getInstance(ReplyForumActivity.this).sendBroadcast(intent);
+                        if (!point.equals("0")){
+                            dialog.setImageRes(R.mipmap.huitiechengg);
+                            dialog.setTitle("回帖成功，经验值+1");
+                            dialog.show();
+                            //发送广播 回帖成功
+                            Intent intent = new Intent();
+                            intent.putExtra("total_point",total_point);
+                            intent.setAction("com.action.replySuccess");
+                            LocalBroadcastManager.getInstance(ReplyForumActivity.this).sendBroadcast(intent);
+                        }else{
+                            dialog.setImageRes(R.mipmap.huitiechengg);
+                            dialog.setTitle("该日经验积累到达上限");
+                            dialog.show();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

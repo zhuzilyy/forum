@@ -133,8 +133,17 @@
             />
         <!--联系我们-->
         <activity
-            android:theme="@style/ContactMyAppTheme"
             android:name=".ui.mine.ui.ContactUsActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--消息详情-->
+        <activity
+            android:name=".ui.mine.ui.SystemDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--红用户详情-->
+        <activity
+            android:name=".ui.mine.ui.UserDetailActivity"
             android:screenOrientation="portrait"
             />
     </application>

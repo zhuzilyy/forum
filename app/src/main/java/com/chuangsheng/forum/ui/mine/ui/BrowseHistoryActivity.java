@@ -7,12 +7,14 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
+import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.api.ApiMine;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
@@ -56,10 +58,12 @@ public class BrowseHistoryActivity extends BaseActivity {
     private CustomLoadingDialog customLoadingDialog;
     private List<Boolean> selectedList;
     private String textStatus;
+    @BindView(R.id.cb_selectAll)
+    CheckBox cb_selectAll;
     @Override
     protected void initViews() {
         tv_title.setText("浏览历史");
-        //tv_right.setVisibility(View.VISIBLE);
+        tv_right.setVisibility(View.VISIBLE);
         tv_right.setText("管理");
         customLoadingDialog = new CustomLoadingDialog(this);
         customLoadingDialog.show();
@@ -74,6 +78,14 @@ public class BrowseHistoryActivity extends BaseActivity {
         adapter = new MyCollectionAdapter(this,infoList,selectedList,"gone");
         lv_forums.setAdapter(adapter);
         getData();
+        adapter.setHeadClickListener(new MyCollectionAdapter.headClickListener() {
+            @Override
+            public void headClick(int postion) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",userId);
+                jumpActivity(BrowseHistoryActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
     }
     //获取收藏的数据
     private void getData() {
@@ -168,6 +180,33 @@ public class BrowseHistoryActivity extends BaseActivity {
                 jumpActivity(BrowseHistoryActivity.this, ForumDetailActivity.class,bundle);
             }
         });
+        cb_selectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cb_selectAll.isChecked()){
+                    for (int i = 0; i <infoList.size() ; i++) {
+                        selectedList.set(i,true);
+                        adapter.notifyDataSetChanged();
+                    }
+                }else{
+                    for (int i = 0; i <infoList.size() ; i++) {
+                        selectedList.set(i,false);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+        adapter.setDeleteCheckedListener(new MyCollectionAdapter.deleteCheckedListener() {
+            @Override
+            public void click(int count) {
+                if (count == infoList.size()){
+                    cb_selectAll.setChecked(true);
+                }else{
+                    cb_selectAll.setChecked(false);
+                }
+
+            }
+        });
     }
     //删除记录
     private void deleteHistory(String id,final int position) {
@@ -232,7 +271,7 @@ public class BrowseHistoryActivity extends BaseActivity {
     protected void setStatusBarColor() {
 
     }
-    @OnClick({R.id.iv_back,R.id.tv_right})
+    @OnClick({R.id.iv_back,R.id.tv_right,R.id.btn_deleteAll})
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
@@ -251,6 +290,72 @@ public class BrowseHistoryActivity extends BaseActivity {
                     adapter.setCheckListShow("gone");
                 }
                 break;
+            case R.id.btn_deleteAll:
+                if (infoList.size()==0){
+                    return;
+                }
+                deleteAllSelectItem();
+                break;
         }
+    }
+
+    //全选删除
+    private void deleteAllSelectItem() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(BrowseHistoryActivity.this);
+        builder.setTitle("确定删除所选浏览记录吗");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cancleHistory();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+    //删除所有收藏
+    private void cancleHistory() {
+        customLoadingDialog.show();
+        String deleteIds = "";
+        final List<String> deletePositions = new ArrayList<>();
+        for (int i = 0; i <selectedList.size() ; i++) {
+            if (selectedList.get(i)){
+                deleteIds+=infoList.get(i).getHistory_id()+",";
+                deletePositions.add(i+"");
+            }
+        }
+        Log.i("tag",deleteIds);
+        ApiForum.cancleHistory(ApiConstant.CANCLE_HISTORY, deleteIds, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(Call call, Response response, String s) {
+                customLoadingDialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int code = jsonObject.getInt("error_code");
+                    if (code == ApiConstant.SUCCESS_CODE){
+                        for (int i = deletePositions.size()-1; i >=0 ; i--) {
+                            infoList.remove(Integer.parseInt(deletePositions.get(i)));
+                            selectedList.remove(Integer.parseInt(deletePositions.get(i)));
+                            adapter.notifyDataSetChanged();
+                        }
+                        if (infoList.size()==0){
+                            pulltorefreshView.setVisibility(View.GONE);
+                            no_data_rl.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onEror(Call call, int statusCode, Exception e) {
+                customLoadingDialog.dismiss();
+            }
+        });
     }
 }

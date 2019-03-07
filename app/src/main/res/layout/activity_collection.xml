@@ -31,15 +31,13 @@
             </com.chuangsheng.forum.view.PullToRefreshView>
             <include layout="@layout/common_no_data" />
     </LinearLayout>
-
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/rl_deleteAll"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
         android:visibility="gone">
-
         <CheckBox
             android:id="@+id/cb_selectAll"
             android:layout_width="wrap_content"

@@ -103,4 +103,32 @@ public class ApiForum {
         params.put("page",page);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
+
+    /**
+     * 批量删除收藏
+     * @param callback
+     */
+    public static void cancleCollectionDiscussion(String url,String discussion_collections, RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("discussion_collections",discussion_collections);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 批量删除浏览记录
+     * @param callback
+     */
+    public static void cancleHistory(String url,String discussion_history_ids, RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("discussion_history_ids",discussion_history_ids);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 批量删除浏览我的帖子
+     * @param callback
+     */
+    public static void deletMyForums(String url,String discussion_ids, RequestCallBack<String> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("discussion_ids",discussion_ids);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
 }
