@@ -1,9 +1,14 @@
 package com.chuangsheng.forum;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +56,7 @@ public class MainActivity extends BaseActivity{
             R.mipmap.daikuan_xuanzhong,R.mipmap.wode_xuanzhong};
     private int[] unSelectedImageRes = {R.mipmap.shouye_hui,R.mipmap.shequ_hui,
             R.mipmap.daikuan_hui,R.mipmap.wode_hui};
+    private BroadcastReceiver broadcastReceiver;
     @Override
     protected void initViews() {
         fragmentManager = getSupportFragmentManager();
@@ -71,6 +77,30 @@ public class MainActivity extends BaseActivity{
         textViews.add(tv_forum);
         textViews.add(tv_loan);
         textViews.add(tv_mine);
+        initReceiver();
+    }
+
+    private void initReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.action.showloan");
+
+        IntentFilter intentFilterApplyCard = new IntentFilter();
+        intentFilterApplyCard.addAction("com.action.applyCard");
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                index = 2;
+                setSelectImageAndTextColor();
+                if(loanFragment == null){
+                    loanFragment =new LoanFragment();
+                }
+                AddOrShowFra(fragmentTransaction,loanFragment);
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilterApplyCard);
     }
 
     @Override
@@ -158,5 +188,13 @@ public class MainActivity extends BaseActivity{
 
         }
         currentFragment = fragment;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (broadcastReceiver!=null){
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+        }
     }
 }

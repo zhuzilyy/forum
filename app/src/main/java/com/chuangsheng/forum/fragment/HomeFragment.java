@@ -1,7 +1,6 @@
 package com.chuangsheng.forum.fragment;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -14,32 +13,27 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
-import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.api.ApiHome;
 import com.chuangsheng.forum.api.ApiLoan;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
-import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
-import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
 import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.BannerBean;
 import com.chuangsheng.forum.ui.home.bean.BannerInfo;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
-import com.chuangsheng.forum.ui.home.ui.ApplyCardActivity;
 import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
-import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.util.loader.GlideImageLoader;
 import com.chuangsheng.forum.view.PullToRefreshView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,6 +59,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private int page =1;
     private List<HomeFroumInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
+    private List<BannerInfo> bannerInfoList;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_home = inflater.inflate(R.layout.fragment_home,null);
@@ -88,6 +83,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             setTranslucentStatus();
         }*/
         infoList = new ArrayList<>();
+        bannerInfoList = new ArrayList<>();
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
     }
@@ -119,7 +115,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     //获取帖子列表
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "精华", page + "", new RequestCallBack<HomeFroumBean>() {
+        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "精华", page + "","", new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 customLoadingDialog.dismiss();
@@ -153,8 +149,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
            public void onSuccess(Call call, Response response, BannerBean bannerBean) {
                int code = bannerBean.getCode();
                if (code == ApiConstant.SUCCESS_CODE){
-                   List<BannerInfo> imgs = bannerBean.getResult().getImgs();
-                   setBannerImg(imgs);
+                   bannerInfoList = bannerBean.getResult().getImgs();
+                   setBannerImg(bannerInfoList);
                }
            }
            @Override
@@ -196,7 +192,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onHeaderRefresh(PullToRefreshView view) {
                 page =1;
                 infoList.clear();
+                bannerInfoList.clear();
                 getData();
+                initBanner();
             }
         });
         pulltorefreshView.setmOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
@@ -205,12 +203,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 loadMore();
             }
         });
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                String name = bannerInfoList.get(position).getName();
+                if (name.equals("贷款")){
+                    //跳转到第三个fragment
+                    Intent intent = new Intent();
+                    intent.setAction("com.action.showloan");
+                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                }else{
+                    //跳转到webview
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title","详情");
+                    bundle.putString("url",bannerInfoList.get(position).getImg_link());
+                    jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                }
+            }
+        });
     }
     //加载更多事件
     private void loadMore() {
         page++;
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "精华", page + "", new RequestCallBack<HomeFroumBean>() {
+        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "精华", page + "","", new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 List<HomeFroumInfo> list = homeFroumBean.getResult().getDiscussions();

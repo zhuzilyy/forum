@@ -35,7 +35,7 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/holder"
             android:layout_width="347dp"
-            android:layout_height="133dp" />
+            android:layout_height="235dp" />
     </LinearLayout>
     <View
         android:background="@android:color/transparent"

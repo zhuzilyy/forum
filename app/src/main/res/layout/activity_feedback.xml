@@ -17,10 +17,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <LinearLayout
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="24dp"
         android:background="#F1F4FA"
         android:layout_gravity="center_horizontal"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="158dp">
         <EditText
             android:id="@+id/et_content"
@@ -35,10 +37,12 @@
             android:layout_height="match_parent" />
     </LinearLayout>
     <LinearLayout
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="19dp"
         android:background="#F1F4FA"
         android:layout_gravity="center_horizontal"
-        android:layout_width="352dp"
+        android:layout_width="match_parent"
         android:layout_height="53dp">
         <EditText
             android:id="@+id/et_contact"
@@ -53,10 +57,10 @@
             android:layout_height="match_parent" />
     </LinearLayout>
         <android.support.v7.widget.RecyclerView
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginBottom="33dp"
             android:id="@+id/recycler"
-            android:layout_width="wrap_content"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:overScrollMode="never" />

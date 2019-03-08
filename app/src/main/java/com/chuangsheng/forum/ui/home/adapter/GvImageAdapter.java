@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 
 import java.util.List;
@@ -39,6 +40,8 @@ public class GvImageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.drawable.pic);
         if (convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_muti_picture,null);
             viewHolder = new ViewHolder(convertView);
@@ -46,7 +49,7 @@ public class GvImageAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(imageList.get(position)).into(viewHolder.imageview);
+        Glide.with(context).load(imageList.get(position)).apply(options).into(viewHolder.imageview);
         return convertView;
     }
     static class ViewHolder{

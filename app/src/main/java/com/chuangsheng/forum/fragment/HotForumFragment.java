@@ -1,5 +1,6 @@
 package com.chuangsheng.forum.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,11 +40,11 @@ public class HotForumFragment extends BaseFragment {
     PullToRefreshView pulltorefreshView;
     @BindView(R.id.no_data_rl)
     RelativeLayout no_data_rl;
-    private View view_newestForum;
     private HomeAdapter adapter;
     private int page=1;
     private CustomLoadingDialog customLoadingDialog;
     private List<HomeFroumInfo> infoList;
+    private String communityId;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_hotForum = inflater.inflate(R.layout.fragment_hot_forum,null);
@@ -55,6 +56,10 @@ public class HotForumFragment extends BaseFragment {
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
         infoList = new ArrayList<>();
+        Intent intent = getActivity().getIntent();
+        if (intent!=null){
+            communityId = intent.getExtras().getString("communityId");
+        }
     }
 
     @Override
@@ -74,7 +79,7 @@ public class HotForumFragment extends BaseFragment {
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "热门", page + "", new RequestCallBack<HomeFroumBean>() {
+        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "热门", page + "",communityId, new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 customLoadingDialog.dismiss();
@@ -135,7 +140,7 @@ public class HotForumFragment extends BaseFragment {
     private void loadMore() {
         page++;
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "热门", page + "", new RequestCallBack<HomeFroumBean>() {
+        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "热门", page + "", communityId,new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 List<HomeFroumInfo> list = homeFroumBean.getResult().getDiscussions();

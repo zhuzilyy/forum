@@ -2,6 +2,7 @@ package com.chuangsheng.forum.ui.mine.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +124,9 @@ public class UserDetailActivity extends BaseActivity {
                     }else{
                         iv_sex.setImageResource(R.mipmap.nv);
                     }
-                    tv_sign.setText(result.getDescription());
+                    if (!TextUtils.isEmpty(result.getDescription())){
+                        tv_sign.setText("个人简介："+result.getDescription());
+                    }
                     iv_level.setImageResource(LevelUtil.userLevel(result.getPoints()));
                 }
             }

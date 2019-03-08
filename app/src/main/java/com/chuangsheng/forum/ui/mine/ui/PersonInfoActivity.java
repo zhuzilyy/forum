@@ -162,10 +162,11 @@ public class PersonInfoActivity extends BaseActivity {
                 startActivityForResult(intent,CODE_REQUEST);
                 break;
             case R.id.rl_level:
-                bundle = new Bundle();
+                jumpActivity(PersonInfoActivity.this, LevelIntroduceActivity.class);
+               /* bundle = new Bundle();
                 bundle.putString("title", "等级介绍");
                 bundle.putString("url", "https://www.baidu.com");
-                jumpActivity(PersonInfoActivity.this, WebviewActivity.class, bundle);
+                jumpActivity(PersonInfoActivity.this, WebviewActivity.class, bundle);*/
                 break;
             case R.id.iv_back:
                 finish();

@@ -104,7 +104,7 @@ public class HomeAdapter extends BaseAdapter {
                     }
                 }
             });
-            if (tag.equals("精华")){
+            if (homeFroumInfo.getCategory().equals("true")){
                 noPictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
             }else{
                 noPictureViewHolder.iv_jinghua.setVisibility(View.GONE);
@@ -137,7 +137,7 @@ public class HomeAdapter extends BaseAdapter {
                     }
                 }
             });
-            if (tag.equals("精华")){
+            if (homeFroumInfo.getCategory().equals("true")){
                 onePictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
             }else{
                 onePictureViewHolder.iv_jinghua.setVisibility(View.GONE);
@@ -169,7 +169,7 @@ public class HomeAdapter extends BaseAdapter {
                     }
                 }
             });
-            if (tag.equals("精华")){
+            if (homeFroumInfo.getCategory().equals("true")){
                 mutiPictureViewHolder.iv_jinghua.setVisibility(View.VISIBLE);
             }else{
                 mutiPictureViewHolder.iv_jinghua.setVisibility(View.GONE);

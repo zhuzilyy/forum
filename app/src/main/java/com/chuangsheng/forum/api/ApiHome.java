@@ -20,10 +20,11 @@ public class ApiHome {
      * 获取首页帖子列表
      * @param callback
      */
-    public static void getHomeFroumList(String url,String category,String page, RequestCallBack<HomeFroumBean> callback){
+    public static void getHomeFroumList(String url,String category,String page,String community_id, RequestCallBack<HomeFroumBean> callback){
         Map<String,String> params = new HashMap<>();
         params.put("category",category);
         params.put("page",page);
+        params.put("community_id",community_id);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
     public static void login(String url,String phoneNum, RequestCallBack<String> callback){

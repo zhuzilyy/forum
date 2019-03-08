@@ -40,13 +40,9 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViews() {
         customLoadingDialog = new CustomLoadingDialog(this);
-        BaseActivity.addActivity(LoginActivity.this);
-        String userId = (String) SPUtils.get(this,"user_id","");
-        if (!TextUtils.isEmpty(userId)){
-            jumpActivity(this, MainActivity.class);
-            finish();
-        }
         BaseActivity.activityList.add(this);
+        SPUtils.put(this, "isFirst", false);
+        //boolean isFirst = (boolean) SPUtils.get(this, "isFirst", true);
     }
     @Override
     protected void initData() {

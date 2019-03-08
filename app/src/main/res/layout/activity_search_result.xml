@@ -5,14 +5,17 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="40dp">
         <LinearLayout
             android:layout_marginLeft="17dp"
             android:background="@drawable/shape_search"
             android:orientation="horizontal"
-            android:layout_width="316dp"
+            android:layout_weight="10"
+            android:layout_width="0dp"
             android:layout_height="match_parent">
             <ImageView
                 android:layout_margin="7dp"
@@ -36,17 +39,18 @@
                 />
         </LinearLayout>
         <TextView
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:id="@+id/tv_cancel"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="11dp"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:text="取消"
             android:textColor="#ff2e2e2e"
             android:textSize="16sp"
             />
-    </RelativeLayout>
+    </LinearLayout>
     <com.chuangsheng.forum.view.PullToRefreshView
         android:paddingBottom="10dp"
         android:layout_marginTop="5dp"

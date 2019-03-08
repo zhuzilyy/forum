@@ -10,7 +10,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="97dp">
+        android:layout_height="90dp">
         <com.chuangsheng.forum.view.CircleImageView
             android:id="@+id/iv_head"
             android:layout_marginLeft="10dp"
@@ -58,9 +58,11 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:paddingBottom="10dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -70,7 +72,7 @@
                 android:id="@+id/rl_newsCenter"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_news"
                     android:layout_marginLeft="14dp"
@@ -104,7 +106,7 @@
                 android:id="@+id/rl_myFroums"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_forum"
                     android:layout_marginLeft="14dp"
@@ -137,7 +139,7 @@
                 android:id="@+id/rl_myReplyForms"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_replyforum"
                     android:layout_marginLeft="14dp"
@@ -170,7 +172,7 @@
                 android:id="@+id/rl_collection"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_collection"
                     android:layout_marginLeft="14dp"
@@ -203,7 +205,7 @@
                 android:id="@+id/rl_history"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_history"
                     android:layout_marginLeft="14dp"
@@ -237,7 +239,7 @@
                 android:id="@+id/rl_safeCenter"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_safeCenter"
                     android:layout_marginLeft="14dp"
@@ -271,7 +273,7 @@
                 android:id="@+id/rl_aboutUs"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_aboutUs"
                     android:layout_marginLeft="14dp"
@@ -304,7 +306,7 @@
                 android:id="@+id/rl_contactUs"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_contactUs"
                     android:layout_marginLeft="14dp"
@@ -337,7 +339,7 @@
                 android:id="@+id/rl_feedback"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="54dp">
+                android:layout_height="45dp">
                 <ImageView
                     android:id="@+id/iv_feedback"
                     android:layout_marginLeft="14dp"

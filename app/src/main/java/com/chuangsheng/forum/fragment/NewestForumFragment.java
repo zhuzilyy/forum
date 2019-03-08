@@ -1,5 +1,6 @@
 package com.chuangsheng.forum.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class NewestForumFragment extends BaseFragment {
     private int page=1;
     private CustomLoadingDialog customLoadingDialog;
     private List<HomeFroumInfo> infoList;
+    private String communityId;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_newestForum = inflater.inflate(R.layout.fragment_newest_forum,null);
@@ -53,6 +55,10 @@ public class NewestForumFragment extends BaseFragment {
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
         infoList = new ArrayList<>();
+        Intent intent = getActivity().getIntent();
+        if (intent!=null){
+            communityId = intent.getExtras().getString("communityId");
+        }
     }
     @Override
     protected void initData() {
@@ -71,7 +77,7 @@ public class NewestForumFragment extends BaseFragment {
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "最新", page + "", new RequestCallBack<HomeFroumBean>() {
+        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "最新", page + "",communityId, new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 customLoadingDialog.dismiss();
@@ -133,7 +139,7 @@ public class NewestForumFragment extends BaseFragment {
     private void loadMore() {
         page++;
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "最新", page + "", new RequestCallBack<HomeFroumBean>() {
+        ApiHome.getHomeFroumList(ApiConstant.HOME_FROUM_LIST, "最新", page + "",communityId, new RequestCallBack<HomeFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, HomeFroumBean homeFroumBean) {
                 List<HomeFroumInfo> list = homeFroumBean.getResult().getDiscussions();

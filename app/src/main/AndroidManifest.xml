@@ -9,10 +9,10 @@
     <application
         android:name="com.chuangsheng.forum.application.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
+        android:roundIcon="@mipmap/logo"
         android:networkSecurityConfig="@xml/network_security_config"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         tools:replace="android:theme"
@@ -66,10 +66,7 @@
         <activity android:name=".ui.account.ui.LoginActivity"
             android:screenOrientation="portrait"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <!--邮箱找回-->
         <activity android:name=".ui.account.ui.FindByEmailActivity"
@@ -141,11 +138,31 @@
             android:name=".ui.mine.ui.SystemDetailActivity"
             android:screenOrientation="portrait"
             />
-        <!--红用户详情-->
+        <!--等级详情-->
+        <activity
+            android:name=".ui.mine.ui.LevelIntroduceActivity"
+            android:screenOrientation="portrait"
+            />
+        <!--用户详情-->
         <activity
             android:name=".ui.mine.ui.UserDetailActivity"
             android:screenOrientation="portrait"
             />
+        <!--欢迎界面-->
+        <activity
+            android:name=".ui.account.ui.WelcomeActiity"
+            android:screenOrientation="portrait"
+            />
+        <!--启动界面-->
+        <activity
+            android:name=".ui.account.ui.SplashActivity"
+            android:screenOrientation="portrait"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

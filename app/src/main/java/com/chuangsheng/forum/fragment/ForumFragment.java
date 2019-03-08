@@ -123,6 +123,7 @@ public class ForumFragment extends BaseFragment {
                 String name = communityInfo.getName();
                 String link = communityInfo.getLink();
                 String ad = communityInfo.getAd();
+                String communityId = communityInfo.getId();
                 Bundle bundle = new Bundle();
                 bundle.putString("img",img);
                 bundle.putString("link",link);
@@ -136,6 +137,7 @@ public class ForumFragment extends BaseFragment {
                 bundle.putString("top_discussion_id",top_discussion_id);
                 bundle.putString("top_subject",top_subject);
                 bundle.putString("ad",ad);
+                bundle.putString("communityId",communityId);
                 jumpActivity(getActivity(), CommunityDetailActivity.class,bundle);
             }
         });
