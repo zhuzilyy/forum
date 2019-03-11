@@ -76,6 +76,7 @@ public class ForumDetailActivity extends BaseActivity {
     private CircleImageView iv_head;
     private List<DetailForumInfo> infoList;
     private String advertisement;
+    private ImageView iv_level;
     @Override
     protected void initViews() {
         view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
@@ -87,6 +88,7 @@ public class ForumDetailActivity extends BaseActivity {
         tv_content = view_header.findViewById(R.id.tv_content);
         tv_browse = view_header.findViewById(R.id.tv_browse);
         iv_head = view_header.findViewById(R.id.iv_head);
+        iv_level = view_header.findViewById(R.id.iv_level);
         tv_commentCount = view_header.findViewById(R.id.tv_commentCount);
         tv_title.setText("详情");
         registerBroadCast();
