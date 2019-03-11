@@ -15,7 +15,10 @@ import com.chuangsheng.forum.api.ApiLoan;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.loan.adapter.CardAdapter;
 import com.chuangsheng.forum.ui.loan.adapter.LoanAdapter;
+import com.chuangsheng.forum.ui.loan.bean.CardBean;
+import com.chuangsheng.forum.ui.loan.bean.CardInfo;
 import com.chuangsheng.forum.ui.loan.bean.LoanBean;
 import com.chuangsheng.forum.ui.loan.bean.LoanInfo;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
@@ -39,9 +42,9 @@ public class ApplyCardActivity extends BaseActivity {
     @BindView(R.id.pulltorefreshView)
     PullToRefreshView pulltorefreshView;
     private View view_loan;
-    private LoanAdapter loanAdapter;
+    private CardAdapter cardAdapter;
     private int page=1;
-    private List<LoanInfo> infoList;
+    private List<CardInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
@@ -54,17 +57,17 @@ public class ApplyCardActivity extends BaseActivity {
     protected void initData() {
         infoList = new ArrayList<>();
         getData();
-        loanAdapter = new LoanAdapter(this,infoList);
-        gv_loan.setAdapter(loanAdapter);
+        cardAdapter = new CardAdapter(this,infoList);
+        gv_loan.setAdapter(cardAdapter);
     }
     //获取数据
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiLoan.getLoanList(ApiConstant.LOAN_LIST, page + "", new RequestCallBack<LoanBean>() {
+        ApiLoan.getCarsList(ApiConstant.APPLY_CARD, page + "", new RequestCallBack<CardBean>() {
             @Override
-            public void onSuccess(Call call, Response response, LoanBean loanBean) {
-                int code = loanBean.getCode();
-                List<LoanInfo> list = loanBean.getResult().getLoans();
+            public void onSuccess(Call call, Response response, CardBean cardBean) {
+                int code = cardBean.getCode();
+                List<CardInfo> list = cardBean.getResult().getCards();
                 if (code == ApiConstant.SUCCESS_CODE){
                     customLoadingDialog.dismiss();
                     if (list!=null && list.size()>0){
@@ -72,7 +75,7 @@ public class ApplyCardActivity extends BaseActivity {
                         no_data_rl.setVisibility(View.GONE);
                         pulltorefreshView.onHeaderRefreshComplete();
                         infoList.addAll(list);
-                        loanAdapter.notifyDataSetChanged();
+                        cardAdapter.notifyDataSetChanged();
                         //判断是不是没有更多数据了
                         if (list.size() < ApiConstant.PAGE_SIZE) {
                             pulltorefreshView.onFooterRefreshComplete(true);
@@ -105,7 +108,7 @@ public class ApplyCardActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("title","详情");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
+                bundle.putString("url",infoList.get(position).getLimit());
                 jumpActivity(ApplyCardActivity.this, WebviewActivity.class,bundle);
             }
         });
@@ -134,14 +137,14 @@ public class ApplyCardActivity extends BaseActivity {
     private void loadMore() {
         page++;
         pulltorefreshView.setEnablePullTorefresh(true);
-        ApiLoan.getLoanList(ApiConstant.LOAN_LIST, page + "", new RequestCallBack<LoanBean>() {
+        ApiLoan.getCarsList(ApiConstant.APPLY_CARD, page + "", new RequestCallBack<CardBean>() {
             @Override
-            public void onSuccess(Call call, Response response, LoanBean loanBean) {
-                List<LoanInfo> list = loanBean.getResult().getLoans();
+            public void onSuccess(Call call, Response response, CardBean cardBean) {
+                List<CardInfo> list = cardBean.getResult().getCards();
                 if (list!=null && list.size()>0){
                     infoList.addAll(list);
                     pulltorefreshView.onHeaderRefreshComplete();
-                    loanAdapter.notifyDataSetChanged();
+                    cardAdapter.notifyDataSetChanged();
                     //判断是不是没有更多数据了
                     if (list.size() < ApiConstant.PAGE_SIZE) {
                         pulltorefreshView.onFooterRefreshComplete(true);

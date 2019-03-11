@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.chuangsheng.forum.MainActivity;
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -150,6 +151,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             } else {
                 //System.exit(0);
                // moveTaskToBack(true);
+                SPUtils.clearData(this);
                 finish();
             }
         }else {

@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +20,9 @@ import com.chuangsheng.forum.fragment.ForumFragment;
 import com.chuangsheng.forum.fragment.HomeFragment;
 import com.chuangsheng.forum.fragment.LoanFragment;
 import com.chuangsheng.forum.fragment.MineFragment;
+import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.forum.ui.PostForumActivity;
+import com.chuangsheng.forum.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +61,7 @@ public class MainActivity extends BaseActivity{
     private int[] unSelectedImageRes = {R.mipmap.shouye_hui,R.mipmap.shequ_hui,
             R.mipmap.daikuan_hui,R.mipmap.wode_hui};
     private BroadcastReceiver broadcastReceiver;
+    private String userId;
     @Override
     protected void initViews() {
         fragmentManager = getSupportFragmentManager();
@@ -78,6 +83,7 @@ public class MainActivity extends BaseActivity{
         textViews.add(tv_loan);
         textViews.add(tv_mine);
         initReceiver();
+        userId = (String) SPUtils.get(this,"user_id","");
     }
 
     private void initReceiver() {
@@ -107,12 +113,10 @@ public class MainActivity extends BaseActivity{
     protected void getResLayout() {
         setContentView(R.layout.activity_main);
     }
-
     @Override
     protected void initListener() {
 
     }
-
     @Override
     protected void setStatusBarColor() {
 
@@ -154,6 +158,12 @@ public class MainActivity extends BaseActivity{
                 AddOrShowFra(fragmentTransaction,mineFragment);
                 break;
             case R.id.ll_bottom:
+                if (TextUtils.isEmpty(userId)){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("intentFrom","main");
+                    jumpActivity(this, LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(this, PostForumActivity.class);
                 break;
         }

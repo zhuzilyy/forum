@@ -192,8 +192,10 @@ public class PersonInfoActivity extends BaseActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SPUtils.clear(PersonInfoActivity.this);
-                jumpActivity(PersonInfoActivity.this, LoginActivity.class);
+                SPUtils.clearData(PersonInfoActivity.this);
+                Bundle bundle = new Bundle();
+                bundle.putString("intentFrom","personInfo");
+                jumpActivity(PersonInfoActivity.this, LoginActivity.class,bundle);
                 BaseActivity.finishAll();
             }
         });

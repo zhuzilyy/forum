@@ -2,6 +2,7 @@ package com.chuangsheng.forum.ui.account.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.chuangsheng.forum.MainActivity;
 import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.account.ui.WelcomeActiity;
+import com.chuangsheng.forum.util.SPUtils;
 
 import java.util.List;
 
@@ -47,13 +49,16 @@ public class MyPagerAdapter extends PagerAdapter {
         imageViews.get(imageViews.size()-1).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Bundle bundle = new Bundle();
+                bundle.putString("intentFrom","welcome");
                 Intent intent=new Intent(context, LoginActivity.class);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
                 ((WelcomeActiity)context).finish();
+                SPUtils.put(context, "isFirst", false);
                 return false;
             }
         });
-
         return imageViews.get(position);
     }
 }

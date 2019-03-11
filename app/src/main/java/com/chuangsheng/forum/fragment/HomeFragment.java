@@ -3,6 +3,7 @@ package com.chuangsheng.forum.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +22,17 @@ import com.chuangsheng.forum.api.ApiLoan;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
+import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.BannerBean;
 import com.chuangsheng.forum.ui.home.bean.BannerInfo;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
+import com.chuangsheng.forum.ui.home.ui.ApplyCardActivity;
 import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
+import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.loader.GlideImageLoader;
 import com.chuangsheng.forum.view.PullToRefreshView;
 import com.youth.banner.Banner;
@@ -60,6 +64,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private List<HomeFroumInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
     private List<BannerInfo> bannerInfoList;
+    private String userId;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_home = inflater.inflate(R.layout.fragment_home,null);
@@ -86,6 +91,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         bannerInfoList = new ArrayList<>();
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
+        userId = (String) SPUtils.get(getActivity(),"user_id","");
     }
     //沉浸式管理
     public void setTranslucentStatus(){
@@ -257,10 +263,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         Bundle bundle = new Bundle();
         switch (v.getId()){
             case R.id.ll_applyCard:
-                //jumpActivity(getActivity(), ApplyCardActivity.class,null);
-                Intent intent = new Intent();
+                jumpActivity(getActivity(), ApplyCardActivity.class,null);
+               /* Intent intent = new Intent();
                 intent.setAction("com.action.applyCard");
-                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);*/
                 break;
             case R.id.ll_process:
                 getLinkUrl("进度查询");

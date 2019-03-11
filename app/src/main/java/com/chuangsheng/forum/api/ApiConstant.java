@@ -69,4 +69,6 @@ public class ApiConstant {
     public static String CANCLE_HISTORY= BASE_URL + "del_discussion_history";
     //批量删除我的帖子
     public static String DELETE_MY_FORUMS= BASE_URL + "del_discussions";
+    //申卡
+    public static String APPLY_CARD= BASE_URL + "get_card_list";
 }

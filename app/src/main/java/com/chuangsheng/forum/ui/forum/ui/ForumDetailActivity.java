@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.wifi.aware.DiscoverySession;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.api.ApiForum;
 import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.forum.adapter.ForumDetailAdapter;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumDiscussion;
@@ -216,6 +218,11 @@ public class ForumDetailActivity extends BaseActivity {
         detailAdapter.setDianZanClickListener(new ForumDetailAdapter.DianZanListener() {
             @Override
             public void click(int position) {
+                userId = (String) SPUtils.get(ForumDetailActivity.this,"user_id","");
+                if (TextUtils.isEmpty(userId)){
+                    jumpActivity(ForumDetailActivity.this, LoginActivity.class);
+                    return;
+                }
                 likeComment(position);
             }
         });
@@ -290,14 +297,29 @@ public class ForumDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_comment:
+                userId = (String) SPUtils.get(this,"user_id","");
+                if (TextUtils.isEmpty(userId)){
+                    jumpActivity(this, LoginActivity.class);
+                    return;
+                }
                 Intent intent = new Intent(ForumDetailActivity.this,ReplyForumActivity.class);
                 intent.putExtra("discussionId",discussionId);
                 startActivity(intent);
                 break;
             case R.id.ll_dianzan:
+                userId = (String) SPUtils.get(this,"user_id","");
+                if (TextUtils.isEmpty(userId)){
+                    jumpActivity(this, LoginActivity.class);
+                    return;
+                }
                 discussionDianzan();
                 break;
             case R.id.ll_collection:
+                userId = (String) SPUtils.get(this,"user_id","");
+                if (TextUtils.isEmpty(userId)){
+                    jumpActivity(this, LoginActivity.class);
+                    return;
+                }
                 collection();
                 break;
         }

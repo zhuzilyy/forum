@@ -55,6 +55,7 @@ public class MineFragment extends BaseFragment {
     private View view_mine;
     private static final int REQUEST_CODE = 100;
     private BroadcastReceiver broadcastReceiver;
+    private String userId;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_mine = inflater.inflate(R.layout.fragment_mine,null);
@@ -68,6 +69,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        userId = (String) SPUtils.get(getActivity(),"user_id","");
         //设置个人资料
         setValue();
         //监听广播 更新个人等级
@@ -77,27 +79,42 @@ public class MineFragment extends BaseFragment {
     private void initReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.action.update.point");
+        //回帖成功增长积分
+        IntentFilter intentFilterReplySuccess = new IntentFilter();
+        intentFilterReplySuccess.addAction("com.action.replySuccess");
+        //登录成功更新个人信息
+        IntentFilter intentFilterLoginSuccess = new IntentFilter();
+        intentFilterLoginSuccess.addAction("com.action.loginSuccess");
+
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (action.equals("com.action.update.point") ||action.equals("com.action.replySuccess"));
-                String total_point = intent.getStringExtra("total_point");
-                iv_level.setImageResource(LevelUtil.userLevel(total_point));
-            }
+                    String action = intent.getAction();
+                    if (action.equals("com.action.update.point") ||action.equals("com.action.replySuccess")){
+                        String total_point = intent.getStringExtra("total_point");
+                        iv_level.setImageResource(LevelUtil.userLevel(total_point));
+                    }else if(action.equals("com.action.loginSuccess")){
+                        setValue();
+                    }
+                }
         };
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver,intentFilter);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver,intentFilterReplySuccess);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver,intentFilterLoginSuccess);
     }
     private void setValue() {
+        userId = (String) SPUtils.get(getActivity(),"user_id","");
         String username = (String) SPUtils.get(getActivity(), "username", "");
         String headAvatar = (String) SPUtils.get(getActivity(), "headAvatar", "");
         String user_points = (String) SPUtils.get(getActivity(), "user_points", "");
-        tv_name.setText(username);
         if (!TextUtils.isEmpty(headAvatar)){
             Glide.with(getActivity()).load(headAvatar).into(iv_head);
         }
         if (!TextUtils.isEmpty(user_points)){
             iv_level.setImageResource(LevelUtil.userLevel(user_points));
+        }
+        if (!TextUtils.isEmpty(username)){
+            tv_name.setText(username);
         }
     }
     @Override
@@ -111,17 +128,37 @@ public class MineFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         switch (view.getId()){
             case R.id.rl_newsCenter:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), NewsActivity.class,null);
                 //jumpActivity(getActivity(), MyFroumsActivity.class,null);
                 break;
             case R.id.rl_safeCenter:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), SafeCenterActivity.class,null);
                 break;
             case R.id.rl_personInfo:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
                 startActivityForResult(intent,REQUEST_CODE);
                 break;
             case R.id.rl_feedback:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), FeedBackActivity.class,null);
                 break;
             case R.id.rl_aboutUs:
@@ -136,15 +173,35 @@ public class MineFragment extends BaseFragment {
                 jumpActivity(getActivity(), ContactUsActivity.class,null);
                 break;
             case R.id.rl_myFroums:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), MyFroumsActivity.class,null);
                 break;
             case R.id.rl_myReplyForms:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), MyReplyForumActivity.class,null);
                 break;
             case R.id.rl_collection:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), CollectionActivity.class,null);
                 break;
             case R.id.rl_history:
+                if (TextUtils.isEmpty(userId)){
+                    bundle.putString("intentFrom","mine");
+                    jumpActivity(getActivity(), LoginActivity.class,bundle);
+                    return;
+                }
                 jumpActivity(getActivity(), BrowseHistoryActivity.class,null);
                 break;
         }

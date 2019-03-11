@@ -1,7 +1,9 @@
 package com.chuangsheng.forum.ui.account.ui;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,16 +39,19 @@ public class LoginActivity extends BaseActivity {
     EditText et_phoneNum;
     private MyCountDownTimer timer;
     private CustomLoadingDialog customLoadingDialog;
+    private String intentFrom;
     @Override
     protected void initViews() {
         customLoadingDialog = new CustomLoadingDialog(this);
         BaseActivity.activityList.add(this);
-        SPUtils.put(this, "isFirst", false);
         //boolean isFirst = (boolean) SPUtils.get(this, "isFirst", true);
     }
     @Override
     protected void initData() {
-
+        Intent intent = getIntent();
+        if (intent!=null){
+            intentFrom = intent.getExtras().getString("intentFrom");
+        }
     }
     @Override
     protected void getResLayout() {
@@ -98,7 +103,12 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
             case R.id.iv_back:
-                finish();
+                if (intentFrom.equals("splash") || intentFrom.equals("welcome") || intentFrom.equals("personInfo")){
+                    jumpActivity(LoginActivity.this,MainActivity.class);
+                    finish();
+                }else{
+                    finish();
+                }
                 break;
         }
     }
@@ -131,7 +141,10 @@ public class LoginActivity extends BaseActivity {
                             jumpActivity(LoginActivity.this, BindEmailActivity.class,bundle);
                             timer.cancel();
                         }else{
-                            jumpActivity(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent();
+                            intent.setAction("com.action.loginSuccess");
+                            LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(intent);
+                            finish();
                         }
                     }else{
                         ToastUtils.show(LoginActivity.this,reason);

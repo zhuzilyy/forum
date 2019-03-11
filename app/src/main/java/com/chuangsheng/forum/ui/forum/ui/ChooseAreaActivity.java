@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
@@ -33,6 +34,8 @@ public class ChooseAreaActivity extends BaseActivity{
     ListView lv_froum;
     @BindView(R.id.pulltorefreshView)
     PullToRefreshView pulltorefreshView;
+    @BindView(R.id.no_data_rl)
+    RelativeLayout no_data_rl;
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.iv_back)
@@ -106,6 +109,8 @@ public class ChooseAreaActivity extends BaseActivity{
                 List<CommunityInfo> list = communityBean.getResult().getCommunitys();
                 if (code == ApiConstant.SUCCESS_CODE){
                     if (list!=null && list.size()>0){
+                        pulltorefreshView.setVisibility(View.VISIBLE);
+                        no_data_rl.setVisibility(View.GONE);
                         pulltorefreshView.onHeaderRefreshComplete();
                         infoList.addAll(list);
                         adapter.notifyDataSetChanged();
@@ -115,6 +120,9 @@ public class ChooseAreaActivity extends BaseActivity{
                         }else{
                             pulltorefreshView.onFooterRefreshComplete(false);
                         }
+                    }else{
+                        pulltorefreshView.setVisibility(View.GONE);
+                        no_data_rl.setVisibility(View.VISIBLE);
                     }
                 }
             }

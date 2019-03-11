@@ -1,5 +1,6 @@
 package com.chuangsheng.forum.ui.account.ui;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
@@ -84,13 +85,16 @@ public class SplashActivity extends BaseActivity {
         if (isFirst){
             jumpActivity(SplashActivity.this,WelcomeActiity.class);
         }else{
-            String userId = (String) SPUtils.get(this,"user_id","");
+            Bundle bundle = new Bundle();
+            bundle.putString("intentFrom","splash");
+            jumpActivity(this, LoginActivity.class,bundle);
+           /* String userId = (String) SPUtils.get(this,"user_id","");
             if (!TextUtils.isEmpty(userId)){
                 jumpActivity(this, MainActivity.class);
                 finish();
             }else{
                 jumpActivity(SplashActivity.this,LoginActivity.class);
-            }
+            }*/
         }
         finish();
     }

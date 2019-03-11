@@ -3,6 +3,8 @@ package com.chuangsheng.forum.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.chuangsheng.forum.ui.account.ui.LoginActivity;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -213,5 +215,11 @@ public class SPUtils {
             }
             editor.commit();
         }
+    }
+    public static void clearData(Context context){
+        remove(context,"user_id");
+        remove(context,"headAvatar");
+        remove(context,"user_points");
+        remove(context,"username");
     }
 }

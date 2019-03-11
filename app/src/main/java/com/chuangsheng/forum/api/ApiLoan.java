@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.api;
 
 import com.chuangsheng.forum.callback.RequestCallBack;
+import com.chuangsheng.forum.ui.loan.bean.CardBean;
 import com.chuangsheng.forum.ui.loan.bean.LoanBean;
 import com.chuangsheng.forum.ui.loan.bean.LoanResult;
 import com.chuangsheng.forum.util.OkHttpManager;
@@ -25,6 +26,15 @@ public class ApiLoan {
     public static void getLoanTitle(String url,String attribute,RequestCallBack<String> callback){
         Map<String,String> params = new HashMap<>();
         params.put("attribute",attribute);
+        OkHttpManager.getInstance().postRequest(url,params,callback);
+    }
+    /**
+     * 获取申卡的内容
+     * @param callback
+     */
+    public static void getCarsList(String url,String page,RequestCallBack<CardBean> callback){
+        Map<String,String> params = new HashMap<>();
+        params.put("page",page);
         OkHttpManager.getInstance().postRequest(url,params,callback);
     }
 }

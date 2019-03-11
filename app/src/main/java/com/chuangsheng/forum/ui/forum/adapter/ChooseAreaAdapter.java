@@ -53,7 +53,7 @@ public class ChooseAreaAdapter extends BaseAdapter {
         Glide.with(context).load(communityInfo.getImg()).into(viewHolder.iv_forum);
         viewHolder.tv_title.setText(communityInfo.getName());
         viewHolder.tv_desc.setText(communityInfo.getDesc());
-        viewHolder.tv_count.setText(" 主题: "+communityInfo.getDiscussion()+" 帖子 :"+communityInfo.getComment());
+        viewHolder.tv_count.setText("主题: "+communityInfo.getDiscussion()+" 帖子 :"+communityInfo.getComment());
         return convertView;
     }
     static class ViewHolder {
