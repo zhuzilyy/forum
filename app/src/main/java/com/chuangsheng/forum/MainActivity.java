@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity{
         textViews.add(tv_loan);
         textViews.add(tv_mine);
         initReceiver();
-        userId = (String) SPUtils.get(this,"user_id","");
+
     }
 
     private void initReceiver() {
@@ -158,6 +158,7 @@ public class MainActivity extends BaseActivity{
                 AddOrShowFra(fragmentTransaction,mineFragment);
                 break;
             case R.id.ll_bottom:
+                userId = (String) SPUtils.get(this,"user_id","");
                 if (TextUtils.isEmpty(userId)){
                     Bundle bundle = new Bundle();
                     bundle.putString("intentFrom","main");

@@ -60,7 +60,7 @@
                     <TextView
                         android:textSize="11sp"
                         android:id="@+id/tv_forum"
-                        android:text="论坛"
+                        android:text="社区"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -118,7 +118,7 @@
                     <TextView
                         android:textSize="11sp"
                         android:id="@+id/tv_mine"
-                        android:text="首页"
+                        android:text="我的"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
