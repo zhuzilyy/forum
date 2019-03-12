@@ -117,6 +117,7 @@ public class FeedBackActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     int code = jsonObject.getInt("error_code");
                     if (code == ApiConstant.SUCCESS_CODE){
+                        ToastUtils.show(FeedBackActivity.this,"发布成功");
                         finish();
                     }
                 } catch (JSONException e) {

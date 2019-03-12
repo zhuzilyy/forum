@@ -76,6 +76,17 @@ public class HotForumFragment extends BaseFragment {
                 jumpActivity(getActivity(), UserDetailActivity.class,bundle);
             }
         });
+        //条目点击事件
+        adapter.setItemClickListener(new HomeAdapter.itemClickListener() {
+            @Override
+            public void click(int position) {
+                infoList.get(position).setClick(Integer.parseInt(infoList.get(position).getClick())+1+"");
+                adapter.notifyDataSetChanged();
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
+            }
+        });
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);

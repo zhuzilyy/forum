@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,6 +21,8 @@ import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
 import com.chuangsheng.forum.ui.forum.ui.ReplyForumActivity;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.GvThreeImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
 import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.ToastUtils;
@@ -27,6 +30,7 @@ import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
 import java.security.acl.LastOwnerException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +44,7 @@ public class MyCollectionAdapter extends BaseAdapter {
     private String showStatus;
     private deleteCheckedListener deleteCheckedListener;
     private headClickListener headClickListener;
+    private itemClickListener itemClickListener;
     // 存储勾选框状态的map集合
     private List<Boolean> selectList;
 
@@ -89,7 +94,17 @@ public class MyCollectionAdapter extends BaseAdapter {
         } else {
             viewHolder.iv_singlePic.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.VISIBLE);
-            GvImageAdapter adapter = new GvImageAdapter(context, attachmentForum);
+            List<String> imageList = new ArrayList<>();
+            if (attachmentForum.size()>=3){
+                imageList.add(attachmentForum.get(0));
+                imageList.add(attachmentForum.get(1));
+                imageList.add(attachmentForum.get(2));
+            }else{
+                for (int i = 0; i <attachmentForum.size() ; i++) {
+                    imageList.add(attachmentForum.get(i));
+                }
+            }
+            GvThreeImageAdapter adapter = new GvThreeImageAdapter(context, imageList);
             viewHolder.gv_image.setAdapter(adapter);
         }
         viewHolder.tv_name.setText(collectionInfo.getUser_username());
@@ -123,6 +138,12 @@ public class MyCollectionAdapter extends BaseAdapter {
                 if (headClickListener!=null){
                     headClickListener.headClick(tag);
                 }
+            }
+        });
+        viewHolder.gv_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
+                itemClickListener.click(position);
             }
         });
 
@@ -179,5 +200,11 @@ public class MyCollectionAdapter extends BaseAdapter {
     }
     public void setHeadClickListener(headClickListener headClickListener){
         this.headClickListener = headClickListener;
+    }
+    public interface itemClickListener{
+        void click(int position);
+    }
+    public void setItemClickListener(itemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
     }
 }

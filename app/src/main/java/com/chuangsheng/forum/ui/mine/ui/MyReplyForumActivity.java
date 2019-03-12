@@ -68,6 +68,14 @@ public class MyReplyForumActivity extends BaseActivity {
                 jumpActivity(MyReplyForumActivity.this, UserDetailActivity.class,bundle);
             }
         });
+        myReplyFroumAdapter.setItemClickListener(new MyReplyFroumAdapter.itemClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getDiscussion().getId());
+                jumpActivity(MyReplyForumActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
     }
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);

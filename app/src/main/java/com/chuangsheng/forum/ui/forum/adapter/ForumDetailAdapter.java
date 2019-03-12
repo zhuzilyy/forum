@@ -18,6 +18,7 @@ import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.adapter.MyReplyFroumAdapter;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
@@ -96,6 +97,7 @@ public class ForumDetailAdapter extends BaseAdapter{
         }else{
             viewHolder.iv_advertisement.setVisibility(View.GONE);
         }
+        viewHolder.iv_level.setImageResource(LevelUtil.userLevel(detailForumInfo.getUser_points()));
         viewHolder.ll_dianzan.setTag(position);
         viewHolder.ll_dianzan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +128,8 @@ public class ForumDetailAdapter extends BaseAdapter{
         ImageView iv_likeStatus;
         @BindView(R.id.iv_advertisement)
         ImageView iv_advertisement;
+        @BindView(R.id.iv_level)
+        ImageView iv_level;
         @BindView(R.id.ll_dianzan)
         LinearLayout ll_dianzan;
         public ViewHolder(View view){

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -13,12 +14,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.GvThreeImageAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
 import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +31,7 @@ public class MyReplyFroumAdapter extends BaseAdapter {
     private Context context;
     private List<MyReplyFroumInfo> infoList;
     private headClickListener headClickListener;
+    private itemClickListener itemClickListener;
     public MyReplyFroumAdapter(Context context, List<MyReplyFroumInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
@@ -49,7 +53,7 @@ public class MyReplyFroumAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.pic);
         ViewHolder viewHolder = null;
@@ -76,8 +80,19 @@ public class MyReplyFroumAdapter extends BaseAdapter {
             viewHolder.iv_commentImgFroum.setVisibility(View.GONE);
             viewHolder.gv_imageFroum.setVisibility(View.VISIBLE);
             //帖子多图显示的情况下
-            GvImageAdapter froumAdapter = new GvImageAdapter(context,discussion.getAttachment());
-            viewHolder.gv_imageFroum.setAdapter(froumAdapter);
+            List<String> attachment = discussion.getAttachment();
+            List<String> imageList = new ArrayList<>();
+            if (attachment.size()>=3){
+                imageList.add(attachment.get(0));
+                imageList.add(attachment.get(1));
+                imageList.add(attachment.get(2));
+            }else{
+                for (int i = 0; i <attachment.size() ; i++) {
+                    imageList.add(attachment.get(i));
+                }
+            }
+            GvThreeImageAdapter adapter = new GvThreeImageAdapter(context,imageList);
+            viewHolder.gv_imageFroum.setAdapter(adapter);
         }
         //评论的图片的数量
         List<String> attachmentComment = myReplyFroumInfo.getAttachment();
@@ -92,9 +107,19 @@ public class MyReplyFroumAdapter extends BaseAdapter {
         }else{
             viewHolder.iv_commentImg.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.VISIBLE);
+            List<String> imageList = new ArrayList<>();
+            if (attachmentForum.size()>=3){
+                imageList.add(attachmentForum.get(0));
+                imageList.add(attachmentForum.get(1));
+                imageList.add(attachmentForum.get(2));
+            }else{
+                for (int i = 0; i <attachmentForum.size() ; i++) {
+                    imageList.add(attachmentForum.get(i));
+                }
+            }
             //评论多图显示的情况下
-            GvImageAdapter commentAdapter = new GvImageAdapter(context,myReplyFroumInfo.getAttachment());
-            viewHolder.gv_image.setAdapter(commentAdapter);
+            GvThreeImageAdapter adapter = new GvThreeImageAdapter(context, imageList);
+            viewHolder.gv_image.setAdapter(adapter);
         }
         Glide.with(context).load(myReplyFroumInfo.getUser_img()).apply(options).into(viewHolder.iv_head);
         viewHolder.tv_name.setText(discussion.getUser_username());
@@ -113,6 +138,13 @@ public class MyReplyFroumAdapter extends BaseAdapter {
                 }
             }
         });
+        viewHolder.gv_imageFroum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
+                itemClickListener.click(position);
+            }
+        });
+
         return convertView;
     }
     static class ViewHolder{
@@ -148,5 +180,10 @@ public class MyReplyFroumAdapter extends BaseAdapter {
     public void setHeadClickListener(headClickListener headClickListener){
         this.headClickListener = headClickListener;
     }
-
+    public interface itemClickListener{
+        void click(int position);
+    }
+    public void setItemClickListener(itemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
+    }
 }

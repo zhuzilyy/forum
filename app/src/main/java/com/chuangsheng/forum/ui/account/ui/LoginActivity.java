@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.chuangsheng.forum.MainActivity;
 import com.chuangsheng.forum.R;
@@ -129,11 +130,14 @@ public class LoginActivity extends BaseActivity {
                         String email = result.getString("email");
                         String user_points = result.getString("user_points");
                         String username = result.getString("username");
+                        String phone_number = result.getString("phone_number");
                         String img = result.getString("img");
                         SPUtils.put(LoginActivity.this,"user_id",user_id);
                         SPUtils.put(LoginActivity.this,"headAvatar",img);
                         SPUtils.put(LoginActivity.this,"user_points",user_points);
                         SPUtils.put(LoginActivity.this,"username",username);
+                        SPUtils.put(LoginActivity.this,"phone_number",phone_number);
+                        Log.i("tag",intentFrom);
                         if (TextUtils.isEmpty(email)){
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);
@@ -141,10 +145,15 @@ public class LoginActivity extends BaseActivity {
                             jumpActivity(LoginActivity.this, BindEmailActivity.class,bundle);
                             timer.cancel();
                         }else{
-                            Intent intent = new Intent();
-                            intent.setAction("com.action.loginSuccess");
-                            LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(intent);
-                            finish();
+                            if (intentFrom.equals("splash")){
+                                jumpActivity(LoginActivity.this,MainActivity.class);
+                                finish();
+                            }else{
+                                Intent intent = new Intent();
+                                intent.setAction("com.action.loginSuccess");
+                                LocalBroadcastManager.getInstance(LoginActivity.this).sendBroadcast(intent);
+                                finish();
+                            }
                         }
                     }else{
                         ToastUtils.show(LoginActivity.this,reason);

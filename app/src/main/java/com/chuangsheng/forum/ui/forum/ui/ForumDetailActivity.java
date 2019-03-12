@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.api.ApiForum;
@@ -58,12 +60,14 @@ public class ForumDetailActivity extends BaseActivity {
     TextView common_no__data_tv;
     @BindView(R.id.tv_dianzan)
     TextView tv_dianzan;
+    @BindView(R.id.tv_collection)
+    TextView tv_collection;
     @BindView(R.id.iv_dianzan)
     ImageView iv_dianzan;
     @BindView(R.id.iv_collection)
     ImageView iv_collection;
-    @BindView(R.id.rl_comment)
-    RelativeLayout rl_comment;
+    @BindView(R.id.ll_comment)
+    LinearLayout ll_comment;
     private ForumDetailAdapter detailAdapter;
     private View view_header;
     private String userId,discussionId,discussionLikes;
@@ -79,18 +83,17 @@ public class ForumDetailActivity extends BaseActivity {
     private ImageView iv_level;
     @Override
     protected void initViews() {
-        view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
-        iv_headerSinglePic = view_header.findViewById(R.id.iv_headerSinglePic);
-        gv_header = view_header.findViewById(R.id.gv_image);
-        tv_headerTitle = view_header.findViewById(R.id.tv_title);
-        tv_name = view_header.findViewById(R.id.tv_name);
-        tv_time = view_header.findViewById(R.id.tv_time);
-        tv_content = view_header.findViewById(R.id.tv_content);
-        tv_browse = view_header.findViewById(R.id.tv_browse);
-        iv_head = view_header.findViewById(R.id.iv_head);
-        iv_level = view_header.findViewById(R.id.iv_level);
-        tv_commentCount = view_header.findViewById(R.id.tv_commentCount);
-        tv_title.setText("详情");
+        //view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
+        iv_headerSinglePic = findViewById(R.id.iv_headerSinglePic);
+        gv_header = findViewById(R.id.gv_image);
+        tv_headerTitle = findViewById(R.id.tv_title);
+        tv_name = findViewById(R.id.tv_name);
+        tv_time = findViewById(R.id.tv_time);
+        tv_content = findViewById(R.id.tv_content);
+        tv_browse = findViewById(R.id.tv_browse);
+        iv_head = findViewById(R.id.iv_head);
+        iv_level = findViewById(R.id.iv_level);
+        tv_commentCount = findViewById(R.id.tv_commentCount);
         registerBroadCast();
         infoList = new ArrayList<>();
         BaseActivity.activityList.add(this);
@@ -118,7 +121,7 @@ public class ForumDetailActivity extends BaseActivity {
         userId = (String) SPUtils.get(this,"user_id","");
         detailAdapter = new ForumDetailAdapter(this,infoList);
         lv_forumDetail.setAdapter(detailAdapter);
-        lv_forumDetail.addHeaderView(view_header);
+        //lv_forumDetail.addHeaderView(view_header);
         getData();
     }
     //获取数据
@@ -127,11 +130,14 @@ public class ForumDetailActivity extends BaseActivity {
         ApiForum.getFroumDetail(ApiConstant.FORUM_DETAIL, userId, discussionId,page+"", new RequestCallBack<DetailForumBean>() {
             @Override
             public void onSuccess(Call call, Response response, DetailForumBean detailForumBean) {
+                RequestOptions options = new RequestOptions();
+                options.placeholder(R.drawable.pic);
                 int error_code = detailForumBean.getError_code();
                 pulltorefreshView.onHeaderRefreshComplete();
                 if (error_code == ApiConstant.SUCCESS_CODE){
                     //头部的内容
                     DetailForumDiscussion discussion = detailForumBean.getResult().getDiscussion();
+                    tv_title.setText(discussion.getSubject());
                     tv_headerTitle.setText(discussion.getSubject());
                     tv_name.setText(discussion.getUser_username());
                     tv_time.setText(discussion.getCreated());
@@ -147,10 +153,13 @@ public class ForumDetailActivity extends BaseActivity {
                     }
                     if (discussion.getCollection_status().equals("True")){
                         iv_collection.setImageResource(R.mipmap.collection);
+                        tv_collection.setText("已收藏");
                     }else{
                         iv_collection.setImageResource(R.mipmap.soucang);
+                        tv_collection.setText("收藏");
                     }
-                    Glide.with(ForumDetailActivity.this).load(discussion.getUser_img()).into(iv_head);
+                    Glide.with(ForumDetailActivity.this).load(discussion.getUser_img()).apply(options).into(iv_head);
+                    Glide.with(ForumDetailActivity.this).load(discussion.getUser_points()).into(iv_level);
                     List<String> attachment = detailForumBean.getResult().getDiscussion().getAttachment();
                     //显示和隐藏图片
                     if (attachment !=null && attachment.size()==0){
@@ -186,7 +195,7 @@ public class ForumDetailActivity extends BaseActivity {
                 }else if(error_code == 1){
                     pulltorefreshView.setVisibility(View.GONE);
                     no_data_rl.setVisibility(View.VISIBLE);
-                    rl_comment.setVisibility(View.GONE);
+                    ll_comment.setVisibility(View.GONE);
                     common_no__data_tv.setText("内容已经被删除");
                 }
             }
@@ -294,6 +303,7 @@ public class ForumDetailActivity extends BaseActivity {
     }
     @OnClick({R.id.iv_back,R.id.tv_comment,R.id.ll_dianzan,R.id.ll_collection})
     public void click(View view){
+        Bundle bundle = new Bundle();
         switch (view.getId()){
             case R.id.iv_back:
                 finish();
@@ -301,7 +311,8 @@ public class ForumDetailActivity extends BaseActivity {
             case R.id.tv_comment:
                 userId = (String) SPUtils.get(this,"user_id","");
                 if (TextUtils.isEmpty(userId)){
-                    jumpActivity(this, LoginActivity.class);
+                    bundle.putString("intentFrom","forumDetail");
+                    jumpActivity(this, LoginActivity.class,bundle);
                     return;
                 }
                 Intent intent = new Intent(ForumDetailActivity.this,ReplyForumActivity.class);
@@ -311,7 +322,8 @@ public class ForumDetailActivity extends BaseActivity {
             case R.id.ll_dianzan:
                 userId = (String) SPUtils.get(this,"user_id","");
                 if (TextUtils.isEmpty(userId)){
-                    jumpActivity(this, LoginActivity.class);
+                    bundle.putString("intentFrom","forumDetail");
+                    jumpActivity(this, LoginActivity.class,bundle);
                     return;
                 }
                 discussionDianzan();
@@ -319,7 +331,8 @@ public class ForumDetailActivity extends BaseActivity {
             case R.id.ll_collection:
                 userId = (String) SPUtils.get(this,"user_id","");
                 if (TextUtils.isEmpty(userId)){
-                    jumpActivity(this, LoginActivity.class);
+                    bundle.putString("intentFrom","forumDetail");
+                    jumpActivity(this, LoginActivity.class,bundle);
                     return;
                 }
                 collection();
@@ -339,8 +352,10 @@ public class ForumDetailActivity extends BaseActivity {
                     if (code == ApiConstant.SUCCESS_CODE){
                         if (like_status.equals("True")){
                             iv_collection.setImageResource(R.mipmap.collection);
+                            tv_collection.setText("已收藏");
                         }else{
                             iv_collection.setImageResource(R.mipmap.soucang);
+                            tv_collection.setText("收藏");
                         }
                     }
                 } catch (JSONException e) {

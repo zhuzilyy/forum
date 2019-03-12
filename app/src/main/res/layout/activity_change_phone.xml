@@ -18,9 +18,9 @@
         android:layout_marginTop="34dp"
         android:background="#F6F7F8"
         android:gravity="center_vertical">
-        <EditText
+        <TextView
             android:inputType="number"
-            android:id="@+id/et_phoneNum"
+            android:id="@+id/tv_phoneNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

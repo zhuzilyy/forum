@@ -33,6 +33,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,6 +53,7 @@ public class ReplyForumActivity extends BaseActivity {
     private List<LocalMedia> selectList;
     private String userId,discussionId;
     private CustomLoadingDialog customLoadingDialog;
+    private Timer timer;
     @Override
     protected void initViews() {
         selectList = new ArrayList<>();
@@ -70,6 +74,7 @@ public class ReplyForumActivity extends BaseActivity {
         if (intent!=null){
             discussionId = intent.getStringExtra("discussionId");
         }
+        timer = new Timer();
     }
     @Override
     protected void getResLayout() {
@@ -208,7 +213,7 @@ public class ReplyForumActivity extends BaseActivity {
                     JSONObject jsonResult = jsonObject.getJSONObject("result");
                     String point= jsonResult.getString("point");
                     String total_point=jsonResult.getString("total_point");
-                    ForumDialog dialog = new ForumDialog(ReplyForumActivity.this);
+                    final ForumDialog dialog = new ForumDialog(ReplyForumActivity.this);
                     if (code == ApiConstant.SUCCESS_CODE){
                         if (!point.equals("0")){
                             dialog.setImageRes(R.mipmap.huitiechengg);
@@ -224,6 +229,13 @@ public class ReplyForumActivity extends BaseActivity {
                             dialog.setTitle("该日经验积累到达上限");
                             dialog.show();
                         }
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        },1000);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -235,5 +247,13 @@ public class ReplyForumActivity extends BaseActivity {
                 customLoadingDialog.dismiss();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timer!=null){
+            timer.cancel();
+        }
     }
 }

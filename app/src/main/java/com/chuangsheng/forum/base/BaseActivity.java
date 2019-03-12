@@ -30,6 +30,7 @@ import com.chuangsheng.forum.MainActivity;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.StatusBarUtil;
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         setStatusBarColor();
         //设置白底黑字
         setTitleBarColor();
+       /* //初始化沉浸式
+        if (isImmersionBarEnabled()) {
+            initImmersionBar();
+        }*/
     }
     private void setTitleBarColor() {
         //实现状态栏 黑字白底 6.0以上
@@ -106,12 +111,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
+    protected void initImmersionBar() {
+        //在BaseActivity里初始化
+        ImmersionBar.with(this).navigationBarColor(R.color.colorPrimary).init();
+    }
+    /**
+     * 是否可以使用沉浸式
+     * Is immersion bar enabled boolean.
+     *
+     * @return the boolean
+     */
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-
+        if (isImmersionBarEnabled()) {
+            ImmersionBar.with(this).destroy();
+        }
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -151,7 +170,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             } else {
                 //System.exit(0);
                // moveTaskToBack(true);
-                SPUtils.clearData(this);
                 finish();
             }
         }else {

@@ -12,6 +12,7 @@
         android:background="@color/commonLine"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
+    <include layout="@layout/header_forum_detail"/>
     <com.chuangsheng.forum.view.PullToRefreshView
         android:paddingBottom="52dp"
         android:layout_marginTop="5dp"
@@ -30,8 +31,9 @@
         <include layout="@layout/common_no_data"/>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_comment"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_comment"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
@@ -39,23 +41,27 @@
         android:layout_alignParentBottom="true"
         android:background="#f3f5fe">
         <TextView
+            android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:gravity="center_vertical"
             android:text="评论"
             android:id="@+id/tv_comment"
-            android:layout_width="260dp"
+            android:layout_weight="6"
+            android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:background="@drawable/shape_comment" />
         <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
             android:gravity="center"
             android:id="@+id/ll_dianzan"
-            android:layout_marginLeft="21dp"
             android:layout_toRightOf="@+id/tv_comment"
             android:layout_centerVertical="true"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/iv_dianzan"
@@ -75,13 +81,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"
             android:id="@+id/ll_collection"
-            android:layout_marginLeft="19dp"
             android:layout_toRightOf="@+id/ll_dianzan"
             android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/iv_collection"
@@ -90,6 +98,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp" />
             <TextView
+                android:id="@+id/tv_collection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收藏"
@@ -97,5 +106,5 @@
                 android:textSize="12sp"
                 />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

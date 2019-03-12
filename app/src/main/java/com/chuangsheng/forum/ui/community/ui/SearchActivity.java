@@ -122,6 +122,11 @@ public class SearchActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SearchActivity.this,SearchResultActivity.class);
                 intent.putExtra("keyWord",child.getText().toString().trim());
+                if (!historyList.contains(child.getText().toString().trim())){
+                    historyList.add(child.getText().toString().trim());
+                }
+                Gson gson = new Gson();
+                SPUtils.put(SearchActivity.this,"searchHistory",gson.toJson(historyList));
                 startActivity(intent);
             }
         });

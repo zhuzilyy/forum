@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ import com.chuangsheng.forum.fragment.MineFragment;
 import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.forum.ui.PostForumActivity;
 import com.chuangsheng.forum.util.SPUtils;
+import com.gyf.barlibrary.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +73,7 @@ public class MainActivity extends BaseActivity{
         FragmentTransaction ft=fragmentManager.beginTransaction();
         AddOrShowFra(ft,homeFragment);
         BaseActivity.activityList.add(this);
+        ImmersionBar.with(this).init();
     }
     @Override
     protected void initData() {
@@ -83,9 +88,8 @@ public class MainActivity extends BaseActivity{
         textViews.add(tv_loan);
         textViews.add(tv_mine);
         initReceiver();
-
+        ImmersionBar.with(this).init();
     }
-
     private void initReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.action.showloan");

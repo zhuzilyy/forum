@@ -14,7 +14,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MyAppTheme"
+        android:theme="@style/AppTheme"
         tools:replace="android:theme"
         >
         <!--7.0拍照权限-->
@@ -27,8 +27,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name=".MainActivity">
-
+        <activity
+            android:name=".MainActivity">
         </activity>
         <!--消息中心-->
         <activity android:name=".ui.mine.ui.NewsActivity"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,10 +13,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.GvThreeImageAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +31,7 @@ public class SearchAdapter extends BaseAdapter {
     private Context context;
     private String tag;
     private List<HomeFroumInfo> infoList;
+    private itemClickListener itemClickListener;
     public SearchAdapter(Context context, List<HomeFroumInfo> infoList, String tag) {
         this.context = context;
         this.infoList = infoList;
@@ -66,7 +70,7 @@ public class SearchAdapter extends BaseAdapter {
         }
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MutiPictureViewHolder mutiPictureViewHolder = null;
         OnePictureViewHolder onePictureViewHolder = null;
         NoPictureViewHolder noPictureViewHolder = null;
@@ -138,8 +142,25 @@ public class SearchAdapter extends BaseAdapter {
             }else{
                 mutiPictureViewHolder.iv_jinghua.setVisibility(View.GONE);
             }
-            GvImageAdapter adapter = new GvImageAdapter(context,infoList.get(position).getAttachment());
+            List<String> attachment = infoList.get(position).getAttachment();
+            List<String> imageList = new ArrayList<>();
+            if (attachment.size()>=3){
+                imageList.add(attachment.get(0));
+                imageList.add(attachment.get(1));
+                imageList.add(attachment.get(2));
+            }else{
+                for (int i = 0; i <attachment.size() ; i++) {
+                    imageList.add(attachment.get(i));
+                }
+            }
+            GvThreeImageAdapter adapter = new GvThreeImageAdapter(context, imageList);
             mutiPictureViewHolder.gv_image.setAdapter(adapter);
+            mutiPictureViewHolder.gv_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
+                    itemClickListener.click(position);
+                }
+            });
         }
         return convertView;
     }
@@ -209,5 +230,11 @@ public class SearchAdapter extends BaseAdapter {
         public MutiPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
+    }
+    public interface itemClickListener{
+        void click(int position);
+    }
+    public void setItemClickListener(itemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
     }
 }

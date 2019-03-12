@@ -23,6 +23,7 @@ import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
 import com.chuangsheng.forum.ui.mine.bean.CollectionBean;
 import com.chuangsheng.forum.ui.mine.bean.CollectionInfo;
 import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import org.json.JSONException;
@@ -82,6 +83,14 @@ public class CollectionActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("user_id",userId);
                 jumpActivity(CollectionActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
+        adapter.setItemClickListener(new MyCollectionAdapter.itemClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(CollectionActivity.this, ForumDetailActivity.class,bundle);
             }
         });
     }
@@ -292,6 +301,17 @@ public class CollectionActivity extends BaseActivity {
                 break;
             case R.id.btn_deleteAll:
                 if (infoList.size()==0){
+                    ToastUtils.show(CollectionActivity.this,"请选中要删除数据");
+                    return;
+                }
+                List<Boolean> deleteList = new ArrayList<>();
+                for (int i = 0; i <selectedList.size() ; i++) {
+                    if (selectedList.get(i)){
+                        deleteList.add(selectedList.get(i));
+                    }
+                }
+                if (deleteList.size()==0){
+                    ToastUtils.show(CollectionActivity.this,"请选中要删除数据");
                     return;
                 }
                 deleteAllSelectItem();

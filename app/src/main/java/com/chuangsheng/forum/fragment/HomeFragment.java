@@ -1,15 +1,15 @@
 package com.chuangsheng.forum.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,7 +22,6 @@ import com.chuangsheng.forum.api.ApiLoan;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
-import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.forum.ui.ForumDetailActivity;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.BannerBean;
@@ -35,6 +34,7 @@ import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.loader.GlideImageLoader;
 import com.chuangsheng.forum.view.PullToRefreshView;
+import com.gyf.barlibrary.ImmersionBar;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -65,11 +65,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private CustomLoadingDialog customLoadingDialog;
     private List<BannerInfo> bannerInfoList;
     private String userId;
+    private Toolbar toolbar;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_home = inflater.inflate(R.layout.fragment_home,null);
         return view_home;
     }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initViews() {
         view_header = LayoutInflater.from(getActivity()).inflate(R.layout.header_home,null);
@@ -81,25 +83,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_blackSearch = view_header.findViewById(R.id.ll_blackSearch);
         ll_blackSearch.setOnClickListener(this);
         ll_huabei = view_header.findViewById(R.id.ll_huabei);
+        toolbar = view_header.findViewById(R.id.toolbar);
+        ImmersionBar.setTitleBar(getActivity(), toolbar);
         ll_huabei.setOnClickListener(this);
         ll_pos = view_header.findViewById(R.id.ll_pos);
         ll_pos.setOnClickListener(this);
-       /* if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            setTranslucentStatus();
-        }*/
         infoList = new ArrayList<>();
         bannerInfoList = new ArrayList<>();
         customLoadingDialog = new CustomLoadingDialog(getActivity());
         customLoadingDialog.show();
         userId = (String) SPUtils.get(getActivity(),"user_id","");
     }
-    //沉浸式管理
-    public void setTranslucentStatus(){
-        Window window = getActivity().getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        final int status = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        params.flags |= status;
-        window.setAttributes(params);
+    /**
+     * 是否可以使用沉浸式
+     * Is immersion bar enabled boolean.
+     *
+     * @return the boolean
+     */
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+    /**
+     * 子类设置布局Id
+     *
+     * @return the layout id
+     */
+    protected void initImmersionBar() {
+        //在BaseActivity里初始化
+        ImmersionBar.with(this).navigationBarColor(R.color.white).init();
     }
     @Override
     protected void initData() {
@@ -115,6 +126,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 Bundle bundle = new Bundle();
                 bundle.putString("user_id",infoList.get(position).getUser_id());
                 jumpActivity(getActivity(), UserDetailActivity.class,bundle);
+            }
+        });
+        //条目点击事件
+        homeAdapter.setItemClickListener(new HomeAdapter.itemClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                infoList.get(position).setClick(Integer.parseInt(infoList.get(position).getClick())+1+"");
+                homeAdapter.notifyDataSetChanged();
+                jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
             }
         });
     }

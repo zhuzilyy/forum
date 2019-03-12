@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
@@ -14,10 +15,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.GvThreeImageAdapter;
 import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.view.CircleImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +34,7 @@ public class MyFroumAdapter extends BaseAdapter {
     private List<HomeFroumInfo> infoList;
     private String showStatus;
     private deleteCheckedListener deleteCheckedListener;
+    private itemClickListener itemClickListener;
     // 存储勾选框状态的map集合
     private List<Boolean> selectList;
     public MyFroumAdapter(Context context, List<HomeFroumInfo> infoList,List<Boolean> selectList,String showStatus) {
@@ -71,7 +75,7 @@ public class MyFroumAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MutiPictureViewHolder mutiPictureViewHolder = null;
         OnePictureViewHolder onePictureViewHolder = null;
         NoPictureViewHolder noPictureViewHolder = null;
@@ -170,8 +174,25 @@ public class MyFroumAdapter extends BaseAdapter {
                     getSelectedCount();
                 }
             });
-            GvImageAdapter adapter = new GvImageAdapter(context,infoList.get(position).getAttachment());
+            List<String> attachment = infoList.get(position).getAttachment();
+            List<String> imageList = new ArrayList<>();
+            if (attachment.size()>=3){
+                imageList.add(attachment.get(0));
+                imageList.add(attachment.get(1));
+                imageList.add(attachment.get(2));
+            }else{
+                for (int i = 0; i <attachment.size() ; i++) {
+                    imageList.add(attachment.get(i));
+                }
+            }
+            GvThreeImageAdapter adapter = new GvThreeImageAdapter(context,imageList);
             mutiPictureViewHolder.gv_image.setAdapter(adapter);
+            mutiPictureViewHolder.gv_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
+                    itemClickListener.click(position);
+                }
+            });
         }
         return convertView;
     }
@@ -243,5 +264,11 @@ public class MyFroumAdapter extends BaseAdapter {
     }
     public void setDeleteCheckedListener(deleteCheckedListener deleteCheckedListener) {
         this.deleteCheckedListener = deleteCheckedListener;
+    }
+    public interface itemClickListener{
+        void click(int position);
+    }
+    public void setItemClickListener(itemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
     }
 }

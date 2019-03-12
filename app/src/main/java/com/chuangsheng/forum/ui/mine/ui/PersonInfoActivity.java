@@ -67,6 +67,8 @@ public class PersonInfoActivity extends BaseActivity {
     TextView tv_sex;
     @BindView(R.id.tv_desc)
     TextView tv_desc;
+    @BindView(R.id.tv_exp)
+    TextView tv_exp;
     @BindView(R.id.iv_head)
     CircleImageView iv_head;
     @BindView(R.id.iv_level)
@@ -112,6 +114,7 @@ public class PersonInfoActivity extends BaseActivity {
                     tv_nickName.setText(result.getUsername());
                     gender = result.getSex().equals("1") ? "男" : "女";
                     tv_sex.setText(gender);
+                    tv_exp.setText("EXP:"+result.getPoints());
                     if (TextUtils.isEmpty(result.getBrith())){
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);

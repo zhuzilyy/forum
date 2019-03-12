@@ -31,8 +31,8 @@ import okhttp3.Response;
 public class ChangePhoneActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.et_phoneNum)
-    EditText et_phoneNum;
+    @BindView(R.id.tv_phoneNum)
+    TextView tv_phoneNum;
     @BindView(R.id.et_confirmCode)
     EditText et_confirmCode;
     private MyCountDownTimer timer;
@@ -44,6 +44,8 @@ public class ChangePhoneActivity extends BaseActivity {
         BaseActivity.activityList.add(this);
         customLoadingDialog = new CustomLoadingDialog(this);
         BaseActivity.addActivity(ChangePhoneActivity.this);
+        String phoneNum = (String) SPUtils.get(ChangePhoneActivity.this,"phone_number","");
+        tv_phoneNum.setText(phoneNum);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class ChangePhoneActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_nextStep:
                 //jumpActivity(this,NewPhoneActivity.class);
-                String phonenumber = et_phoneNum.getText().toString().trim();
+                String phonenumber = tv_phoneNum.getText().toString().trim();
                 String confirmCode = et_confirmCode.getText().toString().trim();
                 changeNum(phonenumber, confirmCode);
                 break;
@@ -79,7 +81,7 @@ public class ChangePhoneActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_getConfirmCode:
-                String phoneNumber = et_phoneNum.getText().toString().trim();
+                String phoneNumber = tv_phoneNum.getText().toString().trim();
                 if (!TextUtils.isEmpty(phoneNumber)) {
                     if (phoneNumber.matches("^[1][3467589][0-9]{9}$")) {
                         timer = new MyCountDownTimer(60000, 1000, (Button) view);

@@ -221,5 +221,6 @@ public class SPUtils {
         remove(context,"headAvatar");
         remove(context,"user_points");
         remove(context,"username");
+        remove(context,"phone_number");
     }
 }

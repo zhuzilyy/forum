@@ -1,6 +1,10 @@
 package com.chuangsheng.forum.application;
 
 import android.app.Application;
+import android.util.Log;
+
+import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 
 public class MyApplication extends Application {
     public static MyApplication myApplication;

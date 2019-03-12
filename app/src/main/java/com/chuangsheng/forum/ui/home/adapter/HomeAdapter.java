@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,9 +17,11 @@ import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.application.MyApplication;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.util.LevelUtil;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +35,7 @@ public class HomeAdapter extends BaseAdapter {
     private String tag;
     private List<HomeFroumInfo> infoList;
     private headClickListener headClickListener;
+    private itemClickListener itemClickListener;
     public HomeAdapter(Context context, List<HomeFroumInfo> infoList,String tag) {
         this.context = context;
         this.infoList = infoList;
@@ -69,7 +74,7 @@ public class HomeAdapter extends BaseAdapter {
         }
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MutiPictureViewHolder mutiPictureViewHolder = null;
         OnePictureViewHolder onePictureViewHolder = null;
         NoPictureViewHolder noPictureViewHolder = null;
@@ -109,6 +114,14 @@ public class HomeAdapter extends BaseAdapter {
             }else{
                 noPictureViewHolder.iv_jinghua.setVisibility(View.GONE);
             }
+            noPictureViewHolder.ll_forum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener!=null){
+                        itemClickListener.click(position);
+                    }
+                }
+            });
         }else if(itemViewType == SINGLE_PICTURE){
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_froum_one_picture,null);
@@ -134,6 +147,14 @@ public class HomeAdapter extends BaseAdapter {
                     int tag = (int)v.getTag();
                     if (headClickListener!=null){
                         headClickListener.headClick(tag);
+                    }
+                }
+            });
+            onePictureViewHolder.ll_forum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener!=null){
+                        itemClickListener.click(position);
                     }
                 }
             });
@@ -174,8 +195,25 @@ public class HomeAdapter extends BaseAdapter {
             }else{
                 mutiPictureViewHolder.iv_jinghua.setVisibility(View.GONE);
             }
-            GvImageAdapter adapter = new GvImageAdapter(context,infoList.get(position).getAttachment());
+            List<String> attachment = infoList.get(position).getAttachment();
+            List<String> imageList = new ArrayList<>();
+            if (attachment.size()>=3){
+                imageList.add(attachment.get(0));
+                imageList.add(attachment.get(1));
+                imageList.add(attachment.get(2));
+            }else{
+                for (int i = 0; i <attachment.size() ; i++) {
+                    imageList.add(attachment.get(i));
+                }
+            }
+            GvThreeImageAdapter adapter = new GvThreeImageAdapter(context,imageList);
             mutiPictureViewHolder.gv_image.setAdapter(adapter);
+            mutiPictureViewHolder.gv_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
+                    itemClickListener.click(position);
+                }
+            });
         }
         return convertView;
     }
@@ -198,6 +236,8 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_browse;
         @BindView(R.id.iv_level)
         ImageView iv_level;
+        @BindView(R.id.ll_forum)
+        LinearLayout ll_forum;
         public NoPictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -223,6 +263,8 @@ public class HomeAdapter extends BaseAdapter {
         ImageView iv_jinghua;
         @BindView(R.id.iv_level)
         ImageView iv_level;
+        @BindView(R.id.ll_forum)
+        LinearLayout ll_forum;
         public OnePictureViewHolder(View view){
             ButterKnife.bind(this,view);
         }
@@ -257,5 +299,11 @@ public class HomeAdapter extends BaseAdapter {
     }
     public void setHeadClickListener(headClickListener headClickListener){
         this.headClickListener = headClickListener;
+    }
+    public interface itemClickListener{
+        void click(int position);
+    }
+    public void setItemClickListener(itemClickListener itemClickListener){
+        this.itemClickListener = itemClickListener;
     }
 }

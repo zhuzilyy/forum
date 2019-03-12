@@ -45,6 +45,8 @@ public class PostForumActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_right)
+    TextView tv_right;
     @BindView(R.id.tv_checkedArea)
     TextView tv_checkedArea;
     @BindView(R.id.et_title)
@@ -66,6 +68,7 @@ public class PostForumActivity extends BaseActivity {
         adapter.setSelectMax(6);
         recyclerView.setAdapter(adapter);
         tv_title.setText("发帖");
+        tv_right.setText("发布");
         customLoadingDialog = new CustomLoadingDialog(this);
         BaseActivity.activityList.add(this);
     }
@@ -183,6 +186,10 @@ public class PostForumActivity extends BaseActivity {
                 }
                 if (TextUtils.isEmpty(title)){
                     ToastUtils.show(PostForumActivity.this,"请输入标题");
+                    return;
+                }
+                if (title.length()<5){
+                    ToastUtils.show(PostForumActivity.this,"标题长度不能小于5");
                     return;
                 }
                 if (TextUtils.isEmpty(content)){

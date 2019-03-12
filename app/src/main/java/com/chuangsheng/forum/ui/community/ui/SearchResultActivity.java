@@ -66,6 +66,14 @@ public class SearchResultActivity extends BaseActivity {
         getData();
         searchAdapter = new SearchAdapter(this,infoList,"普通");
         lv_home.setAdapter(searchAdapter);
+        searchAdapter.setItemClickListener(new SearchAdapter.itemClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(SearchResultActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
 
     }
     //获取帖子列表

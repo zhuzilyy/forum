@@ -23,6 +23,7 @@ import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.adapter.MyFroumAdapter;
 import com.chuangsheng.forum.ui.mine.bean.MyFroumBean;
 import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import org.json.JSONException;
@@ -76,6 +77,14 @@ public class MyFroumsActivity extends BaseActivity {
         getData();
         adapter = new MyFroumAdapter(this,infoList,selectedList,"gone");
         lv_forums.setAdapter(adapter);
+        adapter.setItemClickListener(new MyFroumAdapter.itemClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(MyFroumsActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
     }
     //获取数据
     private void getData() {
@@ -278,6 +287,17 @@ public class MyFroumsActivity extends BaseActivity {
                 break;
             case R.id.btn_deleteAll:
                 if (infoList.size()==0){
+                    ToastUtils.show(MyFroumsActivity.this,"请选中要删除数据");
+                    return;
+                }
+                List<Boolean> deleteList = new ArrayList<>();
+                for (int i = 0; i <selectedList.size() ; i++) {
+                    if (selectedList.get(i)){
+                        deleteList.add(selectedList.get(i));
+                    }
+                }
+                if (deleteList.size()==0){
+                    ToastUtils.show(MyFroumsActivity.this,"请选中要删除数据");
                     return;
                 }
                 deleteAllSelectItem();
