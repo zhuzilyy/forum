@@ -69,14 +69,13 @@ public class CommunityDetailActivity extends BaseActivity {
     private List<View> viewLines;
     private List<TextView> textViews;
     private int index = 0;
-    private String fire_discussion_id,top_discussion_id,link,ad;
+    private String fire_discussion_id,top_discussion_id,link,ad,communityId;
     @Override
     protected void initViews() {
         fragmentManager = getSupportFragmentManager();
         newestForumFragment = new NewestForumFragment();
         FragmentTransaction ft=fragmentManager.beginTransaction();
         AddOrShowFra(ft,newestForumFragment);
-        tv_titleDetail.setText("详情");
         BaseActivity.activityList.add(this);
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setImageResource(R.mipmap.sousuo);
@@ -105,7 +104,9 @@ public class CommunityDetailActivity extends BaseActivity {
             String discussion = extras.getString("discussion");
             String desc = extras.getString("desc");
             String name = extras.getString("name");
+            communityId = extras.getString("communityId");
             link = extras.getString("link");
+            tv_titleDetail.setText(name);
             fire_discussion_id = extras.getString("fire_discussion_id");
             String fire_subject = extras.getString("fire_subject");
             top_discussion_id = extras.getString("top_discussion_id");
@@ -188,7 +189,9 @@ public class CommunityDetailActivity extends BaseActivity {
                 jumpActivity(CommunityDetailActivity.this, SearchActivity.class);
                 break;
             case R.id.iv_fatie:
-                jumpActivity(CommunityDetailActivity.this,PostForumActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("communityId",communityId);
+                jumpActivity(CommunityDetailActivity.this,PostForumActivity.class,bundle);
                 break;
             case R.id.iv_back:
                 finish();

@@ -1,6 +1,8 @@
 package com.chuangsheng.forum.ui.forum.ui;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,6 +46,7 @@ public class ChooseAreaActivity extends BaseActivity{
     private int page=1;
     private List<CommunityInfo> infoList;
     private CustomLoadingDialog customLoadingDialog;
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initViews() {
         tv_title.setText("选择版区");

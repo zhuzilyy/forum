@@ -14,7 +14,7 @@ import com.chuangsheng.forum.R;
 @SuppressLint("AppCompatCustomView")
 public class MarqueeTextView extends TextView {
     private final float DEF_TEXT_SIZE = 50.0F;//The default text size
-    private float mSpeed = 1.0F; //The default text scroll speed
+    private float mSpeed = 0.5F; //The default text scroll speed
     private boolean isScroll = true; //The default set as auto scroll
     private Context mContext;
     private Paint mPaint;
@@ -48,7 +48,8 @@ public class MarqueeTextView extends TextView {
         mPaint.setTextSize(DEF_TEXT_SIZE);
         mPaint.setColor(context.getResources().getColor(R.color.white));
     } public void setText(String text) { mText = text;
-        if (TextUtils.isEmpty(mText)) { mText = "";
+        if (TextUtils.isEmpty(mText))
+        { mText = "";
         } requestLayout();
         invalidate();
     } /**

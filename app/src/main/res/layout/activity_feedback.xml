@@ -32,7 +32,7 @@
             android:padding="15dp"
             android:textColor="#918F8F"
             android:hint="请填写您对我们平台的宝贵意见"
-            android:maxLength="6"
+            android:maxLength="150"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

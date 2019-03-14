@@ -3,6 +3,7 @@ package com.chuangsheng.forum.ui.mine.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.account.ui.FindByEmailActivity;
 import com.chuangsheng.forum.ui.account.ui.LoginActivity;
 import com.chuangsheng.forum.ui.account.ui.SetNameActivity;
+import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.MyCountDownTimer;
 import com.google.gson.JsonObject;
@@ -82,7 +84,12 @@ public class BindEmailActivity extends BaseActivity {
                 bindEmail(emailNum,confirmCode);
                 break;
             case R.id.iv_back:
-                finish();
+                String userId= (String) SPUtils.get(this,"user_id","");
+                if (TextUtils.isEmpty(userId)){
+                    ToastUtils.show(this,"必须绑定邮箱");
+                }else{
+                    finish();
+                }
                 break;
             case R.id.btn_getConfirmCode:
                 String email = et_email.getText().toString();
@@ -115,13 +122,16 @@ public class BindEmailActivity extends BaseActivity {
                     if (code == ApiConstant.SUCCESS_CODE){
                         if (timer!=null){
                             timer.cancel();
+                            timer.onFinish();
                         }
                         if (intentFrom.equals("safeCenter")){
                             finish();
                         }else{
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",userId);
+                            bundle.putString("intentFrom",intentFrom);
                             jumpActivity(BindEmailActivity.this,SetNameActivity.class,bundle);
+                            finish();
                         }
                     }
                 } catch (JSONException e) {
@@ -165,5 +175,17 @@ public class BindEmailActivity extends BaseActivity {
         if (timer!=null){
             timer.cancel();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            String userId= (String) SPUtils.get(this,"user_id","");
+            if (TextUtils.isEmpty(userId)){
+                ToastUtils.show(this,"必须绑定邮箱");
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -3,6 +3,7 @@ package com.chuangsheng.forum.ui.community.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -145,10 +146,10 @@ public class SearchResultActivity extends BaseActivity {
                 InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(et_search.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 keyWord = et_search.getText().toString();
-                page = 1;
                 infoList.clear();
+                page = 1;
                 getData();
-                return false;
+                return true;
             }
         });
     }

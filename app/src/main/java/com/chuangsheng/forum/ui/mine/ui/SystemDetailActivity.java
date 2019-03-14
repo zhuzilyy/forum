@@ -24,6 +24,8 @@ public class SystemDetailActivity extends BaseActivity {
     ImageView iv_pic;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_subject)
+    TextView tv_subject;
     @Override
     protected void initViews() {
         tv_title.setText("消息详情");
@@ -35,6 +37,8 @@ public class SystemDetailActivity extends BaseActivity {
             String content = extras.getString("content");
             String time = extras.getString("time");
             String pic = extras.getString("pic");
+            String subject = extras.getString("subject");
+            tv_subject.setText(subject);
             tv_content.setText(content);
             tv_time.setText(time);
             if (!TextUtils.isEmpty(pic)){

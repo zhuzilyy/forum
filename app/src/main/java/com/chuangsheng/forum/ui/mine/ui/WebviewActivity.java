@@ -30,6 +30,10 @@ public class WebviewActivity extends BaseActivity {
     @BindView(R.id.pb_webview)
     ProgressBar pb_webview;
     private WebSettings webSettings;
+
+    /**
+     *
+     */
     @Override
     protected void initViews() {
         Intent intent=getIntent();
@@ -38,6 +42,9 @@ public class WebviewActivity extends BaseActivity {
             String title=bundle.getString("title");
             String url=bundle.getString("url");
             tv_title.setText(title);
+            tv_title.setSingleLine(true);
+            tv_title.setMaxEms(10);
+            tv_title.setEllipsize(TextUtils.TruncateAt.END);
             webSettings=wv_webview.getSettings();
             WebviewUtil.setWebview(wv_webview, webSettings);
             wv_webview.loadUrl(url);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.GridView;
@@ -28,6 +29,7 @@ public class UserDetailAdapter extends BaseAdapter {
     private Context context;
     private List<HomeFroumInfo> infoList;
     private String showStatus;
+    private picClickListener picClickListener;
     public UserDetailAdapter(Context context, List<HomeFroumInfo> infoList, String showStatus) {
         this.context = context;
         this.infoList = infoList;
@@ -65,7 +67,7 @@ public class UserDetailAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MutiPictureViewHolder mutiPictureViewHolder = null;
         OnePictureViewHolder onePictureViewHolder = null;
         NoPictureViewHolder noPictureViewHolder = null;
@@ -135,6 +137,12 @@ public class UserDetailAdapter extends BaseAdapter {
             }
             GvImageAdapter adapter = new GvImageAdapter(context,infoList.get(position).getAttachment());
             mutiPictureViewHolder.gv_image.setAdapter(adapter);
+            mutiPictureViewHolder.gv_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
+                    picClickListener.click(position);
+                }
+            });
         }
         return convertView;
     }
@@ -190,5 +198,11 @@ public class UserDetailAdapter extends BaseAdapter {
     public void setCheckListShow(String showStatus) {
         this.showStatus = showStatus;
         notifyDataSetChanged();
+    }
+    public interface picClickListener{
+        void click(int position);
+    }
+    public void setPicClickListener(picClickListener picClickListener){
+        this.picClickListener = picClickListener;
     }
 }

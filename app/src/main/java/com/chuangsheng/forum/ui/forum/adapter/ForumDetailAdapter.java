@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.ui.forum.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.adapter.MyReplyFroumAdapter;
 import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
+import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
@@ -33,6 +35,8 @@ public class ForumDetailAdapter extends BaseAdapter{
     private Context context;
     private List<DetailForumInfo> infoList;
     private DianZanListener dianZanListener;
+    private adLinkClickListener adLinkClickListener;
+    private nameClickListener nameClickListener;
     public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
@@ -52,7 +56,7 @@ public class ForumDetailAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.pic);
         ViewHolder viewHolder = null;
@@ -105,6 +109,18 @@ public class ForumDetailAdapter extends BaseAdapter{
                 dianZanListener.click((int)v.getTag());
             }
         });
+        viewHolder.iv_advertisement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adLinkClickListener.click();
+            }
+        });
+        viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameClickListener.click(position);
+            }
+        });
         return convertView;
     }
     static class ViewHolder {
@@ -142,4 +158,17 @@ public class ForumDetailAdapter extends BaseAdapter{
     public void setDianZanClickListener(DianZanListener dianZanClickListener){
         this.dianZanListener = dianZanClickListener;
     }
+    public interface adLinkClickListener{
+        void click();
+    }
+    public void setAdLinkClickListener(adLinkClickListener adLinkClickListener){
+        this.adLinkClickListener = adLinkClickListener;
+    }
+    public interface nameClickListener{
+        void click(int position);
+    }
+    public void setNameClickListener(nameClickListener nameClickListener){
+        this.nameClickListener = nameClickListener;
+    }
+
 }

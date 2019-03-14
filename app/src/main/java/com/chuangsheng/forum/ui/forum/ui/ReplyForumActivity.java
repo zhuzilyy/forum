@@ -28,6 +28,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -213,22 +214,39 @@ public class ReplyForumActivity extends BaseActivity {
                     JSONObject jsonResult = jsonObject.getJSONObject("result");
                     String point= jsonResult.getString("point");
                     String total_point=jsonResult.getString("total_point");
+                    JSONObject comment = jsonResult.getJSONObject("comment");
+                    String user_img = comment.getString("user_img");
+                    String user_username = comment.getString("user_username");
+                    String user_points = comment.getString("user_points");
+                    String content = comment.getString("content");
+                    String created = comment.getString("created");
+                    String likes = comment.getString("likes");
+                    String like_status = comment.getString("like_status");
+                    JSONArray attachment = comment.getJSONArray("attachment");
                     final ForumDialog dialog = new ForumDialog(ReplyForumActivity.this);
                     if (code == ApiConstant.SUCCESS_CODE){
                         if (!point.equals("0")){
                             dialog.setImageRes(R.mipmap.huitiechengg);
                             dialog.setTitle("回帖成功，经验值+1");
                             dialog.show();
-                            //发送广播 回帖成功
-                            Intent intent = new Intent();
-                            intent.putExtra("total_point",total_point);
-                            intent.setAction("com.action.replySuccess");
-                            LocalBroadcastManager.getInstance(ReplyForumActivity.this).sendBroadcast(intent);
                         }else{
                             dialog.setImageRes(R.mipmap.huitiechengg);
                             dialog.setTitle("该日经验积累到达上限");
                             dialog.show();
                         }
+                        //发送广播 回帖成功
+                        Intent intent = new Intent();
+                        intent.putExtra("total_point",total_point);
+                        intent.putExtra("user_img",user_img);
+                        intent.putExtra("user_username",user_username);
+                        intent.putExtra("user_points",user_points);
+                        intent.putExtra("content",content);
+                        intent.putExtra("created",created);
+                        intent.putExtra("likes",likes);
+                        intent.putExtra("like_status",like_status);
+                        intent.putExtra("attachment",attachment.toString());
+                        intent.setAction("com.action.replySuccess");
+                        LocalBroadcastManager.getInstance(ReplyForumActivity.this).sendBroadcast(intent);
                         timer.schedule(new TimerTask() {
                             @Override
                             public void run() {

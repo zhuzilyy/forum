@@ -115,6 +115,7 @@ public class SystemNewsFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("content",infoList.get(position).getContent());
+                bundle.putString("subject",infoList.get(position).getSubject());
                 bundle.putString("time",infoList.get(position).getCreate_date());
                 bundle.putString("pic",infoList.get(position).getAttachment().get(0));
                 jumpActivity(getActivity(), SystemDetailActivity.class,bundle);

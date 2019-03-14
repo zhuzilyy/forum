@@ -101,6 +101,11 @@ public class FeedBackActivity extends BaseActivity {
                     ToastUtils.show(FeedBackActivity.this,"联系方式不能为空");
                     return;
                 }
+                if (!contact.matches("^[1][3467589][0-9]{9}$")&&
+                    !contact.matches("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")){
+                    ToastUtils.show(FeedBackActivity.this,"请填写正确的联系方式");
+                    return;
+                }
                 feedback(content,contact);
                 break;
         }

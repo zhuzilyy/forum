@@ -132,19 +132,20 @@ public class LoginActivity extends BaseActivity {
                         String username = result.getString("username");
                         String phone_number = result.getString("phone_number");
                         String img = result.getString("img");
-                        SPUtils.put(LoginActivity.this,"user_id",user_id);
-                        SPUtils.put(LoginActivity.this,"headAvatar",img);
-                        SPUtils.put(LoginActivity.this,"user_points",user_points);
-                        SPUtils.put(LoginActivity.this,"username",username);
-                        SPUtils.put(LoginActivity.this,"phone_number",phone_number);
-                        Log.i("tag",intentFrom);
                         if (TextUtils.isEmpty(email)){
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);
-                            bundle.putString("intentFrom","login");
+                            bundle.putString("intentFrom",intentFrom);
                             jumpActivity(LoginActivity.this, BindEmailActivity.class,bundle);
+                            finish();
                             timer.cancel();
+                            timer.onFinish();
                         }else{
+                            SPUtils.put(LoginActivity.this,"user_id",user_id);
+                            SPUtils.put(LoginActivity.this,"headAvatar",img);
+                            SPUtils.put(LoginActivity.this,"user_points",user_points);
+                            SPUtils.put(LoginActivity.this,"username",username);
+                            SPUtils.put(LoginActivity.this,"phone_number",phone_number);
                             if (intentFrom.equals("splash")){
                                 jumpActivity(LoginActivity.this,MainActivity.class);
                                 finish();

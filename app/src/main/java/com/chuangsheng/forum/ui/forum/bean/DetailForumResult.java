@@ -6,6 +6,8 @@ public class DetailForumResult {
     private DetailForumDiscussion discussion;
     private DetailForumBanner community;
     private List<DetailForumInfo> comments;
+    private String total_point;
+    private String point;
     public DetailForumDiscussion getDiscussion() {
         return discussion;
     }
@@ -28,5 +30,20 @@ public class DetailForumResult {
 
     public void setComments(List<DetailForumInfo> comments) {
         this.comments = comments;
+    }
+    public String getTotal_point() {
+        return total_point;
+    }
+
+    public void setTotal_point(String total_point) {
+        this.total_point = total_point;
+    }
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
     }
 }

@@ -77,6 +77,14 @@ public class UserDetailActivity extends BaseActivity {
         adapter = new UserDetailAdapter(this,infoList,"gone");
         lv_userDetail.setAdapter(adapter);
         lv_userDetail.addHeaderView(view_header);
+        adapter.setPicClickListener(new UserDetailAdapter.picClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("discussionId",infoList.get(position).getId());
+                jumpActivity(UserDetailActivity.this, ForumDetailActivity.class,bundle);
+            }
+        });
     }
     //获取我的帖子
     private void getData() {
@@ -161,6 +169,9 @@ public class UserDetailActivity extends BaseActivity {
         lv_userDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("discussionId",infoList.get(position-1).getId());
                 jumpActivity(UserDetailActivity.this, ForumDetailActivity.class,bundle);

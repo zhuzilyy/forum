@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.net.wifi.aware.DiscoverySession;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -30,11 +31,15 @@ import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumDiscussion;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
+import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
+import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
 import com.chuangsheng.forum.view.PullToRefreshView;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,8 +74,7 @@ public class ForumDetailActivity extends BaseActivity {
     @BindView(R.id.ll_comment)
     LinearLayout ll_comment;
     private ForumDetailAdapter detailAdapter;
-    private View view_header;
-    private String userId,discussionId,discussionLikes;
+    private String userId,discussionId;
     private int page=1;
     private LocalBroadcastManager localBroadcastManager;
     private BroadcastReceiver broadcastReceiver;
@@ -79,21 +83,22 @@ public class ForumDetailActivity extends BaseActivity {
     private TextView tv_headerTitle,tv_name,tv_time,tv_content,tv_browse,tv_commentCount;
     private CircleImageView iv_head;
     private List<DetailForumInfo> infoList;
-    private String advertisement;
+    private String advertisement,adLink;
     private ImageView iv_level;
+    private View view_header;
     @Override
     protected void initViews() {
-        //view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
-        iv_headerSinglePic = findViewById(R.id.iv_headerSinglePic);
-        gv_header = findViewById(R.id.gv_image);
-        tv_headerTitle = findViewById(R.id.tv_title);
-        tv_name = findViewById(R.id.tv_name);
-        tv_time = findViewById(R.id.tv_time);
-        tv_content = findViewById(R.id.tv_content);
-        tv_browse = findViewById(R.id.tv_browse);
-        iv_head = findViewById(R.id.iv_head);
-        iv_level = findViewById(R.id.iv_level);
-        tv_commentCount = findViewById(R.id.tv_commentCount);
+        view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
+        iv_headerSinglePic = view_header.findViewById(R.id.iv_headerSinglePic);
+        gv_header = view_header.findViewById(R.id.gv_image);
+        tv_headerTitle = view_header.findViewById(R.id.tv_headertitle);
+        tv_name = view_header.findViewById(R.id.tv_name);
+        tv_time = view_header.findViewById(R.id.tv_time);
+        tv_content =view_header.findViewById(R.id.tv_content);
+        tv_browse = view_header.findViewById(R.id.tv_browse);
+        iv_head = view_header.findViewById(R.id.iv_head);
+        iv_level = view_header.findViewById(R.id.iv_level);
+        tv_commentCount = view_header.findViewById(R.id.tv_commentCount);
         registerBroadCast();
         infoList = new ArrayList<>();
         BaseActivity.activityList.add(this);
@@ -105,8 +110,28 @@ public class ForumDetailActivity extends BaseActivity {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                infoList.clear();
-                getData();
+                String user_img = intent.getStringExtra("user_img");
+                String user_username = intent.getStringExtra("user_username");
+                String user_points = intent.getStringExtra("user_points");
+                String content = intent.getStringExtra("content");
+                String created = intent.getStringExtra("created");
+                String likes = intent.getStringExtra("likes");
+                String like_status = intent.getStringExtra("like_status");
+                String attachment = intent.getStringExtra("attachment");
+                DetailForumInfo detailForumInfo = new DetailForumInfo();
+                detailForumInfo.setUser_img(user_img);
+                detailForumInfo.setUser_username(user_username);
+                detailForumInfo.setUser_points(user_points);
+                detailForumInfo.setContent(content);
+                detailForumInfo.setCreated(created);
+                detailForumInfo.setLikes(likes);
+                detailForumInfo.setLike_status(like_status);
+                detailForumInfo.setAdImg(advertisement);
+                Gson gson = new Gson();
+                List<String> picList = gson.fromJson(attachment,List.class);
+                detailForumInfo.setAttachment(picList);
+                infoList.add(detailForumInfo);
+                detailAdapter.notifyDataSetChanged();
             }
         };
         localBroadcastManager.registerReceiver(broadcastReceiver, intentFilter);
@@ -121,23 +146,48 @@ public class ForumDetailActivity extends BaseActivity {
         userId = (String) SPUtils.get(this,"user_id","");
         detailAdapter = new ForumDetailAdapter(this,infoList);
         lv_forumDetail.setAdapter(detailAdapter);
-        //lv_forumDetail.addHeaderView(view_header);
+        lv_forumDetail.addHeaderView(view_header);
         getData();
+        detailAdapter.setAdLinkClickListener(new ForumDetailAdapter.adLinkClickListener() {
+            @Override
+            public void click() {
+                Bundle bundle = new Bundle();
+                bundle.putString("title","详情");
+                bundle.putString("url",adLink);
+                jumpActivity(ForumDetailActivity.this, WebviewActivity.class,bundle);
+            }
+        });
+        detailAdapter.setNameClickListener(new ForumDetailAdapter.nameClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",infoList.get(position).getId());
+                jumpActivity(ForumDetailActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
     }
     //获取数据
     private void getData() {
         pulltorefreshView.setEnablePullTorefresh(true);
         ApiForum.getFroumDetail(ApiConstant.FORUM_DETAIL, userId, discussionId,page+"", new RequestCallBack<DetailForumBean>() {
+            /**
+             t* @param call
+             * @param response        t
+             * @param detailForumBean
+             */
             @Override
             public void onSuccess(Call call, Response response, DetailForumBean detailForumBean) {
                 RequestOptions options = new RequestOptions();
                 options.placeholder(R.drawable.pic);
                 int error_code = detailForumBean.getError_code();
-                pulltorefreshView.onHeaderRefreshComplete();
+                if (pulltorefreshView!=null){
+                    pulltorefreshView.onHeaderRefreshComplete();
+                }
                 if (error_code == ApiConstant.SUCCESS_CODE){
                     //头部的内容
                     DetailForumDiscussion discussion = detailForumBean.getResult().getDiscussion();
                     tv_title.setText(discussion.getSubject());
+                    tv_title.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                     tv_headerTitle.setText(discussion.getSubject());
                     tv_name.setText(discussion.getUser_username());
                     tv_time.setText(discussion.getCreated());
@@ -145,7 +195,6 @@ public class ForumDetailActivity extends BaseActivity {
                     tv_content.setText(discussion.getContent());
                     tv_commentCount.setText("("+discussion.getComments()+")");
                     tv_dianzan.setText(discussion.getLikes());
-                    discussionLikes = discussion.getLikes();
                     if (discussion.getLike_status().equals("True")){
                         iv_dianzan.setImageResource(R.mipmap.dianzan_xuanzhong);
                     }else{
@@ -159,7 +208,7 @@ public class ForumDetailActivity extends BaseActivity {
                         tv_collection.setText("收藏");
                     }
                     Glide.with(ForumDetailActivity.this).load(discussion.getUser_img()).apply(options).into(iv_head);
-                    Glide.with(ForumDetailActivity.this).load(discussion.getUser_points()).into(iv_level);
+                    Glide.with(ForumDetailActivity.this).load(LevelUtil.userLevel(discussion.getUser_points())).into(iv_level);
                     List<String> attachment = detailForumBean.getResult().getDiscussion().getAttachment();
                     //显示和隐藏图片
                     if (attachment !=null && attachment.size()==0){
@@ -177,8 +226,9 @@ public class ForumDetailActivity extends BaseActivity {
                     }
                     //显示评论
                     List<DetailForumInfo> comments = detailForumBean.getResult().getComments();
+                    advertisement = detailForumBean.getResult().getCommunity().getAd();
+                    adLink = detailForumBean.getResult().getCommunity().getAd_link();
                     if (comments!=null && comments.size()>0){
-                        advertisement = detailForumBean.getResult().getCommunity().getAd();
                         comments.get(0).setAdImg(advertisement);
                         pulltorefreshView.setVisibility(View.VISIBLE);
                         no_data_rl.setVisibility(View.GONE);

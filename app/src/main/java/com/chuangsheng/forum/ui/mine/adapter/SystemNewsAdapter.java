@@ -51,7 +51,7 @@ public class SystemNewsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         SystemNewsInfo systemNewsInfo = infoList.get(position);
-        viewHolder.tv_content.setText(systemNewsInfo.getContent());
+        viewHolder.tv_content.setText(systemNewsInfo.getSubject());
         viewHolder.tv_time.setText(systemNewsInfo.getCreate_date());
         if (systemNewsInfo.getAttachment().size()>0){
             viewHolder.iv_pic.setVisibility(View.VISIBLE);

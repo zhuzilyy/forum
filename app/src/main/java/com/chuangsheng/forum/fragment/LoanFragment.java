@@ -70,10 +70,14 @@ public class LoanFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
         getMarqueeText();
     }
     private void getMarqueeText() {
-        ApiLoan.getLoanTitle(ApiConstant.GET_SYSTEM_ATTRIBUTE, "loan_title", new RequestCallBack<String>() {
+        ApiLoan.getLoanTitle(ApiConstant.GET_SYSTEM_ATTRIBUTE, "贷款滚动条", new RequestCallBack<String>() {
             @Override
             public void onSuccess(Call call, Response response, String result) {
                 try {
@@ -143,8 +147,8 @@ public class LoanFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("title","详情");
-                bundle.putString("url","https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8&wd=%E7%99%BE%E5%BA%A6");
+                bundle.putString("title",infoList.get(position).getName());
+                bundle.putString("url",infoList.get(position).getLink());
                 jumpActivity(getActivity(), WebviewActivity.class,bundle);
             }
         });

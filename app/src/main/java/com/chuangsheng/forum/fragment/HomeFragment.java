@@ -32,6 +32,7 @@ import com.chuangsheng.forum.ui.home.ui.ApplyCardActivity;
 import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.util.SPUtils;
+import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.util.loader.GlideImageLoader;
 import com.chuangsheng.forum.view.PullToRefreshView;
 import com.gyf.barlibrary.ImmersionBar;
@@ -65,7 +66,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private CustomLoadingDialog customLoadingDialog;
     private List<BannerInfo> bannerInfoList;
     private String userId;
-    private Toolbar toolbar;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_home = inflater.inflate(R.layout.fragment_home,null);
@@ -83,8 +83,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_blackSearch = view_header.findViewById(R.id.ll_blackSearch);
         ll_blackSearch.setOnClickListener(this);
         ll_huabei = view_header.findViewById(R.id.ll_huabei);
-        toolbar = view_header.findViewById(R.id.toolbar);
-        ImmersionBar.setTitleBar(getActivity(), toolbar);
         ll_huabei.setOnClickListener(this);
         ll_pos = view_header.findViewById(R.id.ll_pos);
         ll_pos.setOnClickListener(this);
@@ -209,7 +207,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("discussionId",infoList.get(position-1).getId());
-                infoList.get(position-1).setClick(Integer.parseInt(infoList.get(position-1).getClick())+1+"");
+                infoList.get(position-1).setClick(Integer.parseInt(infoList.get(position-1).getClick())+2+"");
                 homeAdapter.notifyDataSetChanged();
                 jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
             }

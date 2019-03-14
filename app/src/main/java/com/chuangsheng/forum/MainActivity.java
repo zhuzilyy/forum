@@ -162,14 +162,15 @@ public class MainActivity extends BaseActivity{
                 AddOrShowFra(fragmentTransaction,mineFragment);
                 break;
             case R.id.ll_bottom:
+                Bundle bundle = new Bundle();
                 userId = (String) SPUtils.get(this,"user_id","");
                 if (TextUtils.isEmpty(userId)){
-                    Bundle bundle = new Bundle();
                     bundle.putString("intentFrom","main");
                     jumpActivity(this, LoginActivity.class,bundle);
                     return;
                 }
-                jumpActivity(this, PostForumActivity.class);
+                bundle.putString("communityId","");
+                jumpActivity(this, PostForumActivity.class,bundle);
                 break;
         }
     }

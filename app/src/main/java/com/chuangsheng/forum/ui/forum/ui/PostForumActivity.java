@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chuangsheng.forum.R;
@@ -34,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,11 +56,14 @@ public class PostForumActivity extends BaseActivity {
     EditText et_title;
     @BindView(R.id.et_content)
     EditText et_content;
+    @BindView(R.id.rl_chooseArea)
+    RelativeLayout rl_chooseArea;
     private GridImageAdapter adapter;
     private List<LocalMedia> selectList;
     private final int REQUEST_CODE =100;
     private String areaId,areaName,userId;
     private CustomLoadingDialog customLoadingDialog;
+    private Timer timer;
     @Override
     protected void initViews() {
         selectList = new ArrayList<>();
@@ -71,10 +77,18 @@ public class PostForumActivity extends BaseActivity {
         tv_right.setText("发布");
         customLoadingDialog = new CustomLoadingDialog(this);
         BaseActivity.activityList.add(this);
+        timer = new Timer();
     }
     @Override
     protected void initData() {
         userId = (String) SPUtils.get(PostForumActivity.this,"user_id","");
+        Intent intent = getIntent();
+        if (intent!=null){
+            areaId = intent.getExtras().getString("communityId");
+        }
+        if (!TextUtils.isEmpty(areaId)){
+            rl_chooseArea.setVisibility(View.GONE);
+        }
     }
     @Override
     protected void getResLayout() {
@@ -233,7 +247,7 @@ public class PostForumActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     int code = jsonObject.getInt("error_code");
-                    ForumDialog dialog = new ForumDialog(PostForumActivity.this);
+                    final ForumDialog dialog = new ForumDialog(PostForumActivity.this);
                     if (code == ApiConstant.SUCCESS_CODE){
                         JSONObject jsonResult = jsonObject.getJSONObject("result");
                         String point= jsonResult.getString("point");
@@ -254,6 +268,15 @@ public class PostForumActivity extends BaseActivity {
                             dialog.setTitle("该日经验积累到达上限");
                             dialog.show();
                         }
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        },1000);
+
+
                     }else if(code == ApiConstant.LIMIT_CODE){
                         dialog.setImageRes(R.mipmap.fatiechengg);
                         dialog.setTitle("发帖过于频繁");
@@ -271,4 +294,11 @@ public class PostForumActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timer!=null){
+            timer.cancel();
+        }
+    }
 }

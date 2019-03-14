@@ -70,13 +70,15 @@
         android:layout_height="235dp"
         android:src="@mipmap/comment" />
     <com.chuangsheng.forum.view.MyGridView
+        android:paddingRight="20dp"
         android:visibility="gone"
         android:paddingLeft="17dp"
         android:id="@+id/gv_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:horizontalSpacing="8dp"
+        android:horizontalSpacing="3dp"
+        android:verticalSpacing="3dp"
         android:numColumns="3" />
     <!--点赞-->
     <RelativeLayout

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.ui.mine.bean.UserBean;
+import com.chuangsheng.forum.ui.mine.bean.UserResult;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.MyCountDownTimer;
@@ -36,7 +38,7 @@ public class SetNameActivity extends BaseActivity {
     @BindView(R.id.et_name)
     EditText et_name;
     private Intent intent;
-    private String userId;
+    private String userId,intentFrom;
     private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
@@ -50,6 +52,7 @@ public class SetNameActivity extends BaseActivity {
         if (intent!=null){
             Bundle extras = intent.getExtras();
             userId = extras.getString("userId");
+            intentFrom = extras.getString("intentFrom");
         }
     }
     @Override
@@ -70,7 +73,12 @@ public class SetNameActivity extends BaseActivity {
     public void click(View view){
         switch (view.getId()){
             case R.id.iv_back:
-                finish();
+                String userId= (String) SPUtils.get(this,"user_id","");
+                if (TextUtils.isEmpty(userId)){
+                    ToastUtils.show(this,"必须绑定邮箱");
+                }else{
+                    finish();
+                }
                 break;
             case R.id.btn_save:
                 String name = et_name.getText().toString();
@@ -79,10 +87,6 @@ public class SetNameActivity extends BaseActivity {
                     return;
                 }
                 setName(name);
-              /* jumpActivity(SetNameActivity.this,MainActivity.class);
-                Log.i("tag",BaseActivity.activityList.size()+"====activityList=====");
-               BaseActivity.finishAll();*/
-               // finish();
                 break;
         }
     }
@@ -95,12 +99,24 @@ public class SetNameActivity extends BaseActivity {
                 customLoadingDialog.dismiss();
                 int code = userBean.getCode();
                 if (code == ApiConstant.SUCCESS_CODE){
-                    jumpActivity(SetNameActivity.this, MainActivity.class);
-                    String username = userBean.getResult().getUsername();
-                    String headAvatar = userBean.getResult().getImg();
+                    UserResult result = userBean.getResult();
+                    String username = result.getUsername();
+                    String headAvatar = result.getImg();
+                    String user_id = result.getId();
+                    String user_points = result.getPoints();
+                    String phone_number = result.getPhone_number();
                     SPUtils.put(SetNameActivity.this,"username",username);
+                    SPUtils.put(SetNameActivity.this,"user_id",user_id);
                     SPUtils.put(SetNameActivity.this,"headAvatar",headAvatar);
-                    BaseActivity.finishAll();
+                    SPUtils.put(SetNameActivity.this,"user_points",user_points);
+                    SPUtils.put(SetNameActivity.this,"phone_number",phone_number);
+                    if (intentFrom.equals("splash")){
+                        jumpActivity(SetNameActivity.this, MainActivity.class);
+                        BaseActivity.finishAll();
+                    }else{
+                        finish();
+                    }
+
                 }
             }
             @Override
@@ -108,5 +124,16 @@ public class SetNameActivity extends BaseActivity {
                 customLoadingDialog.dismiss();
             }
         });
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            String userId= (String) SPUtils.get(this,"user_id","");
+            if (TextUtils.isEmpty(userId)){
+                ToastUtils.show(this,"必须绑定邮箱");
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

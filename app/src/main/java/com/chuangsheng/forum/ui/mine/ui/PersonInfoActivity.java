@@ -88,7 +88,7 @@ public class PersonInfoActivity extends BaseActivity {
     private CustomLoadingDialog customLoadingDialog;
     @Override
     protected void initViews() {
-        tv_title.setText("个人中心");
+        tv_title.setText("个人信息");
         tv_right.setText("保存");
         tv_right.setVisibility(View.VISIBLE);
         tv_right.setTextColor(Color.parseColor("#77a0fe"));
@@ -272,7 +272,7 @@ public class PersonInfoActivity extends BaseActivity {
         photoChioceDialog.setClickCallback(new PhotoChioceDialog.ClickCallback() {
             @Override
             public void doCamera() {
-                readPhotoAlbum();
+                takePhoto();
             }
 
             @Override
@@ -281,13 +281,13 @@ public class PersonInfoActivity extends BaseActivity {
 
             @Override
             public void doAlbum() {
-                takePhoto();
+                readPhotoAlbum();
             }
         });
     }
 
     //读取相册
-    private void readPhotoAlbum() {
+    private void takePhoto() {
         //指定action   [照相机]
         requestPermissions(PersonInfoActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, new RequestPermissionCallBack() {
             @Override
@@ -312,13 +312,12 @@ public class PersonInfoActivity extends BaseActivity {
     }
 
     //拍照
-    private void takePhoto() {
+    private void readPhotoAlbum() {
         requestPermissions(PersonInfoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, new RequestPermissionCallBack() {
             @Override
             public void granted() {
                 PhotoUtils.openPic(PersonInfoActivity.this, CODE_GALLERY_REQUEST);
             }
-
             @Override
             public void denied() {
                 Toast.makeText(PersonInfoActivity.this, "部分权限获取失败，正常功能受到影响", Toast.LENGTH_LONG).show();
