@@ -161,7 +161,7 @@ public class ForumDetailActivity extends BaseActivity {
             @Override
             public void click(int position) {
                 Bundle bundle = new Bundle();
-                bundle.putString("user_id",infoList.get(position).getId());
+                bundle.putString("user_id",infoList.get(position).getUser_id());
                 jumpActivity(ForumDetailActivity.this, UserDetailActivity.class,bundle);
             }
         });

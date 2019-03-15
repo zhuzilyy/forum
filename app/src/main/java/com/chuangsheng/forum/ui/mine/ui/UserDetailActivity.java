@@ -92,20 +92,24 @@ public class UserDetailActivity extends BaseActivity {
         ApiMine.getMyFroumList(ApiConstant.MY_FROUM_LIST, userId, page + "", new RequestCallBack<MyFroumBean>() {
             @Override
             public void onSuccess(Call call, Response response, MyFroumBean myFroumBean) {
+                pulltorefreshView.onHeaderRefreshComplete();
                 customLoadingDialog.dismiss();
                 List<HomeFroumInfo> list = myFroumBean.getResult().getDiscussions();
                 if (myFroumBean.getCode() == ApiConstant.SUCCESS_CODE){
                     if (list!=null && list.size()>0){
                         pulltorefreshView.setVisibility(View.VISIBLE);
-                        pulltorefreshView.onHeaderRefreshComplete();
                         infoList.addAll(list);
                         adapter.notifyDataSetChanged();
                     }
                     //判断是不是没有更多数据了
                     if (list.size() < ApiConstant.PAGE_SIZE) {
-                        pulltorefreshView.onFooterRefreshComplete(true);
+                        if (pulltorefreshView!=null){
+                            pulltorefreshView.onFooterRefreshComplete(true);
+                        }
                     }else{
-                        pulltorefreshView.onFooterRefreshComplete(false);
+                        if (pulltorefreshView!=null){
+                            pulltorefreshView.onFooterRefreshComplete(false);
+                        }
                     }
                 }
             }
