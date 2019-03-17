@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
-import android.net.wifi.aware.DiscoverySession;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,6 +30,7 @@ import com.chuangsheng.forum.ui.forum.adapter.ForumDetailAdapter;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumDiscussion;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
+import com.chuangsheng.forum.ui.forum.bean.EaluationPicBean;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
@@ -44,6 +45,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,7 +140,7 @@ public class ForumDetailActivity extends BaseActivity {
     }
     @Override
     protected void initData() {
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         if (intent!=null){
             Bundle extras = intent.getExtras();
             discussionId = extras.getString("discussionId");
@@ -163,6 +165,42 @@ public class ForumDetailActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("user_id",infoList.get(position).getUser_id());
                 jumpActivity(ForumDetailActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
+        detailAdapter.setPicClickListener(new ForumDetailAdapter.picClickListener() {
+            @Override
+            public void click(int position) {
+                List<String> attachment = infoList.get(position).getAttachment();
+                Intent intent = new Intent(ForumDetailActivity.this, LookBigPicActivity.class);
+                List<EaluationPicBean> list = new ArrayList<>();
+                EaluationPicBean ealuationPicBean = new EaluationPicBean();
+                ealuationPicBean.imageUrl =attachment.get(0);
+                list.add(ealuationPicBean);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable)list);
+                intent.putExtra("CURRENTITEM",0);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+        detailAdapter.setGvClickListener(new ForumDetailAdapter.gvClickListener() {
+            @Override
+            public void click(int position,int tag) {
+                List<String> attachment = infoList.get(position).getAttachment();
+                Intent intent = new Intent(ForumDetailActivity.this, LookBigPicActivity.class);
+                List<EaluationPicBean> list = new ArrayList<>();
+                for (int i = 0; i <attachment.size() ; i++) {
+                    EaluationPicBean ealuationPicBean = new EaluationPicBean();
+                    ealuationPicBean.imageUrl =attachment.get(i);
+                    list.add(ealuationPicBean);
+                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable)list);
+                intent.putExtra("CURRENTITEM",tag);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
     }
@@ -218,11 +256,13 @@ public class ForumDetailActivity extends BaseActivity {
                         iv_headerSinglePic.setVisibility(View.VISIBLE);
                         gv_header.setVisibility(View.GONE);
                         Glide.with(ForumDetailActivity.this).load(attachment.get(0)).into(iv_headerSinglePic);
+                        lookBigPic(attachment);
                     }else {
                         iv_headerSinglePic.setVisibility(View.GONE);
                         gv_header.setVisibility(View.VISIBLE);
                         GvImageAdapter adapter = new GvImageAdapter(ForumDetailActivity.this,attachment);
                         gv_header.setAdapter(adapter);
+                        lookBigPic(attachment);
                     }
                     //显示评论
                     List<DetailForumInfo> comments = detailForumBean.getResult().getComments();
@@ -255,6 +295,46 @@ public class ForumDetailActivity extends BaseActivity {
             }
         });
     }
+    //查看大图
+    private void lookBigPic(final List<String> attachment) {
+        if (attachment.size()==1){
+            iv_headerSinglePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ForumDetailActivity.this, LookBigPicActivity.class);
+                    List<EaluationPicBean> list = new ArrayList<>();
+                    EaluationPicBean ealuationPicBean = new EaluationPicBean();
+                    ealuationPicBean.imageUrl =attachment.get(0);
+                    list.add(ealuationPicBean);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable)list);
+                    intent.putExtra("CURRENTITEM",0);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+            });
+        }else{
+            gv_header.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(ForumDetailActivity.this, LookBigPicActivity.class);
+                    List<EaluationPicBean> list = new ArrayList<>();
+                    for (int i = 0; i <infoList.size() ; i++) {
+                        EaluationPicBean ealuationPicBean = new EaluationPicBean();
+                        ealuationPicBean.imageUrl =attachment.get(i);
+                        list.add(ealuationPicBean);
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(LookBigPicActivity.PICDATALIST, (Serializable)list);
+                    intent.putExtra("CURRENTITEM",position);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+                }
+            });
+        }
+    }
     @Override
     protected void getResLayout() {
         setContentView(R.layout.activity_forum_detail);
@@ -285,6 +365,13 @@ public class ForumDetailActivity extends BaseActivity {
                     return;
                 }
                 likeComment(position);
+            }
+        });
+        //只有一张图片的时候点击事件
+        iv_headerSinglePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

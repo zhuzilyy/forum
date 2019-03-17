@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +38,8 @@ public class ForumDetailAdapter extends BaseAdapter{
     private DianZanListener dianZanListener;
     private adLinkClickListener adLinkClickListener;
     private nameClickListener nameClickListener;
+    private picClickListener picClickListener;
+    private gvClickListener gvClickListener;
     public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
@@ -121,6 +124,20 @@ public class ForumDetailAdapter extends BaseAdapter{
                 nameClickListener.click(position);
             }
         });
+        viewHolder.iv_singlePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                picClickListener.click(position);
+            }
+        });
+        viewHolder.gv_image.setTag(position);
+        viewHolder.gv_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int selectTag, long id) {
+                int tag = (int)parent.getTag();
+                gvClickListener.click(tag,selectTag);
+            }
+        });
         return convertView;
     }
     static class ViewHolder {
@@ -169,6 +186,18 @@ public class ForumDetailAdapter extends BaseAdapter{
     }
     public void setNameClickListener(nameClickListener nameClickListener){
         this.nameClickListener = nameClickListener;
+    }
+    public interface picClickListener{
+        void click(int position);
+    }
+    public void setPicClickListener(picClickListener picClickListener){
+        this.picClickListener = picClickListener;
+    }
+    public interface gvClickListener{
+        void click(int position,int tag);
+    }
+    public void setGvClickListener(gvClickListener gvClickListener){
+        this.gvClickListener = gvClickListener;
     }
 
 }

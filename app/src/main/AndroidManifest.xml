@@ -153,6 +153,11 @@
             android:name=".ui.account.ui.WelcomeActiity"
             android:screenOrientation="portrait"
             />
+        <!--查看大图-->
+        <activity
+            android:name=".ui.forum.ui.LookBigPicActivity"
+            android:screenOrientation="portrait"
+            />
         <!--启动界面-->
         <activity
             android:name=".ui.account.ui.SplashActivity"
