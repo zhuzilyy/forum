@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
     <LinearLayout
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,14 +26,14 @@
                 android:scaleType="center"
                 android:layout_width="36dp"
                 android:layout_height="36dp" />
+
             <TextView
-                android:layout_marginTop="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:text="申卡"
                 android:textColor="#ff2e2e2e"
-                android:textSize="13sp"
-                />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout

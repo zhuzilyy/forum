@@ -20,7 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="visible">
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tv_viewpager"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_shape_viewpager"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content" />
             <LinearLayout
                 android:id="@+id/ll_dots"
                 android:layout_width="match_parent"

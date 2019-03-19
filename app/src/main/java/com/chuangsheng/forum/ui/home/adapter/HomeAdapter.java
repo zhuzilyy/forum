@@ -122,6 +122,14 @@ public class HomeAdapter extends BaseAdapter {
                     }
                 }
             });
+            noPictureViewHolder.iv_head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (headClickListener!=null){
+                        headClickListener.headClick(position);
+                    }
+                }
+            });
         }else if(itemViewType == SINGLE_PICTURE){
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_froum_one_picture,null);
@@ -136,6 +144,7 @@ public class HomeAdapter extends BaseAdapter {
             onePictureViewHolder.tv_name.setText(homeFroumInfo.getUser_username());
             onePictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             onePictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
+            onePictureViewHolder.tv_content.setVisibility(View.GONE);
             onePictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             onePictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             onePictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
@@ -163,6 +172,14 @@ public class HomeAdapter extends BaseAdapter {
             }else{
                 onePictureViewHolder.iv_jinghua.setVisibility(View.GONE);
             }
+            onePictureViewHolder.iv_head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (headClickListener!=null){
+                        headClickListener.headClick(position);
+                    }
+                }
+            });
         }else if(itemViewType == MUTI_PICTURE){
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_froum_muti_picture,null);
@@ -179,6 +196,7 @@ public class HomeAdapter extends BaseAdapter {
             mutiPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             mutiPictureViewHolder.tv_browse.setText(homeFroumInfo.getClick());
             mutiPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
+            mutiPictureViewHolder.tv_content.setVisibility(View.GONE);
             mutiPictureViewHolder.iv_level.setImageResource(LevelUtil.userLevel(homeFroumInfo.getUser_points()));
             mutiPictureViewHolder.tv_name.setTag(position);
             mutiPictureViewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +230,14 @@ public class HomeAdapter extends BaseAdapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int tag, long id) {
                     itemClickListener.click(position);
+                }
+            });
+            mutiPictureViewHolder.iv_head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (headClickListener!=null){
+                        headClickListener.headClick(position);
+                    }
                 }
             });
         }

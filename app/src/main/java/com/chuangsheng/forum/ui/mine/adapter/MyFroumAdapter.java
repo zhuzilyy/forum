@@ -126,6 +126,7 @@ public class MyFroumAdapter extends BaseAdapter {
             Glide.with(context).load(homeFroumInfo.getAttachment().get(0)).apply(options).into(onePictureViewHolder.iv_commentImg);
             onePictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             onePictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
+            onePictureViewHolder.tv_content.setVisibility(View.GONE);
             onePictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             onePictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
             onePictureViewHolder.cb_delete.setTag(position);
@@ -156,6 +157,7 @@ public class MyFroumAdapter extends BaseAdapter {
             HomeFroumInfo homeFroumInfo = infoList.get(position);
             mutiPictureViewHolder.tv_title.setText(homeFroumInfo.getSubject());
             mutiPictureViewHolder.tv_content.setText(homeFroumInfo.getContent());
+            mutiPictureViewHolder.tv_content.setVisibility(View.GONE);
             mutiPictureViewHolder.tv_time.setText(homeFroumInfo.getCreated());
             mutiPictureViewHolder.tv_message.setText(homeFroumInfo.getComments());
             mutiPictureViewHolder.cb_delete.setChecked(selectList.get(position));

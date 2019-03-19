@@ -1,8 +1,6 @@
 package com.chuangsheng.forum.ui.forum.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +15,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
-import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
-import com.chuangsheng.forum.ui.mine.adapter.MyReplyFroumAdapter;
-import com.chuangsheng.forum.ui.mine.bean.MyReplyFroumInfo;
-import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.util.LevelUtil;
-import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
-import com.chuangsheng.forum.view.MyGridView;
+import com.chuangsheng.forum.view.MyListView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ForumDetailAdapter extends BaseAdapter{
     private Context context;
@@ -124,6 +116,12 @@ public class ForumDetailAdapter extends BaseAdapter{
                 nameClickListener.click(position);
             }
         });
+        viewHolder.iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameClickListener.click(position);
+            }
+        });
         viewHolder.iv_singlePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +152,7 @@ public class ForumDetailAdapter extends BaseAdapter{
         @BindView(R.id.tv_floor)
         TextView tv_floor;
         @BindView(R.id.gv_image)
-        MyGridView gv_image;
+        MyListView gv_image;
         @BindView(R.id.iv_singlePic)
         ImageView iv_singlePic;
         @BindView(R.id.iv_likeStatus)

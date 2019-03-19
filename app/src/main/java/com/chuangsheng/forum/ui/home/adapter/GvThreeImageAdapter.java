@@ -43,7 +43,7 @@ public class GvThreeImageAdapter extends BaseAdapter {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.pic);
         if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_muti_picture,null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_pic,null);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }else {

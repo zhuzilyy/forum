@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 import com.chuangsheng.forum.R;
@@ -35,10 +36,11 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     public static String PICDATALIST = "PICDATALIST";
     public static String CURRENTITEM = "CURRENTITEM";
     private int currentItem;
-    public int mPositon;
+    public int mPositon,photoSize;
     private ImageScaleAdapter imageScaleAdapter;
     private HackyViewPager viewPager;
     private LinearLayout ll_dots;
+    private TextView tv_viewPage;
     // private TextView tv_back;
     // private TextView tv_pager;
     //private LinearLayout ll_bottom;
@@ -54,8 +56,8 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look_big_pic);
-        getData();
         intiView();
+        getData();
         setUpEvent();
         initDot(currentItem);
     }
@@ -74,16 +76,18 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     private void getData() {
         Intent intent = getIntent();
         picDataList = (List<EaluationPicBean>) intent.getSerializableExtra("PICDATALIST");
+        photoSize = picDataList.size();
         currentItem = intent.getIntExtra(CURRENTITEM, 0);
         mPositon = currentItem;
+        tv_viewPage.setText((currentItem+1)+"/"+photoSize+"");
         imageScaleAdapter = new ImageScaleAdapter(this, picDataList);
     }
-
     private void intiView() {
         ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
         ll_bottom_all = (LinearLayout) findViewById(R.id.ll_bottom_all);
         //  rl_title = (RelativeLayout) findViewById(R.id.rl_title);
         ll_root = (LinearLayout) findViewById(R.id.ll_root);
+        tv_viewPage = (TextView) findViewById(R.id.tv_viewpager);
 
         //tv_back = (TextView) findViewById(R.id.tv_back);
         //tv_pager = (TextView) findViewById(R.id.tv_pager);
@@ -177,12 +181,12 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
                 mPositon = position;
                 setTitleNum(position);
                 initDot(position);
+                tv_viewPage.setText((position+1)+"/"+photoSize+"");
             }
 
             @Override

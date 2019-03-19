@@ -69,7 +69,7 @@
         android:layout_width="344dp"
         android:layout_height="235dp"
         android:src="@mipmap/comment" />
-    <com.chuangsheng.forum.view.MyGridView
+    <com.chuangsheng.forum.view.MyListView
         android:paddingRight="20dp"
         android:visibility="gone"
         android:paddingLeft="17dp"

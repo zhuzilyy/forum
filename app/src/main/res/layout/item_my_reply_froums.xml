@@ -89,8 +89,8 @@
         <ImageView
             android:visibility="gone"
             android:id="@+id/iv_commentImgFroum"
-            android:layout_width="344dp"
-            android:layout_height="235dp"
+            android:layout_width="174dp"
+            android:layout_height="101dp"
             android:layout_marginTop="13dp"
             android:scaleType="centerCrop"
             android:src="@drawable/pic" />

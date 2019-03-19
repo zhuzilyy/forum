@@ -111,7 +111,7 @@
             android:layout_height="235dp"
             android:src="@drawable/pic" />
         <!--多张图片-->
-        <com.chuangsheng.forum.view.MyGridView
+        <com.chuangsheng.forum.view.MyListView
             android:visibility="gone"
             android:horizontalSpacing="3dp"
             android:verticalSpacing="3dp"

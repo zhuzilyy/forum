@@ -9,5 +9,5 @@
         android:scaleType="centerCrop"
         android:src="@drawable/pic"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="75dp" />
 </LinearLayout>

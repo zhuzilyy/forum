@@ -39,6 +39,7 @@ import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
 import com.chuangsheng.forum.view.CircleImageView;
 import com.chuangsheng.forum.view.MyGridView;
+import com.chuangsheng.forum.view.MyListView;
 import com.chuangsheng.forum.view.PullToRefreshView;
 import com.google.gson.Gson;
 
@@ -81,7 +82,7 @@ public class ForumDetailActivity extends BaseActivity {
     private LocalBroadcastManager localBroadcastManager;
     private BroadcastReceiver broadcastReceiver;
     private ImageView iv_headerSinglePic;
-    private MyGridView gv_header;
+    private MyListView gv_header;
     private TextView tv_headerTitle,tv_name,tv_time,tv_content,tv_browse,tv_commentCount;
     private CircleImageView iv_head;
     private List<DetailForumInfo> infoList;
@@ -320,7 +321,7 @@ public class ForumDetailActivity extends BaseActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(ForumDetailActivity.this, LookBigPicActivity.class);
                     List<EaluationPicBean> list = new ArrayList<>();
-                    for (int i = 0; i <infoList.size() ; i++) {
+                    for (int i = 0; i <attachment.size() ; i++) {
                         EaluationPicBean ealuationPicBean = new EaluationPicBean();
                         ealuationPicBean.imageUrl =attachment.get(i);
                         list.add(ealuationPicBean);
