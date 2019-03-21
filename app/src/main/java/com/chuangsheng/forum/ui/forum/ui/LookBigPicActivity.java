@@ -1,26 +1,41 @@
 package com.chuangsheng.forum.ui.forum.ui;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.chuangsheng.forum.R;
+import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.ui.forum.adapter.HackyViewPager;
 import com.chuangsheng.forum.ui.forum.adapter.ImageScaleAdapter;
 import com.chuangsheng.forum.ui.forum.bean.EaluationPicBean;
 import com.chuangsheng.forum.util.CommonUtils;
+import com.chuangsheng.forum.util.DonwloadSaveImg;
+import com.chuangsheng.forum.util.DownloadPictureUtil;
 import com.chuangsheng.forum.util.EvaluateUtil;
+import com.chuangsheng.forum.util.PhotoUtils;
 import com.chuangsheng.forum.view.PinchImageView;
 
 import java.util.ArrayList;
@@ -30,7 +45,7 @@ import java.util.List;
 /**
  * Created by mabeijianxi on 2016/1/5.
  */
-public class LookBigPicActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener, HackyViewPager.HackyViewPagerDispatchListener {
+public class LookBigPicActivity extends BaseActivity implements View.OnClickListener, ViewTreeObserver.OnPreDrawListener, HackyViewPager.HackyViewPagerDispatchListener {
     private List<EaluationPicBean> picDataList;
     private List<View> dotList = new ArrayList<>();
     public static String PICDATALIST = "PICDATALIST";
@@ -41,6 +56,7 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     private HackyViewPager viewPager;
     private LinearLayout ll_dots;
     private TextView tv_viewPage;
+    private Button tv_savePic;
     // private TextView tv_back;
     // private TextView tv_pager;
     //private LinearLayout ll_bottom;
@@ -48,19 +64,38 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     // private MaterialTextView bt_right;
     private LinearLayout ll_root;
     // private RelativeLayout rl_title;
-    private LinearLayout ll_bottom_all;
+    private RelativeLayout ll_bottom_all;
     private int height;
     private int width;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
         setContentView(R.layout.activity_look_big_pic);
         intiView();
         getData();
         setUpEvent();
         initDot(currentItem);
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void getResLayout() {
+
+    }
+
+    @Override
+    protected void initListener() {
+
+    }
+
+    @Override
+    protected void setStatusBarColor() {
+
+    }
+
     private void setUpEvent() {
         // bt_left.setOnClickListener(this);
         // bt_right.setOnClickListener(this);
@@ -71,6 +106,29 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
         //  tv_back.setOnClickListener(this);
         setPagerChangeListener(viewPager);
         viewPager.getViewTreeObserver().addOnPreDrawListener(this);
+        tv_savePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //指定action   [照相机]
+                requestPermissions(LookBigPicActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, new BaseActivity.RequestPermissionCallBack() {
+                    @Override
+                    public void granted() {
+                        DownloadPictureUtil.downloadPicture(getApplicationContext(),picDataList.get(mPositon).imageUrl);
+                    }
+                    @Override
+                    public void denied() {
+                        Toast.makeText(LookBigPicActivity.this, "部分权限获取失败，正常功能受到影响", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+    /**
+     * 检查设备是否存在SDCard的工具方法
+     */
+    public static boolean hasSdcard() {
+        String state = Environment.getExternalStorageState();
+        return state.equals(Environment.MEDIA_MOUNTED);
     }
 
     private void getData() {
@@ -84,17 +142,11 @@ public class LookBigPicActivity extends Activity implements View.OnClickListener
     }
     private void intiView() {
         ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
-        ll_bottom_all = (LinearLayout) findViewById(R.id.ll_bottom_all);
-        //  rl_title = (RelativeLayout) findViewById(R.id.rl_title);
+        ll_bottom_all = (RelativeLayout) findViewById(R.id.ll_bottom_all);
         ll_root = (LinearLayout) findViewById(R.id.ll_root);
         tv_viewPage = (TextView) findViewById(R.id.tv_viewpager);
-
-        //tv_back = (TextView) findViewById(R.id.tv_back);
-        //tv_pager = (TextView) findViewById(R.id.tv_pager);
         viewPager = (HackyViewPager) findViewById(R.id.viewpager);
-        // ll_bottom = (LinearLayout) findViewById(R.id.ll_bottom);
-        // bt_left = (MaterialTextView) findViewById(R.id.bt_left);
-        //bt_right = (MaterialTextView) findViewById(R.id.bt_right);
+        tv_savePic = (Button) findViewById(R.id.tv_savePhoto);
     }
 
     /**

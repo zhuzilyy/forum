@@ -45,6 +45,8 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/iv_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -123,10 +125,11 @@
             android:textColor="#ff2e2e2e"
             android:textSize="14sp" />
         <ImageView
+            android:layout_margin="13dp"
             android:visibility="gone"
             android:id="@+id/iv_commentImg"
-            android:layout_width="344dp"
-            android:layout_height="235dp"
+            android:layout_width="174dp"
+            android:layout_height="101dp"
             android:layout_marginTop="13dp"
             android:scaleType="centerCrop"
             android:src="@drawable/pic" />

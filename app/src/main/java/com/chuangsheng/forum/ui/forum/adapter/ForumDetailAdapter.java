@@ -1,6 +1,7 @@
 package com.chuangsheng.forum.ui.forum.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
+import com.chuangsheng.forum.ui.forum.bean.ForumParent;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.util.LevelUtil;
 import com.chuangsheng.forum.view.CircleImageView;
+import com.chuangsheng.forum.view.MyGridView;
 import com.chuangsheng.forum.view.MyListView;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class ForumDetailAdapter extends BaseAdapter{
     private nameClickListener nameClickListener;
     private picClickListener picClickListener;
     private gvClickListener gvClickListener;
+    private pingLunClickListener pingLunClickListener;
     public ForumDetailAdapter(Context context, List<DetailForumInfo> infoList) {
         this.context = context;
         this.infoList = infoList;
@@ -63,20 +67,31 @@ public class ForumDetailAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         DetailForumInfo detailForumInfo = infoList.get(position);
+        ForumParent forumParent = detailForumInfo.getParent();
         //帖子的图片的数量
         List<String> attachmentForum = detailForumInfo.getAttachment();
         if (attachmentForum.size() == 0){
             viewHolder.iv_singlePic.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.GONE);
         }else if(attachmentForum.size() == 1){
-            viewHolder.iv_singlePic.setVisibility(View.VISIBLE);
-            viewHolder.gv_image.setVisibility(View.GONE);
-            Glide.with(context).applyDefaultRequestOptions(options).load(attachmentForum.get(0)).into(viewHolder.iv_singlePic);
+            if (forumParent.getUser_id()==null){
+                viewHolder.iv_singlePic.setVisibility(View.VISIBLE);
+                viewHolder.gv_image.setVisibility(View.GONE);
+                Glide.with(context).applyDefaultRequestOptions(options).load(attachmentForum.get(0)).into(viewHolder.iv_singlePic);
+            }
         }else{
-            viewHolder.iv_singlePic.setVisibility(View.GONE);
-            viewHolder.gv_image.setVisibility(View.VISIBLE);
-            GvImageAdapter adapter = new GvImageAdapter(context,attachmentForum);
-            viewHolder.gv_image.setAdapter(adapter);
+            if (forumParent.getUser_id()==null){
+                viewHolder.iv_singlePic.setVisibility(View.GONE);
+                viewHolder.gv_image.setVisibility(View.VISIBLE);
+                GvImageAdapter adapter = new GvImageAdapter(context,attachmentForum);
+                viewHolder.gv_image.setAdapter(adapter);
+            }
+        }
+        if (forumParent.getUser_id()!=null){
+            viewHolder.tv_replyComment.setVisibility(View.VISIBLE);
+            viewHolder.tv_replyComment.setText(forumParent.getContent());
+        }else{
+            viewHolder.tv_replyComment.setVisibility(View.GONE);
         }
         viewHolder.tv_name.setText(detailForumInfo.getUser_username());
         Glide.with(context).load(detailForumInfo.getUser_img()).into(viewHolder.iv_head);
@@ -136,6 +151,12 @@ public class ForumDetailAdapter extends BaseAdapter{
                 gvClickListener.click(tag,selectTag);
             }
         });
+        viewHolder.iv_pinglun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pingLunClickListener.click(position);
+            }
+        });
         return convertView;
     }
     static class ViewHolder {
@@ -151,14 +172,18 @@ public class ForumDetailAdapter extends BaseAdapter{
         TextView tv_countZan;
         @BindView(R.id.tv_floor)
         TextView tv_floor;
+        @BindView(R.id.tv_replyComment)
+        TextView tv_replyComment;
         @BindView(R.id.gv_image)
-        MyListView gv_image;
+        MyGridView gv_image;
         @BindView(R.id.iv_singlePic)
         ImageView iv_singlePic;
         @BindView(R.id.iv_likeStatus)
         ImageView iv_likeStatus;
         @BindView(R.id.iv_advertisement)
         ImageView iv_advertisement;
+        @BindView(R.id.iv_pinglun)
+        ImageView iv_pinglun;
         @BindView(R.id.iv_level)
         ImageView iv_level;
         @BindView(R.id.ll_dianzan)
@@ -196,6 +221,12 @@ public class ForumDetailAdapter extends BaseAdapter{
     }
     public void setGvClickListener(gvClickListener gvClickListener){
         this.gvClickListener = gvClickListener;
+    }
+    public interface pingLunClickListener{
+        void click(int position);
+    }
+    public void setPingLunClickListener(pingLunClickListener pingLunClickListener){
+        this.pingLunClickListener = pingLunClickListener;
     }
 
 }

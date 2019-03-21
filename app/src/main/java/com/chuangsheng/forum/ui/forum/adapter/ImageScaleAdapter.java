@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.Target;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.ui.forum.bean.EaluationPicBean;
 import com.chuangsheng.forum.ui.forum.ui.LookBigPicActivity;
+import com.chuangsheng.forum.util.DonwloadSaveImg;
 import com.chuangsheng.forum.view.PinchImageView;
 
 import java.util.List;
@@ -113,10 +114,13 @@ public class ImageScaleAdapter extends PagerAdapter {
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                Bitmap bitmap = DonwloadSaveImg.drawableToBitmap(resource);
+
                 overLoad(pb);
                 return false;
             }
         }).into(imageView);
+
     }
 
     /**

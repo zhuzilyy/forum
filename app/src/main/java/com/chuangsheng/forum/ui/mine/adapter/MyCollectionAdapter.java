@@ -90,10 +90,12 @@ public class MyCollectionAdapter extends BaseAdapter {
         } else if (attachmentForum.size() == 1) {
             viewHolder.iv_singlePic.setVisibility(View.VISIBLE);
             viewHolder.gv_image.setVisibility(View.GONE);
+            viewHolder.tv_content.setVisibility(View.GONE);
             Glide.with(context).applyDefaultRequestOptions(options).load(attachmentForum.get(0)).into(viewHolder.iv_singlePic);
         } else {
             viewHolder.iv_singlePic.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.VISIBLE);
+            viewHolder.tv_content.setVisibility(View.GONE);
             List<String> imageList = new ArrayList<>();
             if (attachmentForum.size()>=3){
                 imageList.add(attachmentForum.get(0));

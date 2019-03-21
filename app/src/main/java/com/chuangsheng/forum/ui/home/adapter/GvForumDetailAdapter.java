@@ -16,10 +16,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GvImageAdapter extends BaseAdapter {
+public class GvForumDetailAdapter extends BaseAdapter {
     private Context context;
     private List<String> imageList;
-    public GvImageAdapter(Context context, List<String> imageList) {
+    public GvForumDetailAdapter(Context context, List<String> imageList) {
         this.context = context;
         this.imageList = imageList;
     }
@@ -43,7 +43,7 @@ public class GvImageAdapter extends BaseAdapter {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.pic);
         if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_pic,null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_gv_muti_picture,null);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }else {

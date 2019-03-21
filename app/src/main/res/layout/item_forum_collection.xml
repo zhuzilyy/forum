@@ -40,6 +40,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/iv_level"
                     android:src="@mipmap/kanong"
                     android:layout_width="wrap_content"
@@ -71,8 +73,8 @@
             android:textSize="15sp" />
     </LinearLayout>
     <ImageView
+        android:layout_marginLeft="17dp"
         android:id="@+id/iv_singlePic"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="13dp"
         android:scaleType="centerCrop"
         android:layout_width="174dp"

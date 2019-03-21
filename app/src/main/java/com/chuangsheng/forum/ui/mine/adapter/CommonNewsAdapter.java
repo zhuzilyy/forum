@@ -71,11 +71,13 @@ public class CommonNewsAdapter extends BaseAdapter {
         }else if(attachmentForum.size() == 1){
             viewHolder.iv_commentImgFroum.setVisibility(View.VISIBLE);
             viewHolder.gv_imageFroum.setVisibility(View.GONE);
+            viewHolder.tv_content.setVisibility(View.GONE);
             //帖子一张图片显示的情况下
             Glide.with(context).load(discussion.getAttachment().get(0)).apply(options).into(viewHolder.iv_commentImgFroum);
         }else{
             viewHolder.iv_commentImgFroum.setVisibility(View.GONE);
             viewHolder.gv_imageFroum.setVisibility(View.VISIBLE);
+            viewHolder.tv_content.setVisibility(View.GONE);
             //帖子多图显示的情况下
             GvImageAdapter froumAdapter = new GvImageAdapter(context,discussion.getAttachment());
             viewHolder.gv_imageFroum.setAdapter(froumAdapter);

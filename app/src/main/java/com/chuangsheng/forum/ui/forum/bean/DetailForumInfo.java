@@ -15,6 +15,15 @@ public class DetailForumInfo {
     private List<String> attachment;
     private String adImg;
     private String user_id;
+    private ForumParent parent;
+    public ForumParent getParent() {
+        return parent;
+    }
+
+    public void setParent(ForumParent parent) {
+        this.parent = parent;
+    }
+
     public String getUser_id() {
         return user_id;
     }
