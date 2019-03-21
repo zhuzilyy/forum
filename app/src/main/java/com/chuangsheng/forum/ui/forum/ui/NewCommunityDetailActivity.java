@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -301,6 +302,7 @@ public class NewCommunityDetailActivity extends BaseActivity implements View.OnC
     @Override
     protected void getResLayout() {
         setContentView(R.layout.activity_newforum_details);
+        Log.i("ss","");
 
     }
 
