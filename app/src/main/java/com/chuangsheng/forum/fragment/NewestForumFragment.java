@@ -64,6 +64,7 @@ public class NewestForumFragment extends BaseFragment {
     protected void initData() {
         adapter = new HomeAdapter(getActivity(),infoList,"最新");
         lv_forums.setAdapter(adapter);
+
         getData();
         //名字点击事件
         adapter.setHeadClickListener(new HomeAdapter.headClickListener() {

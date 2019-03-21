@@ -22,6 +22,7 @@ import com.chuangsheng.forum.ui.forum.adapter.FroumAdapter;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityInfo;
 import com.chuangsheng.forum.ui.forum.ui.CommunityDetailActivity;
+import com.chuangsheng.forum.ui.forum.ui.NewCommunityDetailActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
 import java.util.ArrayList;
@@ -138,7 +139,9 @@ public class ForumFragment extends BaseFragment {
                 bundle.putString("top_subject",top_subject);
                 bundle.putString("ad",ad);
                 bundle.putString("communityId",communityId);
-                jumpActivity(getActivity(), CommunityDetailActivity.class,bundle);
+
+              //  jumpActivity(getActivity(), CommunityDetailActivity.class,bundle);
+                jumpActivity(getActivity(), NewCommunityDetailActivity.class,bundle);
             }
         });
         //刷新记载事件
