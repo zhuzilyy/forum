@@ -71,6 +71,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/iv_levelRight"
+            android:layout_marginLeft="10dp"
             android:src="@mipmap/kanong"
             android:id="@+id/iv_level"
             android:layout_width="wrap_content"

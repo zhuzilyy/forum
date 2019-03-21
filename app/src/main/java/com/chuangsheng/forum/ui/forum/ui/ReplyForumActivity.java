@@ -48,15 +48,18 @@ public class ReplyForumActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_right)
+    TextView tv_right;
     @BindView(R.id.tv_content)
     TextView tv_content;
     private GridImageAdapter adapter;
     private List<LocalMedia> selectList;
-    private String userId,discussionId;
+    private String userId,discussionId,replyName;
     private CustomLoadingDialog customLoadingDialog;
     private Timer timer;
     @Override
     protected void initViews() {
+        tv_right.setText("发表");
         selectList = new ArrayList<>();
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
@@ -74,6 +77,10 @@ public class ReplyForumActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent!=null){
             discussionId = intent.getStringExtra("discussionId");
+            replyName = intent.getStringExtra("replyName");
+            if (!TextUtils.isEmpty(replyName)){
+                tv_content.setHint("@"+replyName);
+            }
         }
         timer = new Timer();
     }

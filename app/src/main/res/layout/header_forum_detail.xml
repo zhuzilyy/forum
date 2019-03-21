@@ -55,6 +55,7 @@
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
                         android:src="@mipmap/kanong"
                         android:id="@+id/iv_level"
                         android:layout_width="wrap_content"

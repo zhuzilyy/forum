@@ -31,7 +31,9 @@ import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumDiscussion;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
 import com.chuangsheng.forum.ui.forum.bean.EaluationPicBean;
+import com.chuangsheng.forum.ui.home.adapter.GvForumDetailAdapter;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
+import com.chuangsheng.forum.ui.home.adapter.GvThreeImageAdapter;
 import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.ui.mine.ui.WebviewActivity;
 import com.chuangsheng.forum.util.LevelUtil;
@@ -204,6 +206,23 @@ public class ForumDetailActivity extends BaseActivity {
                 overridePendingTransition(0, 0);
             }
         });
+        detailAdapter.setPicClickListener(new ForumDetailAdapter.picClickListener() {
+            @Override
+            public void click(int position) {
+
+            }
+        });
+        detailAdapter.setPingLunClickListener(new ForumDetailAdapter.pingLunClickListener() {
+            @Override
+            public void click(int position) {
+                Bundle bundle = new Bundle();
+                String id = infoList.get(position).getId();
+                String userName = infoList.get(position).getUser_username();
+                bundle.putString("discussionId",id);
+                bundle.putString("replyName",userName);
+                jumpActivity(ForumDetailActivity.this,ReplyForumActivity.class,bundle);
+            }
+        });
     }
     //获取数据
     private void getData() {
@@ -261,7 +280,7 @@ public class ForumDetailActivity extends BaseActivity {
                     }else {
                         iv_headerSinglePic.setVisibility(View.GONE);
                         gv_header.setVisibility(View.VISIBLE);
-                        GvImageAdapter adapter = new GvImageAdapter(ForumDetailActivity.this,attachment);
+                        GvForumDetailAdapter adapter = new GvForumDetailAdapter(ForumDetailActivity.this,attachment);
                         gv_header.setAdapter(adapter);
                         lookBigPic(attachment);
                     }
@@ -455,6 +474,7 @@ public class ForumDetailActivity extends BaseActivity {
                 }
                 Intent intent = new Intent(ForumDetailActivity.this,ReplyForumActivity.class);
                 intent.putExtra("discussionId",discussionId);
+                bundle.putString("replyName","");
                 startActivity(intent);
                 break;
             case R.id.ll_dianzan:
