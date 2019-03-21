@@ -158,6 +158,10 @@
             android:name=".ui.forum.ui.LookBigPicActivity"
             android:screenOrientation="portrait"
             />
+        <!--xzy:帖子详情-->
+        <activity android:name=".ui.forum.ui.NewCommunityDetailActivity"
+            android:screenOrientation="portrait"
+            />
         <!--启动界面-->
         <activity
             android:name=".ui.account.ui.SplashActivity"
