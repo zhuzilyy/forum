@@ -51,6 +51,7 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -198,6 +199,7 @@ public class PersonInfoActivity extends BaseActivity {
                 SPUtils.clearData(PersonInfoActivity.this);
                 Bundle bundle = new Bundle();
                 bundle.putString("intentFrom","personInfo");
+                clearAlias();
                 jumpActivity(PersonInfoActivity.this, LoginActivity.class,bundle);
                 BaseActivity.finishAll();
             }
@@ -210,6 +212,15 @@ public class PersonInfoActivity extends BaseActivity {
         });
         builder.show();
     }
+
+    /**
+     * 清楚别名
+     */
+    private void clearAlias() {
+
+        JPushInterface.deleteAlias(getApplicationContext(),1);
+    }
+
     //保存个人信息
     private void saveInfo(String desc, String birth, String gender) {
         customLoadingDialog.show();
