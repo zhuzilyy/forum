@@ -4,6 +4,7 @@ import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.ui.community.bean.HotWordBean;
 import com.chuangsheng.forum.ui.forum.bean.CommunityBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
+import com.chuangsheng.forum.ui.forum.bean.ReplyForumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.util.OkHttpManager;
 
@@ -48,10 +49,14 @@ public class ApiForum {
      * 发布评论
      * @param callback
      */
-    public static void publishComment(String url,String user_id,String discussion_id,String imgs,String content, RequestCallBack<String> callback){
+    public static void publishComment(String url,String tag,String user_id,String discussion_id,String imgs,String content, RequestCallBack<ReplyForumBean> callback){
         Map<String,String> params = new HashMap<>();
         params.put("user_id",user_id);
-        params.put("discussion_id",discussion_id);
+        if (tag.equals("comment")){
+            params.put("discussion_id",discussion_id);
+        }else{
+            params.put("comment_id",discussion_id);
+        }
         params.put("imgs",imgs);
         params.put("content",content);
         OkHttpManager.getInstance().postRequest(url,params,callback);

@@ -74,29 +74,37 @@ public class ForumDetailAdapter extends BaseAdapter{
             viewHolder.iv_singlePic.setVisibility(View.GONE);
             viewHolder.gv_image.setVisibility(View.GONE);
         }else if(attachmentForum.size() == 1){
-            if (forumParent.getUser_id()==null){
-                viewHolder.iv_singlePic.setVisibility(View.VISIBLE);
-                viewHolder.gv_image.setVisibility(View.GONE);
-                Glide.with(context).applyDefaultRequestOptions(options).load(attachmentForum.get(0)).into(viewHolder.iv_singlePic);
+            if (forumParent!=null){
+                if (forumParent.getUser_id()==null){
+                    viewHolder.iv_singlePic.setVisibility(View.VISIBLE);
+                    viewHolder.gv_image.setVisibility(View.GONE);
+                    Glide.with(context).applyDefaultRequestOptions(options).load(attachmentForum.get(0)).into(viewHolder.iv_singlePic);
+                }
             }
         }else{
-            if (forumParent.getUser_id()==null){
-                viewHolder.iv_singlePic.setVisibility(View.GONE);
-                viewHolder.gv_image.setVisibility(View.VISIBLE);
-                GvImageAdapter adapter = new GvImageAdapter(context,attachmentForum);
-                viewHolder.gv_image.setAdapter(adapter);
+            if (forumParent!=null){
+                if (forumParent.getUser_id()==null){
+                    viewHolder.iv_singlePic.setVisibility(View.GONE);
+                    viewHolder.gv_image.setVisibility(View.VISIBLE);
+                    GvImageAdapter adapter = new GvImageAdapter(context,attachmentForum);
+                    viewHolder.gv_image.setAdapter(adapter);
+                }
             }
         }
-        if (forumParent.getUser_id()!=null){
-            viewHolder.tv_replyComment.setVisibility(View.VISIBLE);
-            viewHolder.tv_replyComment.setText(forumParent.getContent());
-        }else{
-            viewHolder.tv_replyComment.setVisibility(View.GONE);
+        if (forumParent!=null){
+            if (forumParent.getUser_id()!=null){
+                viewHolder.tv_replyComment.setVisibility(View.VISIBLE);
+                viewHolder.tv_replyComment.setText(detailForumInfo.getContent());
+                viewHolder.tv_content.setText(forumParent.getContent());
+            }else{
+                viewHolder.tv_replyComment.setVisibility(View.GONE);
+                viewHolder.tv_content.setText(detailForumInfo.getContent());
+            }
         }
         viewHolder.tv_name.setText(detailForumInfo.getUser_username());
         Glide.with(context).load(detailForumInfo.getUser_img()).into(viewHolder.iv_head);
         viewHolder.tv_time.setText(detailForumInfo.getCreated());
-        viewHolder.tv_content.setText(detailForumInfo.getContent());
+        //viewHolder.tv_content.setText(detailForumInfo.getContent());
         viewHolder.tv_floor.setText(position+1+"楼");
         viewHolder.tv_countZan.setText(detailForumInfo.getLikes());
         String like_status = detailForumInfo.getLike_status();

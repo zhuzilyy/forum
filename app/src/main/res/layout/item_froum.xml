@@ -13,7 +13,7 @@
             android:id="@+id/iv_forum"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/holder"
+            android:src="@drawable/pic"
             android:scaleType="center"
             android:layout_width="73dp"
             android:layout_height="73dp" />

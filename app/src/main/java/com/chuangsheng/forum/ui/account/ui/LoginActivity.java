@@ -146,7 +146,7 @@ public class LoginActivity extends BaseActivity {
                             SPUtils.put(LoginActivity.this,"user_points",user_points);
                             SPUtils.put(LoginActivity.this,"username",username);
                             SPUtils.put(LoginActivity.this,"phone_number",phone_number);
-                            if (intentFrom.equals("splash")){
+                            if (intentFrom.equals("splash")||intentFrom.equals("welcome")){
                                 jumpActivity(LoginActivity.this,MainActivity.class);
                                 finish();
                             }else{

@@ -31,6 +31,7 @@ import com.chuangsheng.forum.ui.forum.bean.DetailForumBean;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumDiscussion;
 import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
 import com.chuangsheng.forum.ui.forum.bean.EaluationPicBean;
+import com.chuangsheng.forum.ui.forum.bean.ForumParent;
 import com.chuangsheng.forum.ui.home.adapter.GvForumDetailAdapter;
 import com.chuangsheng.forum.ui.home.adapter.GvImageAdapter;
 import com.chuangsheng.forum.ui.home.adapter.GvThreeImageAdapter;
@@ -115,7 +116,7 @@ public class ForumDetailActivity extends BaseActivity {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String user_img = intent.getStringExtra("user_img");
+              /*  String user_img = intent.getStringExtra("user_img");
                 String user_username = intent.getStringExtra("user_username");
                 String user_points = intent.getStringExtra("user_points");
                 String content = intent.getStringExtra("content");
@@ -123,6 +124,8 @@ public class ForumDetailActivity extends BaseActivity {
                 String likes = intent.getStringExtra("likes");
                 String like_status = intent.getStringExtra("like_status");
                 String attachment = intent.getStringExtra("attachment");
+                String parentContent = intent.getStringExtra("content");
+                String parentUserId = intent.getStringExtra("parentUserId");
                 DetailForumInfo detailForumInfo = new DetailForumInfo();
                 detailForumInfo.setUser_img(user_img);
                 detailForumInfo.setUser_username(user_username);
@@ -132,11 +135,20 @@ public class ForumDetailActivity extends BaseActivity {
                 detailForumInfo.setLikes(likes);
                 detailForumInfo.setLike_status(like_status);
                 detailForumInfo.setAdImg(advertisement);
+                if (!TextUtils.isEmpty(parentContent)){
+                    ForumParent forumParent = new ForumParent();
+                    forumParent.setContent(parentContent);
+                    forumParent.setUser_id(parentUserId);
+                    detailForumInfo.setParent(forumParent);
+                }
                 Gson gson = new Gson();
                 List<String> picList = gson.fromJson(attachment,List.class);
                 detailForumInfo.setAttachment(picList);
                 infoList.add(detailForumInfo);
-                detailAdapter.notifyDataSetChanged();
+                detailAdapter.notifyDataSetChanged();*/
+              page =1;
+              infoList.clear();
+              getData();
             }
         };
         localBroadcastManager.registerReceiver(broadcastReceiver, intentFilter);

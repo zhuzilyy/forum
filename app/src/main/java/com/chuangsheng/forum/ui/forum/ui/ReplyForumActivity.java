@@ -18,11 +18,16 @@ import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
 import com.chuangsheng.forum.dialog.ForumDialog;
+import com.chuangsheng.forum.ui.forum.bean.DetailForumInfo;
+import com.chuangsheng.forum.ui.forum.bean.ForumParent;
+import com.chuangsheng.forum.ui.forum.bean.ReplyForumBean;
+import com.chuangsheng.forum.ui.forum.bean.ReplyForumResult;
 import com.chuangsheng.forum.ui.mine.adapter.FullyGridLayoutManager;
 import com.chuangsheng.forum.ui.mine.adapter.GridImageAdapter;
 import com.chuangsheng.forum.util.BitmapToBase64;
 import com.chuangsheng.forum.util.SPUtils;
 import com.chuangsheng.forum.util.ToastUtils;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -207,29 +212,38 @@ public class ReplyForumActivity extends BaseActivity {
         return basePic;
     }
 
+    /*** @param content
+     * @param content
+     */
     //回帖
     private void replyForum(String content) {
+        String tag="";
         String imgs = getpicData_base64();
         customLoadingDialog.show();
-        ApiForum.publishComment(ApiConstant.PUBLISH_COMMENT, userId, discussionId, imgs, content, new RequestCallBack<String>() {
+        if (!TextUtils.isEmpty(replyName)){
+            tag = "reply";
+        }else{
+            tag = "comment";
+        }
+        ApiForum.publishComment(ApiConstant.PUBLISH_COMMENT, tag,userId, discussionId, imgs, content, new RequestCallBack<ReplyForumBean>() {
             @Override
-            public void onSuccess(Call call, Response response, String s) {
+            public void onSuccess(Call call, Response response, ReplyForumBean replyForumBean) {
                 customLoadingDialog.dismiss();
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    int code = jsonObject.getInt("error_code");
-                    JSONObject jsonResult = jsonObject.getJSONObject("result");
-                    String point= jsonResult.getString("point");
-                    String total_point=jsonResult.getString("total_point");
-                    JSONObject comment = jsonResult.getJSONObject("comment");
-                    String user_img = comment.getString("user_img");
-                    String user_username = comment.getString("user_username");
-                    String user_points = comment.getString("user_points");
-                    String content = comment.getString("content");
-                    String created = comment.getString("created");
-                    String likes = comment.getString("likes");
-                    String like_status = comment.getString("like_status");
-                    JSONArray attachment = comment.getJSONArray("attachment");
+                    int code =  replyForumBean.getError_code();
+                    ReplyForumResult result = replyForumBean.getResult();
+                    String point= result.getPoint();
+                    String total_point=result.getTotal_point();
+                    DetailForumInfo comment = result.getComment();
+                    String user_img = comment.getUser_img();
+                    String user_username = comment.getUser_username();
+                    String user_points = comment.getUser_points();
+                    String content = comment.getContent();
+                    String created = comment.getCreated();
+                    String likes = comment.getLikes();
+                    String like_status = comment.getLike_status();
+                    List<String> attachment = comment.getAttachment();
+                    Gson gson = new Gson();
+                    ForumParent parent = comment.getParent();
                     final ForumDialog dialog = new ForumDialog(ReplyForumActivity.this);
                     if (code == ApiConstant.SUCCESS_CODE){
                         if (!point.equals("0")){
@@ -251,7 +265,13 @@ public class ReplyForumActivity extends BaseActivity {
                         intent.putExtra("created",created);
                         intent.putExtra("likes",likes);
                         intent.putExtra("like_status",like_status);
-                        intent.putExtra("attachment",attachment.toString());
+                        intent.putExtra("attachment",gson.toJson(attachment));
+                        if (parent!=null){
+                            if(parent.getUser_id()!=null){
+                                intent.putExtra("parentContent",parent.getContent());
+                                intent.putExtra("parentUserId",parent.getUser_id());
+                            }
+                        }
                         intent.setAction("com.action.replySuccess");
                         LocalBroadcastManager.getInstance(ReplyForumActivity.this).sendBroadcast(intent);
                         timer.schedule(new TimerTask() {
@@ -262,9 +282,7 @@ public class ReplyForumActivity extends BaseActivity {
                             }
                         },1000);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
             @Override
             public void onEror(Call call, int statusCode, Exception e) {

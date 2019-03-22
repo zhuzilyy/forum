@@ -59,12 +59,14 @@
         </RelativeLayout>
     </RelativeLayout>
     <TextView
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
         android:visibility="gone"
         android:id="@+id/tv_replyComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="38dp"
-        android:layout_marginRight="13dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:background="#F8F8F8" />
     <TextView
         android:autoLink="web"
