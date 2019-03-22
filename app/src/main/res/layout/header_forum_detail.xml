@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:textStyle="bold"
             android:id="@+id/tv_headertitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,15 +94,16 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+
         <TextView
+            android:textStyle="bold"
             android:id="@+id/tv_content"
-            android:layout_marginTop="23dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
             android:text="为什么没有任何与其行为；只是现有信用卡都被窝刷空了，谁能告诉我为啥。"
             android:textColor="#222222"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
         <!--可以控制的部分分为三种情况 1光有文字 2单张图片  3多张图片-->
         <!--单张图片-->
         <ImageView
