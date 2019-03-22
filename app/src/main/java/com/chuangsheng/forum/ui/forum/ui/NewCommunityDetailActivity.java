@@ -28,6 +28,7 @@ import com.chuangsheng.forum.fragment.NewestForumFragment;
 import com.chuangsheng.forum.ui.community.ui.SearchActivity;
 import com.chuangsheng.forum.ui.forum.views.AnchorView;
 import com.chuangsheng.forum.ui.forum.views.CustomScrollView;
+import com.chuangsheng.forum.ui.forum.views.IndicatorLineUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +125,21 @@ public class NewCommunityDetailActivity extends BaseActivity implements View.OnC
             holderTabLayout.addTab(holderTabLayout.newTab().setText(tabTxt[i]));
             realTabLayout.addTab(realTabLayout.newTab().setText(tabTxt[i]));
         }
+
+
+        holderTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                IndicatorLineUtil.setIndicator(holderTabLayout, 40, 40);
+            }
+        });
+
+        realTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                IndicatorLineUtil.setIndicator(realTabLayout, 40, 40);
+            }
+        });
 
 
         listener = new ViewTreeObserver.OnGlobalLayoutListener() {

@@ -28,8 +28,12 @@ import com.chuangsheng.forum.view.MyCountDownTimer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Set;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -148,6 +152,8 @@ public class LoginActivity extends BaseActivity {
                             SPUtils.put(LoginActivity.this,"phone_number",phone_number);
                             if (intentFrom.equals("splash")||intentFrom.equals("welcome")){
                                 jumpActivity(LoginActivity.this,MainActivity.class);
+                                //xzy:设置别名
+                                setAlias(user_id);
                                 finish();
                             }else{
                                 Intent intent = new Intent();
@@ -171,6 +177,40 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
+    private void setAlias(String alias) {
+
+        if (!alias.isEmpty()) {
+            JPushInterface.setAliasAndTags(getApplicationContext(), alias, null, mAliasCallback);
+        }
+    }
+
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            switch (code) {
+                case 0:
+                    //这里可以往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    //UserUtils.saveTagAlias(getHoldingActivity(), true);
+                    logs = "Set tag and alias success极光推送别名设置成功";
+                    Log.e("TAG", logs);
+                    break;
+                case 6002:
+                    //极低的可能设置失败 我设置过几百回 出现3次失败 不放心的话可以失败后继续调用上面那个方面 重连3次即可 记得return 不要进入死循环了...
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.极光推送别名设置失败，60秒后重试";
+                    Log.e("TAG", logs);
+                    break;
+                default:
+                    logs = "极光推送设置失败，Failed with errorCode = " + code;
+                    Log.e("TAG", logs);
+                    break;
+            }
+        }
+    };
+
+
     //获取验证码
     private void getConfirmCode(String phoneNumber) {
         customLoadingDialog.show();
