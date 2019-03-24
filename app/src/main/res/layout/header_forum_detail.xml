@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:src="@mipmap/kanong"
                         android:id="@+id/iv_level"
                         android:layout_width="wrap_content"
@@ -96,6 +96,7 @@
         </RelativeLayout>
 
         <TextView
+            android:autoLink="web"
             android:textStyle="bold"
             android:id="@+id/tv_content"
             android:layout_width="match_parent"

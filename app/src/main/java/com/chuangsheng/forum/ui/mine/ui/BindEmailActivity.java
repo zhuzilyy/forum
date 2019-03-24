@@ -119,6 +119,7 @@ public class BindEmailActivity extends BaseActivity {
                 try {
                     jsonObject = new JSONObject(s);
                     int code = jsonObject.getInt("error_code");
+                    String reason = jsonObject.getString("reason");
                     if (code == ApiConstant.SUCCESS_CODE){
                         if (timer!=null){
                             timer.cancel();
@@ -133,6 +134,7 @@ public class BindEmailActivity extends BaseActivity {
                             jumpActivity(BindEmailActivity.this,SetNameActivity.class,bundle);
                             finish();
                         }
+                        ToastUtils.show(BindEmailActivity.this,reason);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

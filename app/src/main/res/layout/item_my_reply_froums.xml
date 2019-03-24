@@ -45,7 +45,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/iv_level"
                     android:layout_width="wrap_content"

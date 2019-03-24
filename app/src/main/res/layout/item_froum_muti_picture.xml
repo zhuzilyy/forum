@@ -39,13 +39,12 @@
                     android:textColor="#2E2E2E"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
                 <ImageView
                     android:layout_gravity="center_vertical"
                     android:id="@+id/iv_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@mipmap/kanong" />
 
                 <ImageView

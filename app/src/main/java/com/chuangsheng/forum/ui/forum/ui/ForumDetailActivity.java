@@ -7,7 +7,11 @@ import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,8 +84,8 @@ public class ForumDetailActivity extends BaseActivity {
     @BindView(R.id.ll_comment)
     LinearLayout ll_comment;
     private ForumDetailAdapter detailAdapter;
-    private String userId,discussionId;
-    private int page=1;
+    private String userId,discussionId,userDetailId;
+    private int page=1,showAdPic;
     private LocalBroadcastManager localBroadcastManager;
     private BroadcastReceiver broadcastReceiver;
     private ImageView iv_headerSinglePic;
@@ -159,9 +163,10 @@ public class ForumDetailActivity extends BaseActivity {
         if (intent!=null){
             Bundle extras = intent.getExtras();
             discussionId = extras.getString("discussionId");
+            userDetailId = extras.getString("userId");
         }
         userId = (String) SPUtils.get(this,"user_id","");
-        detailAdapter = new ForumDetailAdapter(this,infoList);
+        detailAdapter = new ForumDetailAdapter(this,infoList,showAdPic);
         lv_forumDetail.setAdapter(detailAdapter);
         lv_forumDetail.addHeaderView(view_header);
         getData();
@@ -185,6 +190,7 @@ public class ForumDetailActivity extends BaseActivity {
         detailAdapter.setPicClickListener(new ForumDetailAdapter.picClickListener() {
             @Override
             public void click(int position) {
+                ToastUtils.show(ForumDetailActivity.this,"1111111111");
                 List<String> attachment = infoList.get(position).getAttachment();
                 Intent intent = new Intent(ForumDetailActivity.this, LookBigPicActivity.class);
                 List<EaluationPicBean> list = new ArrayList<>();
@@ -196,7 +202,7 @@ public class ForumDetailActivity extends BaseActivity {
                 intent.putExtra("CURRENTITEM",0);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                overridePendingTransition(0, 0);
+                //overridePendingTransition(0, 0);
             }
         });
         detailAdapter.setGvClickListener(new ForumDetailAdapter.gvClickListener() {
@@ -263,6 +269,7 @@ public class ForumDetailActivity extends BaseActivity {
                     tv_time.setText(discussion.getCreated());
                     tv_browse.setText(discussion.getClick());
                     tv_content.setText(discussion.getContent());
+                    setcontentLink();
                     tv_commentCount.setText("("+discussion.getComments()+")");
                     tv_dianzan.setText(discussion.getLikes());
                     if (discussion.getLike_status().equals("True")){
@@ -300,6 +307,10 @@ public class ForumDetailActivity extends BaseActivity {
                     List<DetailForumInfo> comments = detailForumBean.getResult().getComments();
                     advertisement = detailForumBean.getResult().getCommunity().getAd();
                     adLink = detailForumBean.getResult().getCommunity().getAd_link();
+                    String showPic = detailForumBean.getResult().getCommunity().getAd_button();
+                    if (!TextUtils.isEmpty(showPic)){
+                        showAdPic = Integer.parseInt(showPic);
+                    }
                     if (comments!=null && comments.size()>0){
                         comments.get(0).setAdImg(advertisement);
                         pulltorefreshView.setVisibility(View.VISIBLE);
@@ -327,6 +338,24 @@ public class ForumDetailActivity extends BaseActivity {
             }
         });
     }
+    private void setcontentLink() {
+        CharSequence content = tv_content.getText();
+        if (content instanceof Spannable) {
+            int end = content.length();
+            Spannable sp = (Spannable) content;
+            URLSpan urls[] = sp.getSpans(0, end, URLSpan.class);
+            SpannableStringBuilder style = new SpannableStringBuilder(content);
+            style.clearSpans();
+            for (URLSpan urlSpan : urls) {
+                MyURLSpan myURLSpan = new MyURLSpan(urlSpan.getURL());
+                style.setSpan(myURLSpan, sp.getSpanStart(urlSpan),
+                        sp.getSpanEnd(urlSpan),
+                        Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            }
+            tv_content.setText(style);
+        }
+    }
+
     //查看大图
     private void lookBigPic(final List<String> attachment) {
         if (attachment.size()==1){
@@ -404,6 +433,22 @@ public class ForumDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        iv_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",userDetailId);
+                jumpActivity(ForumDetailActivity.this, UserDetailActivity.class,bundle);
+            }
+        });
+        tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id",userDetailId);
+                jumpActivity(ForumDetailActivity.this, UserDetailActivity.class,bundle);
             }
         });
     }
@@ -573,5 +618,23 @@ public class ForumDetailActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         localBroadcastManager.unregisterReceiver(broadcastReceiver);
+    }
+    public class MyURLSpan extends ClickableSpan {
+        private String url;
+        public MyURLSpan(String url) {
+            this.url = url;
+        }
+        /**
+         * @param arg0
+         */
+        @Override
+        public void onClick(View arg0) {
+            Intent intent = new Intent(ForumDetailActivity.this,WebviewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("url",url);
+            bundle.putString("title","详情");
+            intent.putExtras(bundle);
+            startActivity(intent,bundle);
+        }
     }
 }

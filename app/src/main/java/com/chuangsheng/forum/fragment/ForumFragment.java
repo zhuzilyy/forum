@@ -139,9 +139,8 @@ public class ForumFragment extends BaseFragment {
                 bundle.putString("top_subject",top_subject);
                 bundle.putString("ad",ad);
                 bundle.putString("communityId",communityId);
-
-              //  jumpActivity(getActivity(), CommunityDetailActivity.class,bundle);
-                jumpActivity(getActivity(), NewCommunityDetailActivity.class,bundle);
+                jumpActivity(getActivity(), CommunityDetailActivity.class,bundle);
+              //  jumpActivity(getActivity(), NewCommunityDetailActivity.class,bundle);
             }
         });
         //刷新记载事件

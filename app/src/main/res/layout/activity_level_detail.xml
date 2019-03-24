@@ -30,7 +30,7 @@
                 android:layout_marginTop="13dp"
                 android:layout_width="336dp"
                 android:layout_height="39dp"
-                android:text="xx等级是用户活跃和荣誉的见证。随着用户在xx上的探索和成长，得你会随之增长"
+                android:text="卡卡社区等级是用户活跃和荣誉的见证。随着用户在xx上的探索和成长，得你会随之增长"
                 android:textColor="#ff828282"
                 android:textSize="14sp"
                 />
@@ -475,7 +475,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="xx等级是由用户累计的经验值决定，每天只需要完成任务即可获取经验值，提升等级"
+                android:text="卡卡社区等级是由用户累计的经验值决定，每天只需要完成任务即可获取经验值，提升等级"
                 android:textColor="#ff828282"
                 android:textSize="14sp"
                 />

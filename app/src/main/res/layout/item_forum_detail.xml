@@ -36,9 +36,8 @@
                 android:text="东北范冰冰"
                 android:textColor="#ff2e2e2e"
                 android:textSize="14sp" />
-
             <ImageView
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
                 android:id="@+id/iv_level"
                 android:layout_width="wrap_content"
@@ -46,7 +45,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_name"
                 android:src="@mipmap/kanong" />
-
             <TextView
                 android:id="@+id/tv_floor"
                 android:layout_width="wrap_content"
@@ -59,23 +57,23 @@
         </RelativeLayout>
     </RelativeLayout>
     <TextView
-        android:padding="5dp"
+        android:padding="15dp"
         android:layout_marginTop="10dp"
         android:visibility="gone"
         android:id="@+id/tv_replyComment"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="324dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginLeft="38dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="#F8F8F8" />
+        android:background="#f7f7f7" />
     <TextView
         android:autoLink="web"
-        android:textIsSelectable="true"
         android:textStyle="bold"
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="15dp"
         android:text="为什么没有任何与其行为；只是现有信用卡都被窝刷空了，谁能告诉我为啥。"
         android:textColor="#222222"

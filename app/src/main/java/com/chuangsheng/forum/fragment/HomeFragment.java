@@ -132,6 +132,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void click(int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("discussionId",infoList.get(position).getId());
+                bundle.putString("userId",infoList.get(position).getUser_id());
                 infoList.get(position).setClick(Integer.parseInt(infoList.get(position).getClick())+1+"");
                 homeAdapter.notifyDataSetChanged();
                 jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
@@ -207,6 +208,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("discussionId",infoList.get(position-1).getId());
+                bundle.putString("userId",infoList.get(position-1).getUser_id());
                 infoList.get(position-1).setClick(Integer.parseInt(infoList.get(position-1).getClick())+2+"");
                 homeAdapter.notifyDataSetChanged();
                 jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
@@ -313,9 +315,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     if (code == ApiConstant.SUCCESS_CODE){
                         Bundle bundle = new Bundle();
                         String value = jsonObject.getJSONObject("result").getString("value");
-                        bundle.putString("title",keyword);
-                        bundle.putString("url",value);
-                        jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                        if (value.contains("http")){
+                            bundle.putString("title",keyword);
+                            bundle.putString("url",value);
+                            jumpActivity(getActivity(), WebviewActivity.class,bundle);
+                        }else{
+                            bundle.putString("discussionId",value);
+                            jumpActivity(getActivity(), ForumDetailActivity.class,bundle);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

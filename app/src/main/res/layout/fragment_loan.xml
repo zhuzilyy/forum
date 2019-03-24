@@ -7,8 +7,8 @@
 
     <include layout="@layout/layout_title" />
     <com.chuangsheng.forum.view.MarqueeTextView
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         android:gravity="center_vertical"
         android:background="#FCB766"
         android:textStyle="bold"
@@ -23,7 +23,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
     <com.chuangsheng.forum.view.PullToRefreshView
         android:id="@+id/pulltorefreshView"
         android:layout_width="match_parent"

@@ -11,8 +11,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import com.chuangsheng.forum.MainActivity;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiAccount;

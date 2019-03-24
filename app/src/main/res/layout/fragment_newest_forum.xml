@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:focusableInTouchMode="true"
     android:layout_height="match_parent">
     <com.chuangsheng.forum.view.PullToRefreshView
         android:layout_marginTop="5dp"
@@ -11,7 +10,7 @@
         android:id="@+id/pulltorefreshView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.chuangsheng.forum.ui.forum.views.MyListView
+        <ListView
             android:dividerHeight="0dp"
             android:scrollbars="none"
             android:divider="@null"

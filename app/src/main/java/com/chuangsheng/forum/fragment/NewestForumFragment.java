@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.chuangsheng.forum.R;
 import com.chuangsheng.forum.api.ApiConstant;
 import com.chuangsheng.forum.api.ApiHome;
+import com.chuangsheng.forum.api.ApiMine;
 import com.chuangsheng.forum.base.BaseFragment;
 import com.chuangsheng.forum.callback.RequestCallBack;
 import com.chuangsheng.forum.dialog.CustomLoadingDialog;
@@ -22,6 +23,9 @@ import com.chuangsheng.forum.ui.home.adapter.HomeAdapter;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumBean;
 import com.chuangsheng.forum.ui.home.bean.HomeFroumInfo;
 import com.chuangsheng.forum.ui.mine.adapter.MyCollectionAdapter;
+import com.chuangsheng.forum.ui.mine.adapter.SystemNewsAdapter;
+import com.chuangsheng.forum.ui.mine.bean.SystemNewsBean;
+import com.chuangsheng.forum.ui.mine.bean.SystemNewsInfo;
 import com.chuangsheng.forum.ui.mine.ui.UserDetailActivity;
 import com.chuangsheng.forum.view.PullToRefreshView;
 
@@ -59,12 +63,11 @@ public class NewestForumFragment extends BaseFragment {
         if (intent!=null){
             communityId = intent.getExtras().getString("communityId");
         }
+        adapter = new HomeAdapter(getActivity(),infoList,"最新");
+        lv_forums.setAdapter(adapter);
     }
     @Override
     protected void initData() {
-        adapter = new HomeAdapter(getActivity(),infoList,"最新");
-        lv_forums.setAdapter(adapter);
-
         getData();
         //名字点击事件
         adapter.setHeadClickListener(new HomeAdapter.headClickListener() {

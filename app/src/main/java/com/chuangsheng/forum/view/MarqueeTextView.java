@@ -13,7 +13,7 @@ import com.chuangsheng.forum.R;
 
 @SuppressLint("AppCompatCustomView")
 public class MarqueeTextView extends TextView {
-    private final float DEF_TEXT_SIZE = 50.0F;//The default text size
+    private final float DEF_TEXT_SIZE = 45.0F;//The default text size
     private float mSpeed = 0.5F; //The default text scroll speed
     private boolean isScroll = true; //The default set as auto scroll
     private Context mContext;
