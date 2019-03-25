@@ -52,10 +52,13 @@ public class MineFragment extends BaseFragment {
     CircleImageView iv_head;
     @BindView(R.id.tv_name)
     TextView tv_name;
+    @BindView(R.id.newMessage)
+    View newMessage;
     private View view_mine;
     private static final int REQUEST_CODE = 100;
     private BroadcastReceiver broadcastReceiver;
     private String userId;
+    private boolean haveNewMessage;
     @Override
     protected View getResLayout(LayoutInflater inflater, ViewGroup container) {
         view_mine = inflater.inflate(R.layout.fragment_mine,null);
@@ -121,6 +124,18 @@ public class MineFragment extends BaseFragment {
     protected void initListener() {
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        haveNewMessage = (boolean) SPUtils.get(getActivity(),"haveNewMessage",false);
+        if (haveNewMessage){
+            newMessage.setVisibility(View.VISIBLE);
+        }else{
+            newMessage.setVisibility(View.GONE);
+        }
+    }
+
     @OnClick({R.id.rl_newsCenter,R.id.rl_safeCenter,R.id.rl_personInfo,R.id.rl_feedback,
             R.id.rl_aboutUs,R.id.rl_contactUs,R.id.rl_myFroums,R.id.rl_myReplyForms,
             R.id.rl_collection,R.id.rl_history})

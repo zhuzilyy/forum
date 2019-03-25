@@ -110,12 +110,14 @@
         <ImageView
             android:id="@+id/iv_headerSinglePic"
             android:layout_marginTop="13dp"
-            android:scaleType="centerCrop"
+            android:scaleType="center"
             android:layout_width="344dp"
-            android:layout_height="235dp"
+            android:layout_height="wrap_content"
             android:src="@drawable/pic" />
         <!--多张图片-->
         <com.chuangsheng.forum.view.MyListView
+            android:dividerHeight="0dp"
+            android:divider="@null"
             android:visibility="gone"
             android:horizontalSpacing="3dp"
             android:verticalSpacing="3dp"
@@ -123,7 +125,14 @@
             android:id="@+id/gv_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="3" />
+           />
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="13dp"
+            android:orientation="vertical"
+            android:id="@+id/ll_picWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <!--评论-->
         <LinearLayout
             android:gravity="center_vertical"

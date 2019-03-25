@@ -11,6 +11,7 @@ import com.chuangsheng.forum.base.BaseActivity;
 import com.chuangsheng.forum.fragment.CommonNewsFragment;
 import com.chuangsheng.forum.fragment.SystemNewsFragment;
 import com.chuangsheng.forum.ui.mine.adapter.MyPageAdapter;
+import com.chuangsheng.forum.util.SPUtils;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class NewsActivity extends BaseActivity {
         tab.setupWithViewPager(viewpager);
         tv_title.setText("消息中心");
         BaseActivity.activityList.add(this);
+        SPUtils.put(NewsActivity.this,"haveNewMessage",false);
     }
     @Override
     protected void initData() {

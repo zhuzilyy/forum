@@ -26,6 +26,7 @@ import com.chuangsheng.forum.view.MyCountDownTimer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -134,6 +135,8 @@ public class LoginActivity extends BaseActivity {
                         String username = result.getString("username");
                         String phone_number = result.getString("phone_number");
                         String img = result.getString("img");
+                        //xzy:设置别名
+                        setAlias(user_id);
                         if (TextUtils.isEmpty(email)){
                             Bundle bundle = new Bundle();
                             bundle.putString("userId",user_id);
@@ -148,10 +151,8 @@ public class LoginActivity extends BaseActivity {
                             SPUtils.put(LoginActivity.this,"user_points",user_points);
                             SPUtils.put(LoginActivity.this,"username",username);
                             SPUtils.put(LoginActivity.this,"phone_number",phone_number);
-                            if (intentFrom.equals("splash")||intentFrom.equals("welcome")){
+                            if (intentFrom.equals("splash")||intentFrom.equals("welcome")||intentFrom.equals("personInfo")){
                                 jumpActivity(LoginActivity.this,MainActivity.class);
-                                //xzy:设置别名
-                                setAlias(user_id);
                                 finish();
                             }else{
                                 Intent intent = new Intent();
@@ -177,13 +178,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setAlias(String alias) {
-
+        Set<String> tag = new HashSet<>();
+        tag.add(alias);
         if (!alias.isEmpty()) {
-            JPushInterface.setAliasAndTags(getApplicationContext(), alias, null, mAliasCallback);
+            JPushInterface.setAliasAndTags(getApplicationContext(), alias, tag, mAliasCallback);
         }
     }
-
-
     private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
         @Override
         public void gotResult(int code, String alias, Set<String> tags) {

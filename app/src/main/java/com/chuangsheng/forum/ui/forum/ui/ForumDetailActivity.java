@@ -96,10 +96,12 @@ public class ForumDetailActivity extends BaseActivity {
     private String advertisement,adLink;
     private ImageView iv_level;
     private View view_header;
+    private LinearLayout ll_picWrapper;
     @Override
     protected void initViews() {
         view_header = LayoutInflater.from(this).inflate(R.layout.header_forum_detail,null);
         iv_headerSinglePic = view_header.findViewById(R.id.iv_headerSinglePic);
+        ll_picWrapper = view_header.findViewById(R.id.ll_picWrapper);
         gv_header = view_header.findViewById(R.id.gv_image);
         tv_headerTitle = view_header.findViewById(R.id.tv_headertitle);
         tv_name = view_header.findViewById(R.id.tv_name);
@@ -298,9 +300,19 @@ public class ForumDetailActivity extends BaseActivity {
                         lookBigPic(attachment);
                     }else {
                         iv_headerSinglePic.setVisibility(View.GONE);
-                        gv_header.setVisibility(View.VISIBLE);
-                        GvForumDetailAdapter adapter = new GvForumDetailAdapter(ForumDetailActivity.this,attachment);
-                        gv_header.setAdapter(adapter);
+                        //gv_header.setVisibility(View.VISIBLE);
+                        ll_picWrapper.setVisibility(View.VISIBLE);
+                        for (int i = 0; i <attachment.size() ; i++) {
+                            ImageView imageView = new ImageView(ForumDetailActivity.this);
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT);//两个400分别为添加图片的大小
+                            imageView.setLayoutParams(params);
+                            imageView.setScaleType(ImageView.ScaleType.CENTER);
+                            Glide.with(ForumDetailActivity.this).load(attachment.get(i)).into(imageView);
+                            ll_picWrapper.addView(imageView);
+                        }
+                       /* GvForumDetailAdapter adapter = new GvForumDetailAdapter(ForumDetailActivity.this,attachment);
+                        gv_header.setAdapter(adapter);*/
                         lookBigPic(attachment);
                     }
                     //显示评论

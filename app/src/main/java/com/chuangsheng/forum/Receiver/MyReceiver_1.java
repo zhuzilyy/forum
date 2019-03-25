@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.chuangsheng.forum.MainActivity;
+import com.chuangsheng.forum.util.SPUtils;
+
 /**
  * Created by tianou on 2019/3/22.
  */
@@ -26,6 +29,9 @@ public class MyReceiver_1 extends BroadcastReceiver {
                 break;
             case "cn.jpush.android.intent.NOTIFICATION_OPENED":
                // Toast.makeText(context, "<!--Required 用户打开自定义通知栏的 intent-->", Toast.LENGTH_SHORT).show();
+                Intent intentPendding = new Intent(context, MainActivity.class);
+                context.startActivity(intentPendding);
+                SPUtils.put(context,"haveNewMessage",true);
                 break;
             case "cn.jpush.android.intent.CONNECTION":
               // Toast.makeText(context, "<!-- 接收网络变化 连接/断开 since 1.6.3 -->", Toast.LENGTH_SHORT).show();
