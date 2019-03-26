@@ -308,7 +308,7 @@ public class ForumDetailActivity extends BaseActivity {
                                     LinearLayout.LayoutParams.WRAP_CONTENT);//两个400分别为添加图片的大小
                             imageView.setLayoutParams(params);
                             imageView.setScaleType(ImageView.ScaleType.CENTER);
-                            Glide.with(ForumDetailActivity.this).load(attachment.get(i)).into(imageView);
+                            Glide.with(ForumDetailActivity.this).load(attachment.get(i)).apply(options).into(imageView);
                             ll_picWrapper.addView(imageView);
                         }
                        /* GvForumDetailAdapter adapter = new GvForumDetailAdapter(ForumDetailActivity.this,attachment);
